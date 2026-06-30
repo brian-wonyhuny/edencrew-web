@@ -1,0 +1,326 @@
+<title>Admin Sitemap — Edencrew</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:   #0B0D12; --bg2: #111318; --bg3: #161921; --bg4: #1C1F2A;
+    --p:    #8361FF; --p2:  #A78BFA;
+    --wh:   #fff;
+    --mid:  rgba(255,255,255,.42); --dim: rgba(255,255,255,.18); --dim2: rgba(255,255,255,.07);
+    --y:    #FCD34D; --y2:  #FDE68A; --y3: rgba(252,211,77,.12);
+    --green:#34D399; --blue:#60A5FA; --red:#F87171; --orange:#FB923C;
+  }
+  body { background:var(--bg); color:var(--wh); font-family:'Inter',sans-serif; min-height:100vh; padding:48px 32px 80px; line-height:1.4; }
+
+  /* NAV */
+  .topnav { max-width:1200px; margin:0 auto 36px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .topnav-label { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin-right:4px; }
+  .topnav a { font-size:11px; font-weight:600; padding:6px 14px; border-radius:6px; text-decoration:none; }
+  .topnav .tn-dash { border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.07); color:rgba(255,255,255,.6); }
+  .topnav .tn-home { border:1px solid rgba(131,97,255,.4); background:rgba(131,97,255,.1); color:var(--p2); }
+  .topnav .tn-tc   { border:1px solid rgba(52,211,153,.35); background:rgba(52,211,153,.08); color:var(--green); }
+  .topnav .tn-eco  { border:1px solid rgba(131,97,255,.25); background:rgba(131,97,255,.07); color:var(--p2); }
+  .topnav .tn-cur  { margin-left:auto; font-size:10px; padding:5px 10px; border-radius:5px; background:rgba(252,211,77,.15); color:var(--y); border:1px solid rgba(252,211,77,.35); }
+
+  /* HEADER */
+  .page-header { text-align:center; margin-bottom:56px; }
+  .eyebrow { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--y2); margin-bottom:10px; }
+  .page-header h1 { font-family:'Montserrat',sans-serif; font-weight:900; font-size:clamp(22px,3vw,32px); color:var(--wh); letter-spacing:-.02em; }
+  .page-header .sub { font-size:12px; color:var(--mid); margin-top:8px; }
+
+  /* LAYOUT */
+  .wrap { max-width:1200px; margin:0 auto; }
+  .section-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--dim2); }
+  hr.divider { border:none; border-top:1px solid var(--dim2); margin:44px 0; }
+
+  /* ROOT NODE */
+  .root-row { display:flex; justify-content:center; margin-bottom:32px; }
+  .root-node { background:linear-gradient(135deg,rgba(252,211,77,.2),rgba(252,211,77,.08)); border:1px solid rgba(252,211,77,.5); border-radius:12px; padding:14px 36px; text-align:center; }
+  .root-node .rn-eye { font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(252,211,77,.6); margin-bottom:4px; }
+  .root-node .rn-name { font-family:'Montserrat',sans-serif; font-weight:900; font-size:18px; color:var(--y); }
+  .root-node .rn-domain { font-size:11px; font-family:monospace; color:rgba(252,211,77,.55); margin-top:3px; }
+
+  /* GNB COLUMNS */
+  .gnb-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+  .gnb-col { display:flex; flex-direction:column; gap:8px; }
+  .gnb-head { border:1px solid rgba(252,211,77,.4); border-radius:8px; padding:10px 12px; background:rgba(252,211,77,.07); text-align:center; }
+  .gnb-head .gh-icon { font-size:16px; margin-bottom:4px; }
+  .gnb-head .gh-name { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; color:var(--y); }
+  .gnb-head .gh-url  { font-size:10px; font-family:monospace; color:rgba(252,211,77,.45); margin-top:2px; }
+  .sub-node { background:var(--bg3); border:1px solid var(--dim2); border-radius:6px; padding:7px 10px; font-size:11px; color:var(--mid); transition:border-color .15s,color .15s; cursor:default; }
+  .sub-node:hover { border-color:rgba(252,211,77,.4); color:var(--y2); }
+  .sub-node .sn-url { display:block; font-size:9px; font-family:monospace; color:rgba(255,255,255,.2); margin-top:2px; }
+  .sub-node .badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:1px 5px; border-radius:3px; margin-left:4px; vertical-align:middle; }
+  .bd-wip    { background:rgba(251,146,60,.2); color:var(--orange); }
+  .bd-new    { background:rgba(131,97,255,.2); color:var(--p2); }
+  .bd-key    { background:rgba(252,211,77,.18); color:var(--y); }
+  .bd-sys    { background:rgba(248,113,113,.15); color:var(--red); }
+  .sub-divider { height:1px; background:var(--dim2); margin:2px 0; }
+
+  /* LEGEND */
+  .legend { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:36px; justify-content:center; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--mid); }
+  .legend-dot { width:9px; height:9px; border-radius:2px; flex-shrink:0; }
+
+  /* ACCESS CONTROL TABLE */
+  .access-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .access-table th { text-align:left; padding:8px 12px; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); border-bottom:1px solid var(--dim2); }
+  .access-table td { padding:9px 12px; border-bottom:1px solid var(--dim2); color:var(--mid); vertical-align:middle; }
+  .access-table tr:last-child td { border-bottom:none; }
+  .access-table td:first-child { color:var(--wh); font-weight:600; }
+  .role-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:20px; font-size:10px; font-weight:600; margin:2px; }
+  .rp-super { background:rgba(252,211,77,.15); color:var(--y); border:1px solid rgba(252,211,77,.3); }
+  .rp-ops   { background:rgba(96,165,250,.12); color:var(--blue); border:1px solid rgba(96,165,250,.25); }
+  .rp-fin   { background:rgba(52,211,153,.1); color:var(--green); border:1px solid rgba(52,211,153,.2); }
+  .rp-cs    { background:rgba(251,146,60,.1); color:var(--orange); border:1px solid rgba(251,146,60,.2); }
+
+  /* DATA FLOW */
+  .flow-list { display:flex; flex-direction:column; gap:10px; }
+  .flow { display:flex; align-items:center; gap:0; border:1px solid var(--dim2); border-radius:9px; overflow:hidden; }
+  .flow-label { width:160px; flex-shrink:0; background:var(--bg3); border-right:1px solid var(--dim2); padding:10px 14px; font-size:11px; font-weight:600; color:var(--y2); }
+  .flow-label .fl-sub { font-size:10px; font-weight:400; color:var(--dim); margin-top:2px; }
+  .flow-steps { flex:1; display:flex; align-items:center; padding:0 6px; gap:0; overflow-x:auto; }
+  .fs { display:flex; align-items:center; flex-shrink:0; }
+  .fb { background:var(--bg4); border-radius:6px; padding:6px 10px; font-size:11px; color:var(--mid); white-space:nowrap; border:1px solid transparent; }
+  .fb.y { border-color:rgba(252,211,77,.3); color:var(--y2); }
+  .fb.g { border-color:rgba(52,211,153,.25); color:var(--green); }
+  .fb.b { border-color:rgba(96,165,250,.25); color:var(--blue); }
+  .fa { padding:0 5px; font-size:11px; color:var(--dim); }
+
+  @media(max-width:900px){
+    .gnb-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  @media(max-width:600px){
+    .gnb-grid{grid-template-columns:repeat(2,1fr);}
+    .flow-label{width:120px;}
+  }
+</style>
+
+<nav class="topnav">
+  <span class="topnav-label">사이트맵 →</span>
+  <a href="project-dashboard.html" class="topnav tn-dash">← 대시보드</a>
+  <a href="sitemap-ecosystem.html" class="topnav tn-eco">Ecosystem</a>
+  <a href="sitemap-edencrew.html"  class="topnav tn-home">edencrew.com</a>
+  <a href="sitemap-teamcloud.html" class="topnav tn-tc">TeamCloud</a>
+  <span class="topnav tn-cur">● Admin</span>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Edencrew · Internal Admin</div>
+  <h1>Admin 사이트맵</h1>
+  <p class="sub">admin.edencrew.com · 내부 운영 관리자 전용 · 2026-06-30</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ROOT -->
+  <div class="root-row">
+    <div class="root-node">
+      <div class="rn-eye">Internal Admin Console</div>
+      <div class="rn-name">Admin</div>
+      <div class="rn-domain">admin.edencrew.com</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(252,211,77,.6)"></div>주요 모듈</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(251,146,60,.6)"></div>개발 중</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(131,97,255,.6)"></div>신규 계획</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(248,113,113,.6)"></div>시스템 / 위험</div>
+  </div>
+
+  <div class="section-label">페이지 구조</div>
+
+  <div class="gnb-grid">
+
+    <!-- 1. Dashboard -->
+    <div class="gnb-col">
+      <div class="gnb-head">
+        <div class="gh-name">Dashboard</div>
+        <div class="gh-url">/dashboard</div>
+      </div>
+      <div class="sub-node">Overview KPI<span class="sn-url">/dashboard</span></div>
+      <div class="sub-node">신규 가입 현황<span class="sn-url">/dashboard#signup</span></div>
+      <div class="sub-node">실시간 활성 세션<span class="sn-url">/dashboard#sessions</span></div>
+      <div class="sub-node">오류·이상 알림<span class="sn-url">/dashboard#alerts</span></div>
+      <div class="sub-node">Revenue 요약 <span class="badge bd-wip">WIP</span><span class="sn-url">/dashboard#revenue</span></div>
+    </div>
+
+    <!-- 2. Users -->
+    <div class="gnb-col">
+      <div class="gnb-head">
+        <div class="gh-name">Users</div>
+        <div class="gh-url">/users</div>
+      </div>
+      <div class="sub-node">사용자 목록 · 검색<span class="sn-url">/users</span></div>
+      <div class="sub-node">사용자 상세<span class="sn-url">/users/:id</span></div>
+      <div class="sub-node">역할 · 권한 변경<span class="sn-url">/users/:id/role</span></div>
+      <div class="sub-divider"></div>
+      <div class="sub-node">계정 정지 · 삭제 <span class="badge bd-sys">위험</span><span class="sn-url">/users/:id/suspend</span></div>
+      <div class="sub-node">로그인 이력<span class="sn-url">/users/:id/sessions</span></div>
+      <div class="sub-node">Impersonate <span class="badge bd-sys">위험</span><span class="sn-url">/users/:id/impersonate</span></div>
+    </div>
+
+    <!-- 3. Organizations -->
+    <div class="gnb-col">
+      <div class="gnb-head">
+        <div class="gh-name">Orgs</div>
+        <div class="gh-url">/orgs</div>
+      </div>
+      <div class="sub-node">조직 목록<span class="sn-url">/orgs</span></div>
+      <div class="sub-node">조직 상세<span class="sn-url">/orgs/:id</span></div>
+      <div class="sub-node">멤버 관리<span class="sn-url">/orgs/:id/members</span></div>
+      <div class="sub-node">플랜 · 한도 조정<span class="sn-url">/orgs/:id/plan</span></div>
+      <div class="sub-divider"></div>
+      <div class="sub-node">On-prem 설정 <span class="badge bd-new">NEW</span><span class="sn-url">/orgs/:id/onprem</span></div>
+      <div class="sub-node">조직 정지 · 삭제 <span class="badge bd-sys">위험</span><span class="sn-url">/orgs/:id/suspend</span></div>
+    </div>
+
+    <!-- 4. License -->
+    <div class="gnb-col">
+      <div class="gnb-head">
+        <div class="gh-name">License</div>
+        <div class="gh-url">/license</div>
+      </div>
+      <div class="sub-node">라이선스 목록<span class="sn-url">/license</span></div>
+      <div class="sub-node">신규 발급<span class="sn-url">/license/issue</span></div>
+      <div class="sub-node">라이선스 상세<span class="sn-url">/license/:key</span></div>
+      <div class="sub-node">만료 · 갱신 관리<span class="sn-url">/license/:key/renew</span></div>
+      <div class="sub-divider"></div>
+      <div class="sub-node">라이선스 취소 <span class="badge bd-sys">위험</span><span class="sn-url">/license/:key/revoke</span></div>
+      <div class="sub-node">발급 이력<span class="sn-url">/license/history</span></div>
+    </div>
+
+    <!-- 5. Analytics -->
+    <div class="gnb-col">
+      <div class="gnb-head">
+        <div class="gh-name">Analytics</div>
+        <div class="gh-url">/analytics</div>
+      </div>
+      <div class="sub-node">가입 · 전환 트렌드<span class="sn-url">/analytics/growth</span></div>
+      <div class="sub-node">기능 사용 현황<span class="sn-url">/analytics/features</span></div>
+      <div class="sub-node">리텐션 · Churn<span class="sn-url">/analytics/retention</span></div>
+      <div class="sub-node">API 호출 통계<span class="sn-url">/analytics/api</span></div>
+      <div class="sub-node">Revenue · MRR <span class="badge bd-wip">WIP</span><span class="sn-url">/analytics/revenue</span></div>
+      <div class="sub-node">리포트 내보내기<span class="sn-url">/analytics/export</span></div>
+    </div>
+
+    <!-- 6. System -->
+    <div class="gnb-col">
+      <div class="gnb-head">
+        <div class="gh-name">System</div>
+        <div class="gh-url">/system</div>
+      </div>
+      <div class="sub-node">서비스 상태<span class="sn-url">/system/status</span></div>
+      <div class="sub-node">배포 관리 <span class="badge bd-new">NEW</span><span class="sn-url">/system/deploy</span></div>
+      <div class="sub-node">Feature Flags <span class="badge bd-new">NEW</span><span class="sn-url">/system/flags</span></div>
+      <div class="sub-node">감사 로그 (Audit)<span class="sn-url">/system/audit</span></div>
+      <div class="sub-divider"></div>
+      <div class="sub-node">Admin 계정 관리 <span class="badge bd-sys">위험</span><span class="sn-url">/system/admins</span></div>
+      <div class="sub-node">공지 · 메시지 발송 <span class="badge bd-wip">WIP</span><span class="sn-url">/system/broadcast</span></div>
+    </div>
+
+  </div>
+
+  <hr class="divider">
+
+  <!-- ACCESS CONTROL -->
+  <div class="section-label">역할별 접근 권한</div>
+
+  <div style="background:var(--bg2);border:1px solid var(--dim2);border-radius:10px;overflow:hidden;margin-bottom:44px;">
+    <table class="access-table">
+      <thead>
+        <tr>
+          <th>모듈</th>
+          <th>Super Admin</th>
+          <th>Ops</th>
+          <th>Finance</th>
+          <th>CS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dashboard</td>
+          <td><span class="role-pill rp-super">전체</span></td>
+          <td><span class="role-pill rp-ops">전체</span></td>
+          <td><span class="role-pill rp-fin">Revenue만</span></td>
+          <td><span class="role-pill rp-cs">KPI만</span></td>
+        </tr>
+        <tr>
+          <td>Users</td>
+          <td><span class="role-pill rp-super">전체+위험</span></td>
+          <td><span class="role-pill rp-ops">조회·정지</span></td>
+          <td>—</td>
+          <td><span class="role-pill rp-cs">조회만</span></td>
+        </tr>
+        <tr>
+          <td>Orgs</td>
+          <td><span class="role-pill rp-super">전체+위험</span></td>
+          <td><span class="role-pill rp-ops">플랜 조정</span></td>
+          <td><span class="role-pill rp-fin">플랜 조회</span></td>
+          <td><span class="role-pill rp-cs">조회만</span></td>
+        </tr>
+        <tr>
+          <td>License</td>
+          <td><span class="role-pill rp-super">전체+취소</span></td>
+          <td><span class="role-pill rp-ops">발급·갱신</span></td>
+          <td><span class="role-pill rp-fin">전체</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Analytics</td>
+          <td><span class="role-pill rp-super">전체</span></td>
+          <td><span class="role-pill rp-ops">사용 통계</span></td>
+          <td><span class="role-pill rp-fin">Revenue만</span></td>
+          <td><span class="role-pill rp-cs">성장 지표</span></td>
+        </tr>
+        <tr>
+          <td>System</td>
+          <td><span class="role-pill rp-super">전체+위험</span></td>
+          <td><span class="role-pill rp-ops">배포·Flags</span></td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DATA FLOW -->
+  <div class="section-label">주요 운영 플로우</div>
+
+  <div class="flow-list">
+    <div class="flow">
+      <div class="flow-label">신규 라이선스 발급<div class="fl-sub">온프레미스 고객</div></div>
+      <div class="flow-steps">
+        <div class="fs"><div class="fb y">계약 확인</div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb y">Org 생성<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/orgs/new</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb y">License 발급<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/license/issue</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb y">On-prem 설정<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/orgs/:id/onprem</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb g">활성화 완료</div></div>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-label">계정 이상 대응<div class="fl-sub">CS 접수 → 처리</div></div>
+      <div class="flow-steps">
+        <div class="fs"><div class="fb b">CS 접수</div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb b">로그인 이력 확인<span style="display:block;font-size:9px;font-family:monospace;color:rgba(96,165,250,.4)">/users/:id/sessions</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb b">Audit 로그 조회<span style="display:block;font-size:9px;font-family:monospace;color:rgba(96,165,250,.4)">/system/audit</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb y">계정 정지 or 복구<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/users/:id/suspend</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb g">처리 완료</div></div>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-label">Feature Flag 배포<div class="fl-sub">단계적 롤아웃</div></div>
+      <div class="flow-steps">
+        <div class="fs"><div class="fb y">Flag 생성<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/system/flags</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb y">대상 Org 선택</div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb y">비율 설정 (%)  </div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb b">모니터링<span style="display:block;font-size:9px;font-family:monospace;color:rgba(96,165,250,.4)">/analytics/features</span></div><div class="fa">→</div></div>
+        <div class="fs"><div class="fb g">전체 활성화</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
