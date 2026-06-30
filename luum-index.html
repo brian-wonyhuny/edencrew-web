@@ -499,7 +499,7 @@
             <div class="lg-i"><div class="lg-d" style="background:rgba(240,237,232,.25)"></div>Done</div>
           </div>
         </div>
-        <svg id="tchart" viewBox="0 0 600 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg id="tchart" xmlns="http://www.w3.org/2000/svg"></svg>
       </div></div>
 
       <!-- PROJECTS -->
@@ -683,12 +683,20 @@ function drawChart() {
   var donec = document.documentElement.getAttribute('data-theme') === 'light'
     ? 'rgba(0,0,0,0.15)' : 'rgba(240,237,232,0.2)';
 
+  var W = svg.clientWidth || svg.parentElement.clientWidth || 600;
+  var H = 110;
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
   var cols = [gc, ac, oc, donec];
   var months = ['Jan','Feb','Mar','Apr','May','Jun'];
   var data = [[1,0,2,0],[1,1,2,0],[2,1,1,0],[2,1,1,0],[3,2,1,0],[3,2,0,1]];
-  var W=600,H=90,pL=4,pR=16,pT=6,pB=22;
+  var pL=8, pR=8, pT=6, pB=22;
   var cW=W-pL-pR, cH=H-pT-pB, maxV=4;
-  var gW=cW/6, bW=10, bG=2;
+  var gW=cW/6;
+  var bW=Math.max(8, Math.min(14, gW*0.22));
+  var bG=2;
 
   for (var i=0;i<=4;i++) {
     var gy=pT+cH-(i/4)*cH;
@@ -706,25 +714,28 @@ function drawChart() {
       if(!v) return;
       var bh=(v/maxV)*cH;
       var rect=document.createElementNS(ns,'rect');
-      rect.setAttribute('x',sx+bi*(bW+bG));
-      rect.setAttribute('y',pT+cH-bh);
-      rect.setAttribute('width',bW);
-      rect.setAttribute('height',bh);
+      rect.setAttribute('x', Math.round(sx+bi*(bW+bG)));
+      rect.setAttribute('y', Math.round(pT+cH-bh));
+      rect.setAttribute('width', Math.round(bW));
+      rect.setAttribute('height', Math.round(bh));
       rect.setAttribute('rx','2');
       rect.setAttribute('fill',cols[bi]);
       rect.setAttribute('opacity',gi===5?'1':'0.55');
       svg.appendChild(rect);
     });
     var t=document.createElementNS(ns,'text');
-    t.setAttribute('x',cx);t.setAttribute('y',H-5);
+    t.setAttribute('x', Math.round(cx));
+    t.setAttribute('y', H-5);
     t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-size','10');
+    t.setAttribute('font-size','11');
     t.setAttribute('font-family',"'Outfit',system-ui,sans-serif");
     t.setAttribute('fill',mc);
     t.textContent=months[gi];
     svg.appendChild(t);
   });
 }
+
+window.addEventListener('resize', drawChart);
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
   if (localStorage.getItem('luum-theme') === 'system') applyTheme('system');
