@@ -4,28 +4,65 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Edencrew Web — Project Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var s = localStorage.getItem('luum-theme');
+  var sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  var t = (s === 'light' || s === 'dark') ? s : sys;
+  if (t === 'light') document.documentElement.setAttribute('data-theme','light');
+})();
+</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg:   #080808;
-  --s1:   #0f0e12;
-  --s2:   #141218;
-  --s3:   #1a1820;
-  --bd:   #1e1c2a;
-  --bd2:  #2a2838;
-  --p:    #8361ff;
-  --pg:   rgba(131,97,255,.1);
-  --wh:   #f0ede8;
-  --mu:   #6b6578;
-  --mu2:  #3a3648;
-  --ok:   #3ecf8e;
-  --warn: #f5a623;
-  --info: #61b3ff;
-  --danger: #f56565;
+  --bg:   #09090D;
+  --s1:   #111118;
+  --s2:   #15151D;
+  --s3:   #1C1B26;
+  --bd:   rgba(255,255,255,0.07);
+  --bd2:  rgba(255,255,255,0.13);
+  --p:    #8361FF;
+  --pg:   rgba(131,97,255,0.12);
+  --wh:   #F0EDE8;
+  --mu:   rgba(240,237,232,0.55);
+  --mu2:  rgba(240,237,232,0.12);
+  --ok:   #34D399;
+  --warn: #FBBF24;
+  --info: #60A5FA;
+  --danger: #F87171;
   --sw: 250px;
   --sh: 48px;
 }
-html,body { height:100%; background:var(--bg); color:var(--wh); font-family:system-ui,-apple-system,'Segoe UI',sans-serif; font-size:13px; line-height:1.5; overflow:hidden; }
+[data-theme="light"] {
+  --bg:   #EEEEEE;
+  --s1:   #FFFFFF;
+  --s2:   #F8F8F8;
+  --s3:   #F0F0F0;
+  --bd:   rgba(0,0,0,0.09);
+  --bd2:  rgba(0,0,0,0.16);
+  --p:    #8361FF;
+  --pg:   rgba(131,97,255,0.08);
+  --wh:   #0D0B14;
+  --mu:   rgba(13,11,20,0.55);
+  --mu2:  rgba(13,11,20,0.12);
+  --ok:   #16A34A;
+  --warn: #D97706;
+  --info: #2563EB;
+  --danger: #DC2626;
+}
+[data-theme="light"] .tsp-member-row,
+[data-theme="light"] .msp-child,
+[data-theme="light"] .msp-act { background: transparent; }
+[data-theme="light"] .tsp-member-row:hover,
+[data-theme="light"] .team-list-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+[data-theme="light"] .ov-remain-item { background: rgba(217,119,6,0.05); }
+[data-theme="light"] input[type="date"] { color-scheme: light; }
+[data-theme="light"] .mm-subtask { background: transparent; border: 1px solid var(--bd); }
+[data-theme="light"] #mmSidePanel { box-shadow: -8px 0 32px rgba(0,0,0,0.12); }
+[data-theme="light"] #teamSidePanel { box-shadow: -8px 0 32px rgba(0,0,0,0.12); }
+[data-theme="light"] #mmNodeToolbar { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
 
 .shell { display:grid; grid-template-columns:var(--sw) 1fr; grid-template-rows:var(--sh) 1fr; height:100vh; }
 
@@ -243,7 +280,7 @@ input[type="date"], input[type="text"], select {
   outline:none; transition:border-color .15s;
 }
 input[type="date"]:focus, input[type="text"]:focus, select:focus { border-color:var(--p); }
-input[type="date"] { font-variant-numeric:tabular-nums; color-scheme:dark; }
+input[type="date"] { font-variant-numeric:tabular-nums; color-scheme:dark; font-family:'Outfit',system-ui,sans-serif; }
 input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding:2px; border-radius:3px; width:36px; height:28px; cursor:pointer; }
 
 /* milestone table */
@@ -458,6 +495,12 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 .btn-back { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:4px; font-size:14px; font-weight:600; font-family:inherit; cursor:pointer; background:var(--s2); border:1px solid var(--bd); color:var(--mu); transition:all .15s; flex-shrink:0; margin-bottom:12px; }
 .btn-back:hover { color:var(--wh); border-color:var(--p); background:var(--s3); }
 
+/* ── Theme toggle ── */
+.th-seg { display:flex; gap:2px; background:var(--s3); border:1px solid var(--bd); border-radius:6px; padding:3px; }
+.th-btn { width:26px; height:26px; border:none; border-radius:4px; background:transparent; color:var(--mu); cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+.th-btn.active { background:var(--s1); color:var(--wh); box-shadow:0 1px 3px rgba(0,0,0,.25); }
+.th-btn:hover:not(.active) { color:var(--wh); }
+
 /* ── Mobile bottom nav ── */
 .mob-nav { display:none; }
 
@@ -527,6 +570,17 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
       <div class="strip-right">
         <span class="strip-date" id="stripDate"></span>
         <div class="s-alive"><div class="s-dot"></div>진행 중</div>
+        <div class="th-seg">
+          <button class="th-btn" data-th="light" onclick="setTheme('light')" title="라이트">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          </button>
+          <button class="th-btn" data-th="system" onclick="setTheme('system')" title="시스템">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+          </button>
+          <button class="th-btn" data-th="dark" onclick="setTheme('dark')" title="다크">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -3144,6 +3198,25 @@ function mobTab(tabId, viewName) {
   if (btn) btn.classList.add('active');
   showView(viewName);
 }
+
+// ── Theme ──
+function setTheme(mode) {
+  const sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const theme = mode === 'system' ? sys : mode;
+  if (theme === 'light') document.documentElement.setAttribute('data-theme','light');
+  else document.documentElement.removeAttribute('data-theme');
+  if (mode === 'system') localStorage.removeItem('luum-theme');
+  else localStorage.setItem('luum-theme', mode);
+  updateThemeBtn(mode);
+}
+function updateThemeBtn(mode) {
+  document.querySelectorAll('.th-btn').forEach(b => b.classList.toggle('active', b.dataset.th === mode));
+}
+(function initThemeUI() {
+  const s = localStorage.getItem('luum-theme');
+  const mode = (s === 'light' || s === 'dark') ? s : 'system';
+  updateThemeBtn(mode);
+})();
 
 // ── Init ──
 setDate();
