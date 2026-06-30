@@ -3,38 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luum — Projects</title>
+<title>Luum — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── LIGHT (default) ── */
   :root {
     --bg:         #F4F1EB;
     --surface:    #FFFFFF;
     --border:     #E6E0D5;
     --accent:     #8361FF;
+    --accent-faint: rgba(131,97,255,0.09);
     --text:       #0D0B14;
-    --muted:      rgba(13,11,20,0.42);
-    --faint:      rgba(13,11,20,0.10);
+    --sub:        #4A4658;
+    --muted:      rgba(13,11,20,0.40);
+    --faint:      rgba(13,11,20,0.08);
     --sidebar-bg: #FAFAF7;
     --tt-bg:      rgba(13,11,20,0.06);
     --tt-act:     rgba(13,11,20,0.12);
+    --green:      #16A34A;
+    --green-bg:   rgba(22,163,74,0.09);
+    --orange:     #D97706;
+    --orange-bg:  rgba(217,119,6,0.09);
+    --blue:       #2563EB;
+    --blue-bg:    rgba(37,99,235,0.09);
+    --gray:       #6B7280;
+    --gray-bg:    rgba(107,114,128,0.09);
+    --row-hover:  rgba(131,97,255,0.04);
   }
 
-  /* ── DARK ── */
   [data-theme="dark"] {
     --bg:         #09090D;
     --surface:    #111118;
     --border:     #1E1E2A;
     --text:       #F0EDE8;
-    --muted:      rgba(240,237,232,0.36);
-    --faint:      rgba(240,237,232,0.10);
+    --sub:        #A89FC0;
+    --muted:      rgba(240,237,232,0.35);
+    --faint:      rgba(240,237,232,0.07);
     --sidebar-bg: #0C0C10;
     --tt-bg:      rgba(255,255,255,0.06);
     --tt-act:     rgba(255,255,255,0.13);
+    --green-bg:   rgba(22,163,74,0.15);
+    --orange-bg:  rgba(217,119,6,0.15);
+    --blue-bg:    rgba(37,99,235,0.15);
+    --gray-bg:    rgba(107,114,128,0.15);
+    --row-hover:  rgba(131,97,255,0.06);
+    --accent-faint: rgba(131,97,255,0.13);
   }
 
   html, body { height: 100%; overflow: hidden; }
@@ -42,16 +58,17 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'Outfit', -apple-system, system-ui, sans-serif;
     display: flex;
     transition: background 0.25s, color 0.25s;
+    font-size: 13.5px;
   }
 
-  /* ══════════════════════════════════════
+  /* ══════════════════════════════
      SIDEBAR
-  ══════════════════════════════════════ */
+  ══════════════════════════════ */
   .sidebar {
-    width: 236px;
+    width: 240px;
     flex-shrink: 0;
     height: 100vh;
     background: var(--sidebar-bg);
@@ -62,33 +79,119 @@
     overflow-y: auto;
   }
 
-  .sidebar-logo {
-    padding: 20px 20px 18px;
+  /* logo */
+  .sb-logo {
+    padding: 18px 20px 16px;
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
-    transition: border-color 0.25s;
+  }
+  .sb-logo svg .lm { fill: var(--text); transition: fill 0.25s; }
+  .sb-logo svg .uu { fill: var(--accent); }
+
+  /* user profile */
+  .sb-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
 
-  .sidebar-logo svg .lm { fill: var(--text); transition: fill 0.25s; }
-  .sidebar-logo svg .uu { fill: var(--accent); }
+  .profile-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8361FF 0%, #5B3FD4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .profile-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .role-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 2px 9px;
+    border-radius: 4px;
+    background: var(--accent-faint);
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pa-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--muted);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .pa-btn:hover { background: var(--faint); color: var(--text); }
+
+  /* search */
+  .sb-search {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--faint);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 7px 10px;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: text;
+  }
+  .search-input:focus-within { border-color: var(--accent); background: var(--surface); }
+  .search-input svg { color: var(--muted); flex-shrink: 0; }
+  .search-input input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 13px;
+    color: var(--text);
+    font-family: inherit;
+    width: 100%;
+  }
+  .search-input input::placeholder { color: var(--muted); }
 
   /* nav */
-  .nav-wrap {
+  .sb-nav {
     flex: 1;
-    padding: 12px 10px;
+    padding: 10px 10px;
     display: flex;
     flex-direction: column;
     gap: 1px;
-    overflow-y: auto;
-  }
-
-  .nav-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: var(--faint);
-    padding: 10px 10px 5px;
   }
 
   .nav-item {
@@ -102,79 +205,70 @@
     color: var(--muted);
     cursor: pointer;
     transition: background 0.12s, color 0.12s;
-    text-decoration: none;
     border: none;
     background: none;
     width: 100%;
     text-align: left;
     font-family: inherit;
   }
-
   .nav-item:hover { background: var(--faint); color: var(--text); }
+  .nav-item.active { background: var(--accent-faint); color: var(--accent); font-weight: 500; }
 
-  .nav-item.active {
-    background: rgba(131,97,255,0.09);
-    color: var(--accent);
-    font-weight: 500;
+  .nav-spacer { flex: 1; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: var(--faint);
+    color: var(--muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-variant-numeric: tabular-nums;
   }
-
-  .nav-item svg { flex-shrink: 0; }
+  .nav-item.active .nav-badge { background: rgba(131,97,255,0.15); color: var(--accent); }
 
   /* sidebar bottom */
-  .sidebar-bottom {
+  .sb-bottom {
     flex-shrink: 0;
-    padding: 10px 10px 14px;
+    padding: 10px 10px 12px;
     border-top: 1px solid var(--border);
-    transition: border-color 0.25s;
   }
 
-  .user-row {
+  .sb-app-btn {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 8px 10px;
     border-radius: 7px;
+    background: var(--faint);
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
     cursor: pointer;
-    transition: background 0.12s;
+    margin-bottom: 4px;
+    transition: background 0.12s, color 0.12s;
   }
-  .user-row:hover { background: var(--faint); }
+  .sb-app-btn:hover { background: var(--border); color: var(--text); }
 
-  .user-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #8361FF 0%, #5B3FD4 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: #fff;
-    flex-shrink: 0;
-    letter-spacing: 0;
-  }
-
-  .user-info { flex: 1; min-width: 0; }
-  .user-name  { font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .user-email { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-  .sidebar-theme {
+  .sb-theme {
     display: flex;
     justify-content: center;
-    padding: 8px 0 0;
+    padding: 10px 0 0;
   }
 
-  /* theme toggle — shared */
   .theme-toggle {
     display: flex;
-    align-items: center;
     gap: 2px;
     background: var(--tt-bg);
     border-radius: 8px;
     padding: 3px;
     transition: background 0.25s;
   }
-
   .tt-btn {
     display: flex;
     align-items: center;
@@ -192,9 +286,9 @@
   .tt-btn:hover { color: var(--text); }
   .tt-btn.tt-active { background: var(--tt-act); color: var(--text); }
 
-  /* ══════════════════════════════════════
+  /* ══════════════════════════════
      MAIN
-  ══════════════════════════════════════ */
+  ══════════════════════════════ */
   .main {
     flex: 1;
     height: 100vh;
@@ -203,204 +297,394 @@
     flex-direction: column;
   }
 
-  /* topbar */
+  /* top bar */
   .topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 32px;
+    padding: 16px 28px;
     border-bottom: 1px solid var(--border);
     background: var(--surface);
     position: sticky;
     top: 0;
     z-index: 10;
     transition: background 0.25s, border-color 0.25s;
+    flex-shrink: 0;
   }
 
-  .topbar-left { display: flex; flex-direction: column; gap: 1px; }
-  .topbar-eyebrow {
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
   .topbar-title {
-    font-size: 19px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--text);
     letter-spacing: -0.02em;
   }
 
-  .topbar-actions { display: flex; align-items: center; gap: 8px; }
+  .topbar-title svg { color: var(--muted); }
 
-  .btn-new {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 15px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
+  .topbar-actions { display: flex; align-items: center; gap: 6px; }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: opacity 0.15s;
-    letter-spacing: -0.01em;
-  }
-  .btn-new:hover { opacity: 0.88; }
-
-  /* filter bar */
-  .filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 14px 32px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    transition: background 0.25s, border-color 0.25s;
-  }
-
-  .filter-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 11px;
-    border-radius: 6px;
     border: 1px solid var(--border);
-    background: none;
-    color: var(--muted);
-    font-size: 12.5px;
-    font-weight: 400;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-family: inherit;
-    transition: border-color 0.12s, background 0.12s, color 0.12s;
-    letter-spacing: -0.01em;
+    color: var(--muted);
+    transition: background 0.12s, color 0.12s;
   }
-  .filter-btn:hover { border-color: rgba(131,97,255,0.4); color: var(--text); }
-  .filter-btn.active {
-    background: rgba(131,97,255,0.09);
-    border-color: rgba(131,97,255,0.30);
-    color: var(--accent);
-    font-weight: 500;
-  }
+  .icon-btn:hover { background: var(--faint); color: var(--text); }
 
   /* content */
   .content {
-    padding: 24px 32px 40px;
+    padding: 24px 28px;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 20px;
+    flex: 1;
   }
 
-  .section-label {
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--faint);
-    margin-bottom: 12px;
-    margin-top: 24px;
-  }
-  .section-label:first-child { margin-top: 0; }
-
-  /* project grid */
-  .project-grid {
+  /* ── stat + team row ── */
+  .stat-row {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+    grid-template-columns: 1fr 1fr 1fr 280px;
     gap: 12px;
+    align-items: stretch;
   }
 
-  .project-card {
+  .stat-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 11px;
-    padding: 18px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    cursor: pointer;
-    transition: border-color 0.15s, transform 0.12s, background 0.25s, box-shadow 0.15s;
-  }
-  .project-card:hover {
-    border-color: rgba(131,97,255,0.45);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(131,97,255,0.07);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: background 0.25s, border-color 0.25s;
   }
 
-  .card-top {
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 10px;
+  }
+
+  .stat-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .stat-label {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--sub);
+    letter-spacing: -0.01em;
+  }
+
+  .stat-value {
+    font-size: 34px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+  }
+
+  .stat-delta {
+    font-size: 11.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--muted);
+  }
+  .delta-up   { color: var(--green); }
+  .delta-down { color: var(--orange); }
+
+  /* team panel */
+  .team-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.25s, border-color 0.25s;
+    overflow: hidden;
+  }
+
+  .panel-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-  }
-
-  .card-tag {
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    padding: 2px 7px;
-    border-radius: 4px;
-    text-transform: uppercase;
+    margin-bottom: 12px;
     flex-shrink: 0;
   }
-  .tag-design    { background: rgba(236,72,153,0.10); color: #C026D3; }
-  .tag-eng       { background: rgba(59,130,246,0.10); color: #2563EB; }
-  .tag-product   { background: rgba(245,158,11,0.10); color: #D97706; }
-  .tag-marketing { background: rgba(34,197,94,0.10);  color: #16A34A; }
 
-  .card-status {
-    font-size: 11px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .status-active   { color: #16A34A; }
-  .status-progress { color: #2563EB; }
-  .status-planning { color: #D97706; }
-  .status-review   { color: var(--accent); }
-  .status-done     { color: var(--muted); }
-
-  .card-name {
-    font-size: 15px;
+  .panel-title {
+    font-size: 13px;
     font-weight: 600;
     color: var(--text);
-    letter-spacing: -0.02em;
-    line-height: 1.3;
+    letter-spacing: -0.01em;
   }
 
-  .card-meta {
+  .panel-count {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--faint);
+    padding: 1px 7px;
+    border-radius: 4px;
+  }
+
+  .team-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+  }
+
+  .team-member {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .member-av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .member-info { min-width: 0; }
+  .member-name  { font-size: 12.5px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-email { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ── chart ── */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .chart-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .chart-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-size: 11.5px;
     color: var(--muted);
   }
 
-  .progress-track {
-    height: 3px;
-    background: var(--faint);
+  .legend-dot {
+    width: 8px;
+    height: 8px;
     border-radius: 2px;
-    overflow: hidden;
   }
-  .progress-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: var(--accent);
-    transition: width 0.5s cubic-bezier(.4,0,.2,1);
-  }
-  .progress-fill.done { background: #16A34A; }
 
-  .card-bottom {
+  .chart-area {
+    width: 100%;
+    height: 120px;
+  }
+
+  /* ── projects table ── */
+  .projects-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .proj-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 14px 18px 0;
   }
 
-  .avatars { display: flex; align-items: center; }
-  .av {
+  .proj-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  /* tabs */
+  .tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 18px;
+    margin-top: 12px;
+    overflow-x: auto;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color 0.12s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: var(--text);
+    font-weight: 600;
+    border-bottom-color: var(--accent);
+  }
+
+  .tab-count {
+    font-size: 10.5px;
+    font-weight: 600;
+    background: var(--faint);
+    color: var(--muted);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tab.active .tab-count { background: var(--accent-faint); color: var(--accent); }
+
+  /* table */
+  .proj-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .proj-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .proj-table td {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--faint);
+    vertical-align: middle;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .proj-table tr:last-child td { border-bottom: none; }
+
+  .proj-table tbody tr {
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .proj-table tbody tr:hover { background: var(--row-hover); }
+
+  .proj-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-active   { background: var(--green); }
+  .dot-review   { background: var(--accent); }
+  .dot-planning { background: var(--orange); }
+  .dot-done     { background: var(--gray); }
+
+  .proj-name { font-weight: 500; color: var(--text); letter-spacing: -0.01em; }
+
+  .type-badge {
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .type-main   { background: var(--accent-faint); color: var(--accent); }
+  .type-branch { background: var(--faint); color: var(--muted); }
+
+  .lead-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lead-av {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .lead-info { min-width: 0; }
+  .lead-name  { font-size: 12.5px; font-weight: 500; color: var(--text); white-space: nowrap; }
+  .lead-email { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+
+  .date-cell { font-variant-numeric: tabular-nums; color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+
+  .members-cell {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .mav {
     width: 22px;
     height: 22px;
     border-radius: 50%;
@@ -408,29 +692,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: 600;
     color: #fff;
     margin-left: -5px;
     transition: border-color 0.25s;
-    flex-shrink: 0;
   }
-  .av:first-child { margin-left: 0; }
-
-  .pct {
-    font-size: 12px;
+  .mav:first-child { margin-left: 0; }
+  .mav-count {
+    font-size: 11px;
     font-weight: 600;
     color: var(--muted);
+    margin-left: 6px;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
   }
 
-  .card-done { opacity: 0.65; }
-  .card-done:hover { opacity: 0.85; }
-
   @media (prefers-reduced-motion: reduce) {
-    .project-card:hover { transform: none; }
-    .progress-fill { transition: none; }
+    * { transition: none !important; }
   }
 </style>
 </head>
@@ -439,8 +717,8 @@
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
 
-  <div class="sidebar-logo">
-    <svg width="152" height="27" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="sb-logo">
+    <svg width="130" height="23" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path class="lm" d="M-7.7635e-06 8.54401V6.19888e-06H2.39999V8.54401H-7.7635e-06ZM1.95599 8.54401V6.50401H5.95199V8.54401H1.95599Z"/>
       <path class="uu" d="M15.9222 8.68801C15.1702 8.68801 14.5142 8.53601 13.9542 8.23201C13.3942 7.92001 12.9582 7.49201 12.6462 6.94801C12.3342 6.40401 12.1782 5.78001 12.1782 5.07601V6.19888e-06H14.5782V5.29201C14.5782 5.56401 14.6382 5.79601 14.7582 5.98801C14.8782 6.18001 15.0382 6.32801 15.2382 6.43201C15.4462 6.52801 15.6742 6.57601 15.9222 6.57601C16.1782 6.57601 16.4022 6.52801 16.5942 6.43201C16.7942 6.32801 16.9502 6.18401 17.0622 6.00001C17.1742 5.80801 17.2302 5.57601 17.2302 5.30401V6.19888e-06H19.6422V5.08801C19.6422 5.79201 19.4862 6.41601 19.1742 6.96001C18.8702 7.49601 18.4382 7.92001 17.8782 8.23201C17.3262 8.53601 16.6742 8.68801 15.9222 8.68801Z"/>
       <path class="uu" d="M30.2486 8.68801C29.4966 8.68801 28.8406 8.53601 28.2806 8.23201C27.7206 7.92001 27.2846 7.49201 26.9726 6.94801C26.6606 6.40401 26.5046 5.78001 26.5046 5.07601V6.19888e-06H28.9046V5.29201C28.9046 5.56401 28.9646 5.79601 29.0846 5.98801C29.2046 6.18001 29.3646 6.32801 29.5646 6.43201C29.7726 6.52801 30.0006 6.57601 30.2486 6.57601C30.5046 6.57601 30.7286 6.52801 30.9206 6.43201C31.1206 6.32801 31.2766 6.18401 31.3886 6.00001C31.5006 5.80801 31.5566 5.57601 31.5566 5.30401V6.19888e-06H33.9686V5.08801C33.9686 5.79201 33.8126 6.41601 33.5006 6.96001C33.1966 7.49601 32.7646 7.92001 32.2046 8.23201C31.6526 8.53601 31.0006 8.68801 30.2486 8.68801Z"/>
@@ -448,25 +726,58 @@
     </svg>
   </div>
 
-  <nav class="nav-wrap">
-    <div class="nav-label">Workspace</div>
+  <div class="sb-profile">
+    <div class="profile-avatar">B</div>
+    <div class="profile-name">Brian</div>
+    <div class="role-badge">Admin</div>
+    <div class="profile-actions">
+      <button class="pa-btn" title="Profile">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <button class="pa-btn" title="Notifications">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </button>
+      <button class="pa-btn" title="Sign out" onclick="window.location.href='luum-login.html'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sb-search">
+    <div class="search-input">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Search project or user…">
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <button class="nav-item active">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      Dashboard
+    </button>
 
     <button class="nav-item">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      Overview
-    </button>
-
-    <button class="nav-item active">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="7" height="7"/>
-        <rect x="14" y="3" width="7" height="7"/>
-        <rect x="3" y="14" width="7" height="7"/>
-        <rect x="14" y="14" width="7" height="7"/>
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
       </svg>
       Projects
+      <span class="nav-badge">6</span>
     </button>
 
     <button class="nav-item">
@@ -476,6 +787,7 @@
         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
       Team
+      <span class="nav-badge">4</span>
     </button>
 
     <button class="nav-item">
@@ -488,14 +800,10 @@
       Timeline
     </button>
 
-    <div class="nav-label" style="margin-top:4px">Analytics</div>
-
     <button class="nav-item">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="20" x2="18" y2="10"/>
-        <line x1="12" y1="20" x2="12" y2="4"/>
-        <line x1="6" y1="20" x2="6" y2="14"/>
-        <line x1="2" y1="20" x2="22" y2="20"/>
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
       </svg>
       Reports
     </button>
@@ -509,15 +817,8 @@
     </button>
   </nav>
 
-  <div class="sidebar-bottom">
-    <div class="user-row">
-      <div class="user-avatar">B</div>
-      <div class="user-info">
-        <div class="user-name">Brian</div>
-        <div class="user-email">brian@edencrew.com</div>
-      </div>
-    </div>
-    <div class="sidebar-theme">
+  <div class="sb-bottom">
+    <div class="sb-theme">
       <div class="theme-toggle" role="group" aria-label="Theme">
         <button class="tt-btn" data-tt="light" title="Light" onclick="applyTheme('light')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -546,153 +847,216 @@
 <main class="main">
 
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-eyebrow">Edencrew Workspace</div>
-      <div class="topbar-title">Projects</div>
+    <div class="topbar-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      Dashboard
     </div>
     <div class="topbar-actions">
-      <button class="btn-new">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <line x1="12" y1="5" x2="12" y2="19"/>
-          <line x1="5" y1="12" x2="19" y2="12"/>
+      <button class="icon-btn" title="Invite">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="8.5" cy="7" r="4"/>
+          <line x1="20" y1="8" x2="20" y2="14"/>
+          <line x1="23" y1="11" x2="17" y2="11"/>
         </svg>
-        New Project
+      </button>
+      <button class="icon-btn" title="Share">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+      </button>
+      <button class="icon-btn" title="Settings">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
       </button>
     </div>
   </div>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter(this)">All</button>
-    <button class="filter-btn" onclick="setFilter(this)">Active</button>
-    <button class="filter-btn" onclick="setFilter(this)">In Review</button>
-    <button class="filter-btn" onclick="setFilter(this)">Planning</button>
-    <button class="filter-btn" onclick="setFilter(this)">Done</button>
-  </div>
-
   <div class="content">
 
-    <div class="section-label">Active — 3 projects</div>
-    <div class="project-grid">
+    <!-- stat + team -->
+    <div class="stat-row">
 
-      <div class="project-card">
-        <div class="card-top">
-          <div class="card-tag tag-design">Design</div>
-          <div class="card-status status-active">● Active</div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-dot" style="background:var(--text);opacity:0.5"></div>
+          <div class="stat-label">Total Projects</div>
         </div>
-        <div class="card-name">edencrew.com Renewal</div>
-        <div class="card-meta">Updated 2 hours ago</div>
-        <div class="progress-track"><div class="progress-fill" style="width:65%"></div></div>
-        <div class="card-bottom">
-          <div class="avatars">
-            <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-            <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-            <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
-          </div>
-          <div class="pct">65%</div>
-        </div>
+        <div class="stat-value">6</div>
+        <div class="stat-delta"><span class="delta-up">▲ +2</span> M/M</div>
       </div>
 
-      <div class="project-card">
-        <div class="card-top">
-          <div class="card-tag tag-eng">Engineering</div>
-          <div class="card-status status-progress">● In Progress</div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-dot" style="background:var(--green)"></div>
+          <div class="stat-label">Active</div>
         </div>
-        <div class="card-name">Luum PMS Development</div>
-        <div class="card-meta">Updated 1 day ago</div>
-        <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
-        <div class="card-bottom">
-          <div class="avatars">
-            <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-            <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
-          </div>
-          <div class="pct">40%</div>
-        </div>
+        <div class="stat-value" style="color:var(--green)">3</div>
+        <div class="stat-delta"><span class="delta-up">▲ +1</span> M/M</div>
       </div>
 
-      <div class="project-card">
-        <div class="card-top">
-          <div class="card-tag tag-eng">Engineering</div>
-          <div class="card-status status-active">● Active</div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-dot" style="background:var(--orange)"></div>
+          <div class="stat-label">In Review</div>
         </div>
-        <div class="card-name">API Integration Layer</div>
-        <div class="card-meta">Updated 3 hours ago</div>
-        <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
-        <div class="card-bottom">
-          <div class="avatars">
-            <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
-            <div class="av" style="background:linear-gradient(135deg,#10B981,#059669)">M</div>
-          </div>
-          <div class="pct">55%</div>
-        </div>
+        <div class="stat-value" style="color:var(--orange)">2</div>
+        <div class="stat-delta"><span style="color:var(--muted)">— 0</span> M/M</div>
       </div>
 
-    </div>
-
-    <div class="section-label">Review &amp; Planning — 2 projects</div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="card-top">
-          <div class="card-tag tag-marketing">Marketing</div>
-          <div class="card-status status-review">● Review</div>
+      <div class="team-panel">
+        <div class="panel-header">
+          <div class="panel-title">Team</div>
+          <div class="panel-count">4</div>
         </div>
-        <div class="card-name">Brand Guidelines 2026</div>
-        <div class="card-meta">Updated 5 hours ago</div>
-        <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
-        <div class="card-bottom">
-          <div class="avatars">
-            <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-            <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+        <div class="team-list">
+          <div class="team-member">
+            <div class="member-av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+            <div class="member-info">
+              <div class="member-name">Brian</div>
+              <div class="member-email">brian@edencrew.com</div>
+            </div>
           </div>
-          <div class="pct">90%</div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="card-top">
-          <div class="card-tag tag-product">Product</div>
-          <div class="card-status status-planning">● Planning</div>
-        </div>
-        <div class="card-name">Mobile App v2</div>
-        <div class="card-meta">Updated 2 days ago</div>
-        <div class="progress-track"><div class="progress-fill" style="width:10%"></div></div>
-        <div class="card-bottom">
-          <div class="avatars">
-            <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-            <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
-            <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+          <div class="team-member">
+            <div class="member-av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
+            <div class="member-info">
+              <div class="member-name">Jisoo</div>
+              <div class="member-email">jisoo@edencrew.com</div>
+            </div>
           </div>
-          <div class="pct">10%</div>
+          <div class="team-member">
+            <div class="member-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+            <div class="member-info">
+              <div class="member-name">Sungmin</div>
+              <div class="member-email">sungmin@edencrew.com</div>
+            </div>
+          </div>
+          <div class="team-member">
+            <div class="member-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+            <div class="member-info">
+              <div class="member-name">Karin</div>
+              <div class="member-email">karin@edencrew.com</div>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <div class="section-label">Done — 1 project</div>
-    <div class="project-grid">
-
-      <div class="project-card card-done">
-        <div class="card-top">
-          <div class="card-tag tag-marketing">Marketing</div>
-          <div class="card-status status-done">● Complete</div>
-        </div>
-        <div class="card-name">Q3 Campaign Assets</div>
-        <div class="card-meta">Completed Jun 15, 2026</div>
-        <div class="progress-track"><div class="progress-fill done" style="width:100%"></div></div>
-        <div class="card-bottom">
-          <div class="avatars">
-            <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-            <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
-          </div>
-          <div class="pct">100%</div>
+    <!-- chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Projects Trend</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Active</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>In Review</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Planning</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div>Done</div>
         </div>
       </div>
-
+      <svg class="chart-area" viewBox="0 0 700 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" id="trend-chart">
+        <!-- bars drawn by JS -->
+      </svg>
     </div>
+
+    <!-- projects table -->
+    <div class="projects-card">
+      <div class="proj-header">
+        <div class="proj-title">Projects</div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="setTab(this,'all')">All <span class="tab-count">6</span></button>
+        <button class="tab" onclick="setTab(this,'active')">Active <span class="tab-count">3</span></button>
+        <button class="tab" onclick="setTab(this,'review')">In Review <span class="tab-count">1</span></button>
+        <button class="tab" onclick="setTab(this,'planning')">Planning <span class="tab-count">1</span></button>
+        <button class="tab" onclick="setTab(this,'done')">Done <span class="tab-count">1</span></button>
+      </div>
+
+      <div style="overflow-x:auto">
+      <table class="proj-table">
+        <thead>
+          <tr>
+            <th style="min-width:220px">Project Name</th>
+            <th>Category</th>
+            <th style="min-width:180px">Lead</th>
+            <th>Start</th>
+            <th>Due</th>
+            <th>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-status="active">
+            <td><div class="proj-name-cell"><div class="status-dot dot-active"></div><div class="proj-name">edencrew.com Renewal</div></div></td>
+            <td><span class="type-badge type-main">Design</span></td>
+            <td><div class="lead-cell"><div class="lead-av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div><div class="lead-info"><div class="lead-name">Brian</div><div class="lead-email">brian@edencrew.com</div></div></div></td>
+            <td class="date-cell">Jun 1, 2026</td>
+            <td class="date-cell">Dec 31, 2026</td>
+            <td><div class="members-cell"><div class="mav" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div><div class="mav" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div><div class="mav" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div><span class="mav-count">3</span></div></td>
+          </tr>
+          <tr data-status="active">
+            <td><div class="proj-name-cell"><div class="status-dot dot-active"></div><div class="proj-name">Luum PMS Development</div></div></td>
+            <td><span class="type-badge type-branch">Engineering</span></td>
+            <td><div class="lead-cell"><div class="lead-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div><div class="lead-info"><div class="lead-name">Sungmin</div><div class="lead-email">sungmin@edencrew.com</div></div></div></td>
+            <td class="date-cell">Jun 15, 2026</td>
+            <td class="date-cell">Dec 31, 2026</td>
+            <td><div class="members-cell"><div class="mav" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div><div class="mav" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div><span class="mav-count">2</span></div></td>
+          </tr>
+          <tr data-status="active">
+            <td><div class="proj-name-cell"><div class="status-dot dot-active"></div><div class="proj-name">API Integration Layer</div></div></td>
+            <td><span class="type-badge type-branch">Engineering</span></td>
+            <td><div class="lead-cell"><div class="lead-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div><div class="lead-info"><div class="lead-name">Sungmin</div><div class="lead-email">sungmin@edencrew.com</div></div></div></td>
+            <td class="date-cell">Jul 1, 2026</td>
+            <td class="date-cell">Sep 30, 2026</td>
+            <td><div class="members-cell"><div class="mav" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div><div class="mav" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div><span class="mav-count">2</span></div></td>
+          </tr>
+          <tr data-status="review">
+            <td><div class="proj-name-cell"><div class="status-dot dot-review"></div><div class="proj-name">Brand Guidelines 2026</div></div></td>
+            <td><span class="type-badge type-branch">Marketing</span></td>
+            <td><div class="lead-cell"><div class="lead-av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div><div class="lead-info"><div class="lead-name">Jisoo</div><div class="lead-email">jisoo@edencrew.com</div></div></div></td>
+            <td class="date-cell">May 1, 2026</td>
+            <td class="date-cell">Jul 31, 2026</td>
+            <td><div class="members-cell"><div class="mav" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div><div class="mav" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div><span class="mav-count">2</span></div></td>
+          </tr>
+          <tr data-status="planning">
+            <td><div class="proj-name-cell"><div class="status-dot dot-planning"></div><div class="proj-name">Mobile App v2</div></div></td>
+            <td><span class="type-badge type-main">Product</span></td>
+            <td><div class="lead-cell"><div class="lead-av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div><div class="lead-info"><div class="lead-name">Brian</div><div class="lead-email">brian@edencrew.com</div></div></div></td>
+            <td class="date-cell">Aug 1, 2026</td>
+            <td class="date-cell">Mar 31, 2027</td>
+            <td><div class="members-cell"><div class="mav" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div><div class="mav" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div><div class="mav" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div><span class="mav-count">3</span></div></td>
+          </tr>
+          <tr data-status="done">
+            <td><div class="proj-name-cell"><div class="status-dot dot-done"></div><div class="proj-name">Q3 Campaign Assets</div></div></td>
+            <td><span class="type-badge type-branch">Marketing</span></td>
+            <td><div class="lead-cell"><div class="lead-av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div><div class="lead-info"><div class="lead-name">Jisoo</div><div class="lead-email">jisoo@edencrew.com</div></div></div></td>
+            <td class="date-cell">Apr 1, 2026</td>
+            <td class="date-cell">Jun 15, 2026</td>
+            <td><div class="members-cell"><div class="mav" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div><div class="mav" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div><span class="mav-count">2</span></div></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
   </div>
 </main>
 
 <script>
+/* ── theme ── */
 function applyTheme(pref) {
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   var resolved = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref;
@@ -701,21 +1065,103 @@ function applyTheme(pref) {
   document.querySelectorAll('.tt-btn').forEach(function(b) {
     b.classList.toggle('tt-active', b.dataset.tt === pref);
   });
+  drawChart();
 }
 
-function setFilter(el) {
-  document.querySelectorAll('.filter-btn').forEach(function(b) {
-    b.classList.remove('active');
-  });
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+  if (localStorage.getItem('luum-theme') === 'system') applyTheme('system');
+});
+
+/* ── tab filter ── */
+function setTab(el, status) {
+  document.querySelectorAll('.tab').forEach(function(b) { b.classList.remove('active'); });
   el.classList.add('active');
+  document.querySelectorAll('.proj-table tbody tr').forEach(function(row) {
+    var show = status === 'all' || row.dataset.status === status;
+    row.style.display = show ? '' : 'none';
+  });
 }
 
+/* ── bar chart ── */
+function drawChart() {
+  var svg = document.getElementById('trend-chart');
+  svg.innerHTML = '';
+
+  var st = getComputedStyle(document.documentElement);
+  var cGreen  = '#16A34A';
+  var cAccent = '#8361FF';
+  var cOrange = '#D97706';
+  var cGray   = '#6B7280';
+  var cFaint  = st.getPropertyValue('--faint').trim();
+
+  var months = ['Jan','Feb','Mar','Apr','May','Jun'];
+  /* [active, review, planning, done] */
+  var data = [
+    [1,0,2,0], [1,1,2,0], [2,1,1,0], [2,1,1,0], [3,1,1,0], [3,1,1,1]
+  ];
+
+  var W = 700, H = 120, padL = 0, padR = 20, padT = 8, padB = 24;
+  var chartW = W - padL - padR;
+  var chartH = H - padT - padB;
+  var maxVal = 4;
+  var groups = data.length;
+  var groupW = chartW / groups;
+  var barW = 14;
+  var barGap = 2;
+  var cols = [cGreen, cAccent, cOrange, cGray];
+
+  var ns = 'http://www.w3.org/2000/svg';
+
+  /* grid lines */
+  for (var g = 0; g <= maxVal; g++) {
+    var y = padT + chartH - (g / maxVal) * chartH;
+    var line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', padL); line.setAttribute('x2', W - padR);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    line.setAttribute('stroke', cFaint || 'rgba(0,0,0,0.07)');
+    line.setAttribute('stroke-width', '1');
+    svg.appendChild(line);
+  }
+
+  data.forEach(function(group, gi) {
+    var cx = padL + gi * groupW + groupW / 2;
+    var totalBars = 4;
+    var groupBarsW = totalBars * barW + (totalBars - 1) * barGap;
+    var startX = cx - groupBarsW / 2;
+
+    group.forEach(function(val, bi) {
+      if (val === 0) return;
+      var bx = startX + bi * (barW + barGap);
+      var bh = (val / maxVal) * chartH;
+      var by = padT + chartH - bh;
+      var rect = document.createElementNS(ns, 'rect');
+      rect.setAttribute('x', bx);
+      rect.setAttribute('y', by);
+      rect.setAttribute('width', barW);
+      rect.setAttribute('height', bh);
+      rect.setAttribute('rx', 3);
+      rect.setAttribute('fill', cols[bi]);
+      rect.setAttribute('opacity', gi === 5 ? '1' : '0.55');
+      svg.appendChild(rect);
+    });
+
+    /* month label */
+    var text = document.createElementNS(ns, 'text');
+    text.setAttribute('x', cx);
+    text.setAttribute('y', H - 4);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('font-size', '11');
+    text.setAttribute('font-family', 'Outfit, system-ui, sans-serif');
+    text.setAttribute('fill', st.getPropertyValue('--muted').trim() || 'rgba(0,0,0,0.4)');
+    text.textContent = months[gi];
+    svg.appendChild(text);
+  });
+}
+
+/* init */
 (function() {
   var saved = localStorage.getItem('luum-theme') || 'light';
   applyTheme(saved);
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if (localStorage.getItem('luum-theme') === 'system') applyTheme('system');
-  });
 })();
 </script>
 
