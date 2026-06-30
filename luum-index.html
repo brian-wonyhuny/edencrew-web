@@ -8,8 +8,7 @@
 <script>
 (function(){
   var s=localStorage.getItem('luum-theme');
-  var sys=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
-  var t=(s==='dark'||s==='light')?s:sys;
+  var t=(s==='dark'||s==='light')?s:'light';
   if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
 })();
 </script>
@@ -507,7 +506,7 @@ function setFilter(el, s) {
 
 (function(){
   var s = localStorage.getItem('luum-theme');
-  var mode = (s === 'light' || s === 'dark') ? s : 'system';
+  var mode = (s === 'light' || s === 'dark') ? s : 'light';
   document.querySelectorAll('.tt-btn').forEach(function(b){
     b.classList.toggle('on', b.dataset.tt === mode);
   });
