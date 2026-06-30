@@ -31,8 +31,8 @@
   --warn: #FBBF24;
   --info: #60A5FA;
   --danger: #F87171;
-  --sw: 250px;
-  --sh: 48px;
+  --sw: 260px;
+  --sh: 52px;
 }
 [data-theme="light"] {
   --bg:   #EEEEEE;
@@ -64,7 +64,7 @@
 [data-theme="light"] #mmNodeToolbar { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
 html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
 
-.shell { display:grid; grid-template-columns:var(--sw) 1fr; grid-template-rows:var(--sh) 1fr; height:100vh; }
+.shell { display:grid; grid-template-columns:auto 1fr; grid-template-rows:var(--sh) 1fr; height:100vh; }
 
 /* ── Strip ── */
 .strip { grid-column:1/-1; display:flex; align-items:center; background:var(--s1); border-bottom:1px solid var(--bd); }
@@ -84,13 +84,23 @@ html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Out
 @media(prefers-reduced-motion:reduce){.s-dot{animation:none}}
 
 /* ── Sidebar ── */
-.sidebar { background:var(--s1); border-right:1px solid var(--bd); display:flex; flex-direction:column; overflow:hidden; position:relative; transition:width .18s ease; }
+.sidebar { width:260px; background:var(--s1); border-right:1px solid var(--bd); display:flex; flex-direction:column; overflow:hidden; position:relative; transition:width .22s cubic-bezier(.4,0,.2,1), background .25s, border-color .25s; flex-shrink:0; }
+.sidebar.col { width:52px; }
 .sidebar-scroll { flex:1; overflow-y:auto; overflow-x:hidden; }
 .sidebar-bottom { flex-shrink:0; border-top:1px solid var(--bd); }
-.sidebar-resizer { position:absolute; top:0; right:-3px; width:6px; height:100%; cursor:col-resize; z-index:50; background:transparent; }
-.sidebar-resizer:hover, .sidebar-resizer.dragging { background:var(--p); opacity:.4; border-radius:3px; }
-.shell.sidebar-hidden { grid-template-columns:0 1fr; }
-.shell.sidebar-hidden .sidebar { width:0 !important; overflow:hidden; border-right:none; }
+.sidebar-resizer { display:none; }
+
+/* Sidebar bottom bar */
+.sb-bot-bar { display:flex; align-items:center; gap:6px; padding:9px 12px; justify-content:space-between; }
+.sidebar.col .sb-bot-bar { justify-content:center; padding:9px 0; }
+.sb-copy { font-size:10px; color:var(--mu); white-space:nowrap; overflow:hidden; flex:1; }
+.sidebar.col .sb-copy { display:none; }
+.sidebar.col .th-seg { display:none; }
+.sb-fold { width:28px; height:28px; border-radius:7px; border:1px solid var(--bd); background:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--mu); transition:background .12s,color .12s; flex-shrink:0; }
+.sb-fold:hover { background:var(--s3); color:var(--wh); }
+.sb-fold svg { transition:transform .22s; }
+.sidebar.col .sb-fold svg { transform:rotate(180deg); }
+
 .sidebar-toggle { background:none; border:none; color:var(--mu); cursor:pointer; font-size:16px; padding:4px 6px; border-radius:3px; line-height:1; display:flex; align-items:center; justify-content:center; transition:color .15s; flex-shrink:0; }
 .sidebar-toggle:hover { color:var(--wh); background:var(--s3); }
 
@@ -570,17 +580,6 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
       <div class="strip-right">
         <span class="strip-date" id="stripDate"></span>
         <div class="s-alive"><div class="s-dot"></div>진행 중</div>
-        <div class="th-seg">
-          <button class="th-btn" data-th="light" onclick="setTheme('light')" title="라이트">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-          </button>
-          <button class="th-btn" data-th="system" onclick="setTheme('system')" title="시스템">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
-          </button>
-          <button class="th-btn" data-th="dark" onclick="setTheme('dark')" title="다크">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          </button>
-        </div>
       </div>
     </div>
   </header>
@@ -674,6 +673,24 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
           프로젝트 스케줄(WBS)
         </a>
       </div>
+    </div>
+    <!-- Bottom bar: copyright + theme + fold -->
+    <div class="sb-bot-bar">
+      <span class="sb-copy">© 2026 Edencrew Inc.</span>
+      <div class="th-seg">
+        <button class="th-btn" data-th="light" onclick="setTheme('light')" title="라이트">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+        <button class="th-btn" data-th="system" onclick="setTheme('system')" title="시스템">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+        </button>
+        <button class="th-btn" data-th="dark" onclick="setTheme('dark')" title="다크">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </div>
+      <button class="sb-fold" onclick="toggleSidebar()" title="사이드바 접기">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
     </div>
   </div><!-- /sidebar-bottom -->
 
@@ -3145,50 +3162,16 @@ function setDate() {
 }
 
 // ── Sidebar toggle & resize ──
-const SIDEBAR_MIN = 250, SIDEBAR_MAX = 400;
-
 function toggleSidebar() {
-  const shell = document.querySelector('.shell');
-  const hidden = shell.classList.toggle('sidebar-hidden');
-  localStorage.setItem('ec_sidebar_hidden', hidden ? '1' : '0');
+  const sb = document.getElementById('sidebar');
+  const isCol = sb.classList.toggle('col');
+  localStorage.setItem('ec_sidebar_col', isCol ? '1' : '0');
 }
 
 (function initSidebarState() {
-  const sw = parseInt(localStorage.getItem('ec_sidebar_w')) || SIDEBAR_MIN;
-  const hidden = localStorage.getItem('ec_sidebar_hidden') === '1';
-  document.documentElement.style.setProperty('--sw', sw + 'px');
-  if (hidden) document.querySelector('.shell').classList.add('sidebar-hidden');
-})();
-
-(function initResizer() {
-  const resizer = document.getElementById('sidebarResizer');
-  if (!resizer) return;
-  let startX, startW;
-
-  resizer.addEventListener('mousedown', e => {
-    startX = e.clientX;
-    startW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sw')) || SIDEBAR_MIN;
-    resizer.classList.add('dragging');
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-
-    function onMove(e) {
-      const dx = e.clientX - startX;
-      const newW = Math.min(SIDEBAR_MAX, Math.max(SIDEBAR_MIN, startW + dx));
-      document.documentElement.style.setProperty('--sw', newW + 'px');
-    }
-    function onUp() {
-      resizer.classList.remove('dragging');
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-      const finalW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sw'));
-      localStorage.setItem('ec_sidebar_w', finalW);
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onUp);
-    }
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-  });
+  if (localStorage.getItem('ec_sidebar_col') === '1') {
+    document.getElementById('sidebar').classList.add('col');
+  }
 })();
 
 // ── Mobile tab nav ──
