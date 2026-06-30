@@ -1,341 +1,134 @@
 <!doctype html>
-<html lang="en" data-theme="light" data-theme-pref="light">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luum — Sign in</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<title>Luum — 로그인</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── LIGHT (default) ── */
-  :root {
-    --bg:      #FFFFFF;
-    --surface: #F0EDE8;
-    --border:  #E2DDD7;
-    --accent:  #8361FF;
-    --text:    #0D0B14;
-    --muted:   rgba(13,11,20,0.42);
-    --faint:   rgba(13,11,20,0.12);
-    --grid-c:  rgba(131,97,255,0.035);
-    --glow-c:  rgba(131,97,255,0.06);
-    --tt-bg:   rgba(13,11,20,0.06);
-    --tt-act:  rgba(13,11,20,0.12);
-  }
+html, body { height: 100%; }
+body {
+  background: #EBEBEB;
+  font-family: 'Inter', 'Pretendard', -apple-system, sans-serif;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
 
-  /* ── DARK ── */
-  [data-theme="dark"] {
-    --bg:      #09090D;
-    --surface: #111118;
-    --border:  #1E1E2A;
-    --text:    #F0EDE8;
-    --muted:   rgba(240,237,232,0.36);
-    --faint:   rgba(240,237,232,0.12);
-    --grid-c:  rgba(131,97,255,0.04);
-    --glow-c:  rgba(131,97,255,0.09);
-    --tt-bg:   rgba(255,255,255,0.06);
-    --tt-act:  rgba(255,255,255,0.13);
-  }
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.06);
+  padding: 44px 40px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
 
-  html, body { height: 100%; }
+/* Luum wordmark */
+.logo-wrap {
+  margin-bottom: 20px;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100%;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.25s, color 0.25s;
-  }
+/* Heading */
+.card-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -.02em;
+  margin-bottom: 28px;
+  font-family: 'Outfit', 'Pretendard', sans-serif;
+}
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--grid-c) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* Google button */
+.btn-google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  background: #FFFFFF;
+  border: 1px solid #E9E8E8;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: background .12s, border-color .12s;
+  margin-bottom: 24px;
+}
+.btn-google:hover { background: #F9FAFB; border-color: #D1D5DB; }
 
-  body::after {
-    content: '';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    width: 600px;
-    height: 400px;
-    background: radial-gradient(ellipse, var(--glow-c) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    animation: breathe 6s ease-in-out infinite;
-  }
+/* Google G SVG */
+.g-icon { flex-shrink: 0; }
 
-  @keyframes breathe {
-    0%, 100% { opacity: 0.7; transform: translate(-50%, -60%) scale(1); }
-    50%       { opacity: 1;   transform: translate(-50%, -60%) scale(1.08); }
-  }
-
-  .card {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 388px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* wordmark — CSS fills for theme adaptation */
-  .luum-svg .lm { fill: var(--text); transition: fill 0.25s; }
-  .luum-svg .uu { fill: var(--accent); }
-
-  .tagline {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 20px;
-    margin-bottom: 48px;
-    transition: color 0.25s;
-  }
-
-  .login-box {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 28px 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: background 0.25s, border-color 0.25s;
-  }
-
-  .login-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    text-align: center;
-    margin-bottom: 6px;
-    letter-spacing: -0.01em;
-  }
-
-  .auth-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 13px 20px;
-    border-radius: 9px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-    border: none;
-    letter-spacing: -0.01em;
-    font-family: inherit;
-  }
-
-  .auth-btn:hover  { opacity: 0.88; transform: translateY(-1px); }
-  .auth-btn:active { opacity: 1;    transform: translateY(0); }
-  .auth-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  .btn-google { background: #FFFFFF; color: #1F1F1F; }
-  .btn-apple  { background: #111111; color: #F5F5F5; border: 1px solid #2A2A2A; }
-
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 4px 0;
-  }
-  .divider-line { flex: 1; height: 1px; background: var(--border); transition: background 0.25s; }
-  .divider-text { font-size: 11px; color: var(--faint); letter-spacing: 0.06em; }
-
-  .sign-on {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    padding: 4px 0;
-    margin-top: 16px;
-    transition: color 0.15s;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    font-family: inherit;
-  }
-  .sign-on:hover { color: var(--text); }
-  .sign-on:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  /* ── Theme toggle ── */
-  .theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    background: var(--tt-bg);
-    border-radius: 8px;
-    padding: 3px;
-    margin-top: 12px;
-    transition: background 0.25s;
-  }
-
-  .tt-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 28px;
-    border: none;
-    background: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: var(--muted);
-    transition: background 0.15s, color 0.15s;
-    font-family: inherit;
-  }
-  .tt-btn:hover { color: var(--text); }
-  .tt-btn.tt-active { background: var(--tt-act); color: var(--text); }
-  .tt-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-
-  .footer {
-    margin-top: 28px;
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.6;
-    transition: color 0.25s;
-  }
-  .footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
-  .footer a:hover { color: var(--text); }
-
-  .copyright {
-    margin-top: 24px;
-    font-size: 11px;
-    color: var(--faint);
-    letter-spacing: 0.04em;
-    transition: color 0.25s;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    body::after { animation: none; }
-    .auth-btn:hover { transform: none; }
-  }
+/* Bottom links */
+.card-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+.card-links a {
+  font-size: 13px;
+  color: #8361FF;
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity .12s;
+}
+.card-links a:hover { opacity: .75; }
+.card-links .sep {
+  width: 1px;
+  height: 12px;
+  background: #E9E8E8;
+}
 </style>
 </head>
 <body>
 
 <div class="card">
 
-  <svg class="luum-svg" width="306" height="54" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path class="lm" d="M-7.7635e-06 8.54401V6.19888e-06H2.39999V8.54401H-7.7635e-06ZM1.95599 8.54401V6.50401H5.95199V8.54401H1.95599Z"/>
-    <path class="uu" d="M15.9222 8.68801C15.1702 8.68801 14.5142 8.53601 13.9542 8.23201C13.3942 7.92001 12.9582 7.49201 12.6462 6.94801C12.3342 6.40401 12.1782 5.78001 12.1782 5.07601V6.19888e-06H14.5782V5.29201C14.5782 5.56401 14.6382 5.79601 14.7582 5.98801C14.8782 6.18001 15.0382 6.32801 15.2382 6.43201C15.4462 6.52801 15.6742 6.57601 15.9222 6.57601C16.1782 6.57601 16.4022 6.52801 16.5942 6.43201C16.7942 6.32801 16.9502 6.18401 17.0622 6.00001C17.1742 5.80801 17.2302 5.57601 17.2302 5.30401V6.19888e-06H19.6422V5.08801C19.6422 5.79201 19.4862 6.41601 19.1742 6.96001C18.8702 7.49601 18.4382 7.92001 17.8782 8.23201C17.3262 8.53601 16.6742 8.68801 15.9222 8.68801Z"/>
-    <path class="uu" d="M30.2486 8.68801C29.4966 8.68801 28.8406 8.53601 28.2806 8.23201C27.7206 7.92001 27.2846 7.49201 26.9726 6.94801C26.6606 6.40401 26.5046 5.78001 26.5046 5.07601V6.19888e-06H28.9046V5.29201C28.9046 5.56401 28.9646 5.79601 29.0846 5.98801C29.2046 6.18001 29.3646 6.32801 29.5646 6.43201C29.7726 6.52801 30.0006 6.57601 30.2486 6.57601C30.5046 6.57601 30.7286 6.52801 30.9206 6.43201C31.1206 6.32801 31.2766 6.18401 31.3886 6.00001C31.5006 5.80801 31.5566 5.57601 31.5566 5.30401V6.19888e-06H33.9686V5.08801C33.9686 5.79201 33.8126 6.41601 33.5006 6.96001C33.1966 7.49601 32.7646 7.92001 32.2046 8.23201C31.6526 8.53601 31.0006 8.68801 30.2486 8.68801Z"/>
-    <path class="lm" d="M40.987 8.54401V6.19888e-06H42.727L45.907 4.65601H45.151L48.319 6.19888e-06H50.059V8.54401H47.683V3.93601L48.031 4.03201L46.291 6.52801H44.755L43.027 4.03201L43.363 3.93601V8.54401H40.987Z"/>
-  </svg>
-
-  <div class="tagline">Weave your work.</div>
-
-  <div class="login-box">
-    <div class="login-title">Sign in to continue</div>
-
-    <button class="auth-btn btn-google" onclick="goToIndex()">
-      <span style="display:flex;align-items:center">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M17.64 9.2045c0-.6381-.0573-1.2518-.1636-1.8409H9v3.4814h4.8436c-.2086 1.125-.8427 2.0782-1.7959 2.7164v2.2581h2.9087c1.7018-1.5668 2.6836-3.874 2.6836-6.615z" fill="#4285F4"/>
-          <path d="M9 18c2.43 0 4.4673-.806 5.9564-2.1805l-2.9087-2.2581c-.8059.54-1.8368.859-3.0477.859-2.344 0-4.3282-1.5836-5.036-3.7104H.9574v2.3318C2.4382 15.9832 5.4818 18 9 18z" fill="#34A853"/>
-          <path d="M3.964 10.71c-.18-.54-.2822-1.1168-.2822-1.71s.1023-1.17.2823-1.71V4.9582H.9573A8.9965 8.9965 0 0 0 0 9c0 1.4514.3477 2.8268.9573 4.0418L3.964 10.71z" fill="#FBBC05"/>
-          <path d="M9 3.5795c1.3214 0 2.5077.4541 3.4405 1.346l2.5813-2.5814C13.4632.8918 11.426 0 9 0 5.4818 0 2.4382 2.0168.9573 4.9582L3.964 7.29C4.6718 5.1632 6.656 3.5795 9 3.5795z" fill="#EA4335"/>
-        </svg>
-      </span>
-      Continue with Google
-    </button>
-
-    <div class="divider">
-      <div class="divider-line"></div>
-      <div class="divider-text">or</div>
-      <div class="divider-line"></div>
-    </div>
-
-    <button class="auth-btn btn-apple" onclick="goToIndex()">
-      <span style="display:flex;align-items:center">
-        <svg width="17" height="17" viewBox="0 0 814 1000" fill="#F5F5F5">
-          <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663.3 0 541.8c0-207.5 135.4-317.3 269-317.3 70.5 0 129.5 46.4 173.3 46.4 42 0 108.6-49.3 190.5-49.3zm-109.6-160.7c-36.9 45.3-99.1 79.9-161.3 79.9-8.3 0-10.3-.6-10.3-8.3 0-56.6 43.1-116.7 87.5-150.3C642.5 67.9 705 42 756 42c5.8 0 10.9.6 10.9 7.7 0 56.3-39.2 115.4-78.4 130.5z"/>
-        </svg>
-      </span>
-      Continue with Apple
-    </button>
+  <!-- Luum wordmark -->
+  <div class="logo-wrap">
+    <svg width="80" height="14" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#111827" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
+      <path fill="#8361FF" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      <path fill="#8361FF" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      <path fill="#111827" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
+    </svg>
   </div>
 
-  <button class="sign-on">Sign On</button>
+  <h1 class="card-title">로그인</h1>
 
-  <div class="theme-toggle" role="group" aria-label="Theme">
-    <button class="tt-btn" data-tt="light" title="Light" onclick="applyTheme('light')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-      </svg>
-    </button>
-    <button class="tt-btn" data-tt="system" title="System" onclick="applyTheme('system')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
-      </svg>
-    </button>
-    <button class="tt-btn" data-tt="dark" title="Dark" onclick="applyTheme('dark')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
-    </button>
+  <!-- Google OAuth -->
+  <button class="btn-google">
+    <svg class="g-icon" width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.85l6.08-6.08C34.56 3.19 29.6 1 24 1 14.72 1 6.86 6.58 3.24 14.44l7.07 5.49C12.08 13.45 17.56 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.64 24.5c0-1.7-.15-3.35-.44-4.95H24v9.36h12.73c-.55 2.96-2.2 5.46-4.68 7.13l7.18 5.57C43.17 37.73 46.64 31.6 46.64 24.5z"/>
+      <path fill="#FBBC05" d="M10.31 28.07A14.6 14.6 0 0 1 9.5 24c0-1.41.2-2.78.54-4.07l-7.07-5.49A22.94 22.94 0 0 0 1 24c0 3.77.9 7.34 2.5 10.5l7.81-6.43z"/>
+      <path fill="#34A853" d="M24 47c6.48 0 11.93-2.14 15.9-5.83l-7.18-5.57c-2.01 1.35-4.59 2.14-8.72 2.14-6.44 0-11.92-3.95-13.69-9.43l-7.81 6.43C6.86 41.42 14.72 47 24 47z"/>
+    </svg>
+    Google로 계속하기
+  </button>
+
+  <!-- Links -->
+  <div class="card-links">
+    <a href="#">회원가입</a>
+    <div class="sep"></div>
+    <a href="#">비밀번호 찾기</a>
   </div>
-
-  <div class="footer">
-    By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-  </div>
-
-  <div class="copyright">© 2026 Edencrew Inc.</div>
 
 </div>
-
-<script>
-function applyTheme(pref) {
-  var mq = window.matchMedia('(prefers-color-scheme: dark)');
-  var resolved = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref;
-  document.documentElement.setAttribute('data-theme', resolved);
-  document.documentElement.setAttribute('data-theme-pref', pref);
-  localStorage.setItem('luum-theme', pref);
-  document.querySelectorAll('.tt-btn').forEach(function(b) {
-    b.classList.toggle('tt-active', b.dataset.tt === pref);
-  });
-}
-
-function goToIndex() {
-  window.location.href = 'luum-index.html';
-}
-
-(function() {
-  var saved = localStorage.getItem('luum-theme') || 'light';
-  applyTheme(saved);
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if (localStorage.getItem('luum-theme') === 'system') applyTheme('system');
-  });
-})();
-</script>
 
 </body>
 </html>

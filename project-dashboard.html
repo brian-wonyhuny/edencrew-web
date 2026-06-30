@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Edencrew Web — Project Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 <script>
 (function(){
   var s = localStorage.getItem('luum-theme');
@@ -62,7 +63,7 @@
 [data-theme="light"] #mmSidePanel { box-shadow: -8px 0 32px rgba(0,0,0,0.12); }
 [data-theme="light"] #teamSidePanel { box-shadow: -8px 0 32px rgba(0,0,0,0.12); }
 [data-theme="light"] #mmNodeToolbar { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
-html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
+html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Inter','Pretendard',-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
 
 .shell { display:grid; grid-template-columns:auto 1fr; grid-template-rows:var(--sh) 1fr; height:100vh; }
 
@@ -290,7 +291,7 @@ input[type="date"], input[type="text"], select {
   outline:none; transition:border-color .15s;
 }
 input[type="date"]:focus, input[type="text"]:focus, select:focus { border-color:var(--p); }
-input[type="date"] { font-variant-numeric:tabular-nums; color-scheme:dark; font-family:'Outfit',system-ui,sans-serif; }
+input[type="date"] { font-variant-numeric:tabular-nums; color-scheme:dark; font-family:'Inter','Pretendard',sans-serif; }
 input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding:2px; border-radius:3px; width:36px; height:28px; cursor:pointer; }
 
 /* milestone table */
