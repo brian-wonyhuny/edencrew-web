@@ -47,9 +47,15 @@ html,body { height:100%; background:var(--bg); color:var(--wh); font-family:syst
 @media(prefers-reduced-motion:reduce){.s-dot{animation:none}}
 
 /* ── Sidebar ── */
-.sidebar { background:var(--s1); border-right:1px solid var(--bd); display:flex; flex-direction:column; overflow:hidden; }
+.sidebar { background:var(--s1); border-right:1px solid var(--bd); display:flex; flex-direction:column; overflow:hidden; position:relative; transition:width .18s ease; }
 .sidebar-scroll { flex:1; overflow-y:auto; overflow-x:hidden; }
 .sidebar-bottom { flex-shrink:0; border-top:1px solid var(--bd); }
+.sidebar-resizer { position:absolute; top:0; right:-3px; width:6px; height:100%; cursor:col-resize; z-index:50; background:transparent; }
+.sidebar-resizer:hover, .sidebar-resizer.dragging { background:var(--p); opacity:.4; border-radius:3px; }
+.shell.sidebar-hidden { grid-template-columns:0 1fr; }
+.shell.sidebar-hidden .sidebar { width:0 !important; overflow:hidden; border-right:none; }
+.sidebar-toggle { background:none; border:none; color:var(--mu); cursor:pointer; font-size:16px; padding:4px 6px; border-radius:3px; line-height:1; display:flex; align-items:center; justify-content:center; transition:color .15s; flex-shrink:0; }
+.sidebar-toggle:hover { color:var(--wh); background:var(--s3); }
 
 /* Milestone card */
 .ms-card { border-bottom:1px solid var(--bd); flex-shrink:0; }
@@ -512,6 +518,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
       <div class="btext">eden<em>crew</em></div>
     </div>
     <div class="strip-body">
+      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="사이드바 토글">&#9776;</button>
       <span class="strip-title">edencrew.com 리뉴얼</span>
       <span class="strip-slash">/</span>
       <span class="strip-phase" id="stripPhase">로딩 중</span>
@@ -523,7 +530,8 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
   </header>
 
   <!-- SIDEBAR -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
+  <div class="sidebar-resizer" id="sidebarResizer"></div>
   <div class="sidebar-scroll">
 
     <!-- 프로젝트 개요 -->
@@ -3079,6 +3087,53 @@ function setDate() {
   document.getElementById('stripDate').textContent =
     `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
 }
+
+// ── Sidebar toggle & resize ──
+const SIDEBAR_MIN = 250, SIDEBAR_MAX = 400;
+
+function toggleSidebar() {
+  const shell = document.querySelector('.shell');
+  const hidden = shell.classList.toggle('sidebar-hidden');
+  localStorage.setItem('ec_sidebar_hidden', hidden ? '1' : '0');
+}
+
+(function initSidebarState() {
+  const sw = parseInt(localStorage.getItem('ec_sidebar_w')) || SIDEBAR_MIN;
+  const hidden = localStorage.getItem('ec_sidebar_hidden') === '1';
+  document.documentElement.style.setProperty('--sw', sw + 'px');
+  if (hidden) document.querySelector('.shell').classList.add('sidebar-hidden');
+})();
+
+(function initResizer() {
+  const resizer = document.getElementById('sidebarResizer');
+  if (!resizer) return;
+  let startX, startW;
+
+  resizer.addEventListener('mousedown', e => {
+    startX = e.clientX;
+    startW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sw')) || SIDEBAR_MIN;
+    resizer.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    function onMove(e) {
+      const dx = e.clientX - startX;
+      const newW = Math.min(SIDEBAR_MAX, Math.max(SIDEBAR_MIN, startW + dx));
+      document.documentElement.style.setProperty('--sw', newW + 'px');
+    }
+    function onUp() {
+      resizer.classList.remove('dragging');
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      const finalW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sw'));
+      localStorage.setItem('ec_sidebar_w', finalW);
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+})();
 
 // ── Mobile tab nav ──
 function mobTab(tabId, viewName) {
