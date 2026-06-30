@@ -1,0 +1,282 @@
+﻿<title>Edencrew Sitemap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0B0D12; --bg2: #111318; --bg3: #161921; --bg4: #1C1F2A;
+    --p: #8361FF; --p2: #A78BFA; --wh: #fff;
+    --mid: rgba(255,255,255,.42); --dim: rgba(255,255,255,.18); --dim2: rgba(255,255,255,.07);
+    --cta1: #FF6B35;
+  }
+  body { background:var(--bg); color:var(--wh); font-family:'Inter',-apple-system,sans-serif; min-height:100vh; padding:48px 32px 80px; line-height:1.4; }
+  .page-header { text-align:center; margin-bottom:64px; }
+  .page-header .eyebrow { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--p2); margin-bottom:12px; }
+  .page-header h1 { font-family:'Montserrat',sans-serif; font-weight:900; font-size:clamp(22px,3vw,32px); color:var(--wh); letter-spacing:-.02em; }
+  .page-header .sub { font-size:13px; color:var(--mid); margin-top:8px; }
+  .legend { display:flex; gap:20px; justify-content:center; margin-bottom:48px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--mid); }
+  .legend-dot { width:10px; height:10px; border-radius:3px; }
+  .tree { max-width:1160px; margin:0 auto; }
+  .root-node { display:flex; justify-content:center; margin-bottom:0; }
+  .node-root { background:var(--p); border-radius:10px; padding:12px 28px; font-family:'Montserrat',sans-serif; font-weight:900; font-size:15px; letter-spacing:-.01em; color:#fff; position:relative; }
+  .connector-gnb { height:32px; position:relative; margin-bottom:0; }
+  .connector-gnb .line-v { position:absolute; left:50%; top:0; width:1px; height:100%; background:var(--dim); }
+  .connector-gnb .line-h { position:absolute; top:100%; left:calc(100%/12); right:calc(100%/12); height:1px; background:var(--dim); }
+  .gnb-row { display:flex; gap:10px; align-items:flex-start; position:relative; }
+  .gnb-menus { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; flex:1; }
+  .gnb-ctas { display:flex; flex-direction:column; gap:10px; min-width:128px; }
+  .gnb-col { display:flex; flex-direction:column; align-items:center; gap:0; }
+  .node-gnb { border:1px solid var(--p); border-radius:8px; padding:9px 12px; font-size:12px; font-weight:700; font-family:'Montserrat',sans-serif; color:var(--wh); text-align:center; width:100%; position:relative; background:rgba(131,97,255,.08); }
+  .node-gnb .url { display:block; font-family:'Inter',sans-serif; font-size:10px; font-weight:400; color:var(--p2); margin-top:3px; letter-spacing:.01em; }
+  .node-cta { border-color:var(--cta1); background:rgba(255,107,53,.08); }
+  .node-cta .url { color:#FF9A6C; }
+  .conn-down { width:1px; height:24px; background:var(--dim); flex-shrink:0; }
+  .sub-pages { display:flex; flex-direction:column; gap:0; align-items:center; width:100%; }
+  .node-sub { background:var(--bg4); border:1px solid var(--dim); border-radius:7px; padding:7px 10px; font-size:11px; color:var(--mid); text-align:center; width:100%; transition:border-color .15s; }
+  .node-sub:hover { border-color:var(--p2); color:var(--wh); }
+  .node-sub .url { display:block; font-size:10px; color:var(--dim); margin-top:2px; font-family:'Inter',monospace; }
+  .node-sub+.node-sub { margin-top:6px; }
+  .sub-group { width:100%; border-left:2px solid var(--dim); padding-left:10px; display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  .badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; }
+  .badge-new { background:rgba(131,97,255,.25); color:var(--p2); }
+  .badge-wip { background:rgba(255,200,0,.15); color:#FFC840; }
+  .badge-cta { background:rgba(255,107,53,.2); color:#FF9A6C; }
+  .badge-modal { background:rgba(255,200,80,.15); color:#FFD580; }
+  .section-divider { border:none; border-top:1px solid var(--dim2); margin:52px auto; max-width:1160px; }
+  .footer-section { max-width:1160px; margin:0 auto; }
+  .footer-section-title { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); text-align:center; margin-bottom:24px; }
+  .footer-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
+  .footer-col-label { font-size:11px; font-weight:700; color:var(--wh); margin-bottom:10px; font-family:'Montserrat',sans-serif; letter-spacing:.02em; }
+  .footer-links { display:flex; flex-direction:column; gap:6px; }
+  .footer-link { font-size:11px; color:var(--mid); padding:5px 8px; background:var(--dim2); border-radius:5px; border:1px solid transparent; transition:border-color .15s; }
+  .footer-link:hover { border-color:var(--dim); color:var(--wh); }
+  .footer-link .url { display:block; font-size:9px; color:var(--dim); font-family:monospace; margin-top:2px; }
+  .footer-strip { max-width:1160px; margin:24px auto 0; display:flex; justify-content:space-between; align-items:center; padding-top:20px; border-top:1px solid var(--dim2); font-size:11px; color:var(--dim); flex-wrap:wrap; gap:12px; }
+  .lang-pills { display:flex; gap:6px; }
+  .lang-pill { border:1px solid var(--dim); border-radius:20px; padding:3px 10px; font-size:11px; color:var(--mid); }
+  .lang-pill.active { border-color:var(--p); color:var(--p2); background:rgba(131,97,255,.1); }
+  .note { max-width:1160px; margin:32px auto 0; background:rgba(131,97,255,.06); border:1px solid rgba(131,97,255,.2); border-radius:10px; padding:16px 20px; font-size:12px; color:var(--mid); line-height:1.7; }
+  .note strong { color:var(--p2); }
+  @media(max-width:900px){.gnb-row{flex-direction:column}.gnb-menus{grid-template-columns:repeat(2,1fr)}.gnb-ctas{flex-direction:row;flex-wrap:wrap}.gnb-ctas .gnb-col{flex:1;min-width:120px}.footer-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<nav style="max-width:1160px;margin:0 auto 36px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+  <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.18);margin-right:4px">사이트맵 →</span>
+  <a href="project-dashboard.html"
+     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);text-decoration:none;">
+    ← 대시보드
+  </a>
+  <a href="sitemap-ecosystem.html"
+     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);text-decoration:none">
+    🌐 Ecosystem Overview
+  </a>
+  <a href="sitemap-teamcloud.html"
+     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);color:#34D399;text-decoration:none">
+    TeamCloud
+  </a>
+  <span style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px dashed rgba(252,211,77,.25);color:rgba(252,211,77,.4);cursor:default">Admin (예정)</span>
+  <span style="margin-left:auto;font-size:10px;padding:5px 10px;border-radius:5px;background:rgba(131,97,255,.15);color:#A78BFA;border:1px solid rgba(131,97,255,.3)">● edencrew.com</span>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Edencrew · Site Architecture</div>
+  <h1>사이트맵 — edencrew.com</h1>
+  <p class="sub">GNB · 페이지 계층 · Footer 구조 | 2026-06-29</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--p)"></div> GNB 메인 메뉴</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cta1)"></div> CTA 버튼</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--bg4);border:1px solid var(--dim)"></div> 서브 페이지</div>
+  <div class="legend-item"><span class="badge badge-wip">WIP</span> 미제작</div>
+  <div class="legend-item"><span class="badge badge-new">NEW</span> 신규 계획</div>
+  <div class="legend-item"><span class="badge badge-modal">팝업</span> 별도 페이지 없음 (Modal)</div>
+</div>
+
+<div class="tree">
+  <div class="root-node">
+    <div class="node-root">edencrew.com <span style="font-weight:400;opacity:.7;font-size:13px">— Home /</span></div>
+  </div>
+  <div class="connector-gnb">
+    <div class="line-v"></div>
+    <div class="line-h"></div>
+  </div>
+  <div class="gnb-row">
+    <div class="gnb-menus">
+      <div class="gnb-col">
+        <div class="node-gnb">Lucy Studio<span class="url">/lucy-studio</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div class="node-sub">Overview<span class="url">/lucy-studio</span></div>
+          <div class="sub-group">
+            <div class="node-sub">Features<span class="url">/lucy-studio#features</span></div>
+            <div class="node-sub">Download <span style="font-size:10px;color:var(--dim)">(Studio + SDK)</span><span class="url">/lucy-studio#download</span></div>
+            <div class="node-sub">Release Notes<span class="url">/lucy-studio#release-notes</span></div>
+            <div class="node-sub">Changelog <span class="badge badge-wip">WIP</span><span class="url">/lucy-studio#changelog</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gnb-col">
+        <div class="node-gnb">Lucy Platform<span class="url">/platform</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div class="node-sub">Overview<span class="url">/platform</span></div>
+          <div class="sub-group">
+            <div class="node-sub">Lucy SDK <span class="badge badge-wip">WIP</span><span class="url">/platform/sdk</span></div>
+            <div class="node-sub">TeamCloud <span class="badge badge-wip">WIP</span><span class="url">/platform/teamcloud</span></div>
+            <div class="node-sub">Lucy Deploy <span class="badge badge-wip">WIP</span><span class="url">/platform/deploy</span></div>
+            <div class="node-sub">Lucy LAMP <span class="badge badge-wip">WIP</span><span class="url">/platform/lamp</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gnb-col">
+        <div class="node-gnb">Resources<span class="url">/resources</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div class="node-sub" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:transparent;border-color:transparent;padding-bottom:2px">LEARN</div>
+          <div class="sub-group">
+            <div class="node-sub">Docs <span class="badge badge-wip">WIP</span><span class="url">/docs</span></div>
+            <div class="node-sub">Academy <span class="badge badge-new">NEW</span><span class="url">/academy</span></div>
+            <div class="node-sub">Blog <span class="badge badge-wip">WIP</span><span class="url">/blog</span></div>
+            <div class="node-sub">Changelog <span class="badge badge-new">NEW</span><span class="url">/changelog</span></div>
+          </div>
+          <div class="node-sub" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:transparent;border-color:transparent;padding-bottom:2px;margin-top:8px">DEVELOPER</div>
+          <div class="sub-group">
+            <div class="node-sub">SDK Reference <span class="badge badge-new">NEW</span><span class="url">/docs/sdk</span></div>
+            <div class="node-sub">LAMP Docs <span class="badge badge-new">NEW</span><span class="url">/docs/lamp</span></div>
+            <div class="node-sub">API Reference <span class="badge badge-new">NEW</span><span class="url">/docs/api</span></div>
+            <div class="node-sub">Community <span class="badge badge-new">NEW</span><span class="url">/community</span></div>
+            <div class="node-sub">Forum <span class="badge badge-new">NEW</span><span class="url">/community/forum</span></div>
+          </div>
+          <div class="node-sub" style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:transparent;border-color:transparent;padding-bottom:2px;margin-top:8px">DISCOVER</div>
+          <div class="sub-group">
+            <div class="node-sub">Case Studies <span class="badge badge-new">NEW</span><span class="url">/cases</span></div>
+            <div class="node-sub">Events <span class="badge badge-new">NEW</span><span class="url">/events</span></div>
+            <div class="sub-group" style="border-left-color:var(--dim2)">
+              <div class="node-sub">We Show Up<span class="url">/events#shows</span></div>
+              <div class="node-sub">Workshops<span class="url">/events#workshops</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gnb-col">
+        <div class="node-gnb">Pricing<span class="url">/pricing</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div class="node-sub">Free · Pro · Team · Enterprise<span class="url">/pricing</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="gnb-ctas">
+      <div class="gnb-col">
+        <div class="node-gnb node-cta">Sign In<span class="url" style="color:#FF9A6C">→ auth.edencrew.com</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div class="node-sub" style="border-color:rgba(255,107,53,.3)">로그인 <span style="font-size:10px;color:var(--dim)">(이메일·소셜)</span><span class="url">auth.edencrew.com/login</span></div>
+          <div class="node-sub" style="border-color:rgba(255,107,53,.3)">회원가입<span class="url">auth.edencrew.com/register</span></div>
+          <div style="margin-top:8px;font-size:10px;color:var(--dim);line-height:1.6;text-align:center">lucy-auth SSO 서버<br>로그인 완료 →<br><span style="color:#FF9A6C">app.edencrew.com</span></div>
+        </div>
+      </div>
+      <div class="gnb-col">
+        <div class="node-gnb node-cta">Contact Sales<span class="url" style="color:#FF9A6C">/contact</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div style="margin-top:0;font-size:11px;color:var(--dim);text-align:center;line-height:1.6">→ <span style="color:#FF9A6C">/contact</span>으로 이동</div>
+          <div class="sub-group" style="margin-top:10px;border-left-color:rgba(255,200,80,.3)">
+            <div class="node-sub" style="border-color:rgba(255,200,80,.2)">Enterprise 문의 <span class="badge badge-modal">팝업</span></div>
+            <div class="node-sub" style="border-color:rgba(255,200,80,.2)">Demo 신청 <span class="badge badge-modal">팝업</span></div>
+            <div class="node-sub" style="border-color:rgba(255,200,80,.2)">파트너 문의 <span class="badge badge-modal">팝업</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gnb-col">
+        <div class="node-gnb node-cta">Download Studio<span class="url" style="color:#FF9A6C">/download</span></div>
+        <div class="conn-down"></div>
+        <div class="sub-pages">
+          <div class="node-sub" style="border-color:rgba(255,107,53,.3)">다운로드 페이지<span class="url">/download</span></div>
+          <div style="margin-top:8px;font-size:11px;color:var(--dim);text-align:center;line-height:1.6">→ <span style="color:var(--p2)">/lucy-studio#download</span>으로 이동</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<div class="footer-section">
+  <div class="footer-section-title">Footer 구조</div>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-label">Product</div>
+      <div class="footer-links">
+        <div class="footer-link">Lucy Studio<span class="url">/lucy-studio</span></div>
+        <div class="footer-link">Lucy Platform<span class="url">/platform</span></div>
+        <div class="footer-link">Lucy SDK<span class="url">/platform/sdk</span></div>
+        <div class="footer-link">Lucy TeamCloud<span class="url">/platform/teamcloud</span></div>
+        <div class="footer-link">Lucy Deploy<span class="url">/platform/deploy</span></div>
+        <div class="footer-link">Lucy LAMP<span class="url">/platform/lamp</span></div>
+        <div class="footer-link">Pricing<span class="url">/pricing</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-label">Resources</div>
+      <div class="footer-links">
+        <div class="footer-link">Docs<span class="url">/docs</span></div>
+        <div class="footer-link">Academy <span class="badge badge-new">NEW</span><span class="url">/academy</span></div>
+        <div class="footer-link">Blog<span class="url">/blog</span></div>
+        <div class="footer-link">Changelog<span class="url">/changelog</span></div>
+        <div class="footer-link">Case Studies<span class="url">/cases</span></div>
+        <div class="footer-link">Events <span class="badge badge-new">NEW</span><span class="url">/events</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-label">Developer</div>
+      <div class="footer-links">
+        <div class="footer-link">SDK Reference<span class="url">/docs/sdk</span></div>
+        <div class="footer-link">LAMP Docs<span class="url">/docs/lamp</span></div>
+        <div class="footer-link">API Reference<span class="url">/docs/api</span></div>
+        <div class="footer-link">Platform Status<span class="url">/status</span></div>
+        <div class="footer-link">Community<span class="url">/community</span></div>
+        <div class="footer-link">Forum<span class="url">/community/forum</span></div>
+        <div class="footer-link">Help Center<span class="url">/support/help</span></div>
+        <div class="footer-link">Discord<span class="url">/support/discord</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-label">Company</div>
+      <div class="footer-links">
+        <div class="footer-link">About Edencrew<span class="url">/about</span></div>
+        <div class="footer-link">Careers (채용)<span class="url">/careers</span></div>
+        <div class="footer-link">Press<span class="url">/press</span></div>
+        <div class="footer-link">Contact<span class="url">/contact</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-label">Legal</div>
+      <div class="footer-links">
+        <div class="footer-link">Privacy Policy<span class="url">/legal/privacy</span></div>
+        <div class="footer-link">Terms of Service<span class="url">/legal/terms</span></div>
+        <div class="footer-link">Cookie Policy<span class="url">/legal/cookies</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-strip">
+    <div>© 2026 Edencrew Inc. All rights reserved.</div>
+    <div class="lang-pills">
+      <div class="lang-pill active">KO</div>
+      <div class="lang-pill">EN</div>
+      <div class="lang-pill">JP</div>
+    </div>
+    <div class="lang-pills" style="margin-left:12px">
+      <div class="lang-pill active">Dark</div>
+      <div class="lang-pill">Light</div>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <strong>GNB 확정:</strong> Lucy Studio · Lucy Platform · Resources · Pricing · [Sign In] · [Contact Sales] · [Download Studio]<br>
+  <strong>Auth 구조:</strong> Sign In 클릭 → <strong>auth.edencrew.com</strong> (lucy-auth SSO 서버) → 로그인·회원가입 처리 → app.edencrew.com (TeamCloud)<br>
+  <strong>미결 사항:</strong> /jp 일본어 서브페이지 구조<br>
+  <strong>확정:</strong> Contact Sales CTA → /contact 이동 · Download Studio CTA → /lucy-studio#download 이동
+</div>

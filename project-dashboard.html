@@ -447,6 +447,8 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 .btn-upload:hover { border-color:var(--p); color:var(--wh); }
 .btn-tmpl   { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; border-radius:3px; font-size:11px; font-weight:600; font-family:inherit; cursor:pointer; background:none; border:1px solid var(--bd2); color:var(--mu); transition:all .15s; }
 .btn-tmpl:hover { color:var(--wh); border-color:var(--bd); }
+.btn-back { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:4px; font-size:14px; font-weight:600; font-family:inherit; cursor:pointer; background:var(--s2); border:1px solid var(--bd); color:var(--mu); transition:all .15s; flex-shrink:0; margin-bottom:12px; }
+.btn-back:hover { color:var(--wh); border-color:var(--p); background:var(--s3); }
 </style>
 </head>
 <body>
@@ -521,13 +523,13 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
         <span class="nsh-chev">▲</span>
       </div>
       <div class="nav-items">
-        <a class="nav-item" href="https://claude.ai/code/artifact/c65c1fd7-9d60-48ab-829f-fb438cb4cd2b" target="_blank" rel="noopener">
+        <a class="nav-item" href="sitemap-ecosystem.html">
           <span class="sub-arr">└</span>Ecosystem <span class="nav-badge nb-ok">v2</span>
         </a>
-        <a class="nav-item" href="https://claude.ai/code/artifact/46bd288b-bb9e-42ed-b845-12dca0a3d3f5" target="_blank" rel="noopener">
+        <a class="nav-item" href="sitemap-edencrew.html">
           <span class="sub-arr">└</span>edencrew.com <span class="nav-badge nb-ok">v29</span>
         </a>
-        <a class="nav-item" href="https://claude.ai/code/artifact/a53d6cb5-fbfe-4e54-8140-93a29629cdb1" target="_blank" rel="noopener">
+        <a class="nav-item" href="sitemap-teamcloud.html">
           <span class="sub-arr">└</span>TeamCloud <span class="nav-badge nb-ok">v2</span>
         </a>
         <a class="nav-item disabled">
@@ -1367,6 +1369,20 @@ function showView(name) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   const target = document.getElementById('view-' + name);
   if (target) target.classList.add('active');
+
+  // 서브 뷰 < 백 버튼 자동 주입
+  document.querySelectorAll('.view-back-btn').forEach(b => b.remove());
+  if (name !== 'overview') {
+    const firstChild = target && target.firstElementChild;
+    if (firstChild) {
+      const btn = document.createElement('button');
+      btn.className = 'btn-back view-back-btn';
+      btn.textContent = '<';
+      btn.title = '대시보드로';
+      btn.onclick = () => showView('overview');
+      target.insertBefore(btn, firstChild);
+    }
+  }
 
   // Populate on open
   if (name === 'overview')           renderOverview();

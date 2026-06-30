@@ -1,0 +1,240 @@
+﻿<title>TeamCloud Sitemap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:#0B0D12; --bg2:#111318; --bg3:#161921; --bg4:#1C1F2A;
+    --p:#8361FF; --p2:#A78BFA; --wh:#fff;
+    --mid:rgba(255,255,255,.42); --dim:rgba(255,255,255,.18); --dim2:rgba(255,255,255,.07);
+    --cta:#FF6B35; --green:#34D399; --yellow:#FCD34D; --blue:#60A5FA;
+  }
+  body { background:var(--bg); color:var(--wh); font-family:'Inter',-apple-system,sans-serif; min-height:100vh; padding:48px 32px 80px; line-height:1.4; }
+  .page-header { text-align:center; margin-bottom:52px; }
+  .page-header .eyebrow { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--p2); margin-bottom:10px; }
+  .page-header h1 { font-family:'Montserrat',sans-serif; font-weight:900; font-size:clamp(20px,3vw,30px); color:var(--wh); letter-spacing:-.02em; }
+  .page-header .sub { font-size:12px; color:var(--mid); margin-top:8px; }
+  .legend { display:flex; gap:18px; justify-content:center; margin-bottom:44px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--mid); }
+  .legend-dot { width:10px; height:10px; border-radius:3px; }
+  .badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; }
+  .badge-new { background:rgba(131,97,255,.25); color:var(--p2); }
+  .badge-post { background:rgba(96,165,250,.2); color:var(--blue); }
+  .badge-admin { background:rgba(252,211,77,.15); color:var(--yellow); }
+  .badge-wip { background:rgba(255,200,0,.15); color:#FFC840; }
+  .root-wrap { max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:40px; }
+  .auth-block { display:flex; align-items:flex-start; gap:0; }
+  .auth-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); writing-mode:vertical-rl; transform:rotate(180deg); margin-right:14px; padding:8px 0; }
+  .auth-cards { display:flex; gap:10px; flex-wrap:wrap; }
+  .auth-card { background:var(--bg3); border:1px solid rgba(131,97,255,.3); border-radius:8px; padding:10px 14px; min-width:140px; text-align:center; }
+  .auth-card .card-title { font-size:12px; font-weight:700; font-family:'Montserrat',sans-serif; color:var(--p2); margin-bottom:3px; }
+  .auth-card .card-url { font-size:10px; color:var(--dim); font-family:monospace; }
+  .auth-domain { font-size:10px; font-weight:600; color:var(--p); background:rgba(131,97,255,.1); border:1px solid rgba(131,97,255,.25); border-radius:5px; padding:3px 8px; margin-bottom:10px; display:inline-block; }
+  .app-block { display:flex; gap:20px; align-items:flex-start; }
+  .sidebar-col { width:200px; flex-shrink:0; }
+  .sidebar-header { background:var(--p); border-radius:8px; padding:10px 14px; font-family:'Montserrat',sans-serif; font-weight:900; font-size:12px; color:#fff; text-align:center; margin-bottom:10px; }
+  .sidebar-domain { font-size:10px; font-weight:400; opacity:.8; display:block; margin-top:2px; font-family:'Inter',sans-serif; }
+  .sidebar-nav { display:flex; flex-direction:column; gap:4px; }
+  .nav-item { background:var(--bg3); border:1px solid var(--dim); border-radius:7px; padding:9px 12px; font-size:12px; font-weight:600; color:var(--mid); display:flex; align-items:center; gap:8px; cursor:default; transition:border-color .15s; position:relative; }
+  .nav-item:hover { border-color:var(--p2); color:var(--wh); }
+  .nav-item.active { border-color:var(--p); background:rgba(131,97,255,.1); color:var(--wh); }
+  .nav-icon { font-size:14px; opacity:.8; flex-shrink:0; }
+  .nav-badge { margin-left:auto; font-size:9px; font-weight:700; padding:2px 5px; border-radius:3px; background:rgba(131,97,255,.25); color:var(--p2); }
+  .nav-section-label { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); padding:8px 4px 4px; }
+  .content-area { flex:1; display:flex; flex-direction:column; gap:16px; }
+  .screen-group { background:var(--bg2); border:1px solid var(--dim2); border-radius:12px; overflow:hidden; }
+  .screen-group-header { background:var(--bg3); border-bottom:1px solid var(--dim2); padding:10px 16px; display:flex; align-items:center; gap:10px; }
+  .screen-group-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:12px; color:var(--wh); }
+  .screen-group-url { font-size:10px; color:var(--dim); font-family:monospace; margin-left:auto; }
+  .screen-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; padding:14px; }
+  .screen-card { background:var(--bg4); border:1px solid var(--dim); border-radius:8px; padding:10px 12px; transition:border-color .15s; }
+  .screen-card:hover { border-color:var(--p2); }
+  .screen-card .sc-title { font-size:11px; font-weight:600; color:var(--wh); margin-bottom:3px; }
+  .screen-card .sc-url { font-size:9px; color:var(--dim); font-family:monospace; display:block; margin-bottom:4px; }
+  .screen-card .sc-desc { font-size:10px; color:var(--mid); line-height:1.4; }
+  .role-tag { display:inline-block; font-size:9px; font-weight:600; padding:1px 5px; border-radius:3px; margin-top:4px; }
+  .role-all { background:rgba(52,211,153,.15); color:var(--green); }
+  .role-pm { background:rgba(131,97,255,.2); color:var(--p2); }
+  .role-admin { background:rgba(252,211,77,.15); color:var(--yellow); }
+  .post-beta-section { background:rgba(96,165,250,.04); border:1px dashed rgba(96,165,250,.25); border-radius:12px; padding:14px; }
+  .post-beta-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+  .post-beta-label::after { content:''; flex:1; height:1px; background:rgba(96,165,250,.2); }
+  .post-beta-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; }
+  .post-beta-card { background:rgba(96,165,250,.06); border:1px solid rgba(96,165,250,.2); border-radius:8px; padding:10px 12px; }
+  .post-beta-card .sc-title { color:var(--blue); }
+  .note { max-width:1200px; margin:32px auto 0; background:rgba(131,97,255,.06); border:1px solid rgba(131,97,255,.2); border-radius:10px; padding:16px 20px; font-size:12px; color:var(--mid); line-height:1.7; }
+  .note strong { color:var(--p2); }
+  @media(max-width:860px){.app-block{flex-direction:column}.sidebar-col{width:100%}.sidebar-nav{flex-direction:row;flex-wrap:wrap}}
+</style>
+
+<nav style="max-width:1200px;margin:0 auto 36px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+  <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.18);margin-right:4px">사이트맵 →</span>
+  <a href="project-dashboard.html"
+     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);text-decoration:none;">
+    ← 대시보드
+  </a>
+  <a href="sitemap-ecosystem.html"
+     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);text-decoration:none">
+    🌐 Ecosystem Overview
+  </a>
+  <a href="sitemap-edencrew.html"
+     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(131,97,255,.4);background:rgba(131,97,255,.1);color:#A78BFA;text-decoration:none">
+    edencrew.com
+  </a>
+  <span style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px dashed rgba(252,211,77,.25);color:rgba(252,211,77,.4);cursor:default">Admin (예정)</span>
+  <span style="margin-left:auto;font-size:10px;padding:5px 10px;border-radius:5px;background:rgba(52,211,153,.12);color:#34D399;border:1px solid rgba(52,211,153,.3)">● TeamCloud</span>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Lucy TeamCloud · app.edencrew.com</div>
+  <h1>TeamCloud 사이트맵</h1>
+  <p class="sub">화면 계층 · 역할별 접근 · 기능 범위 | 2026-06-29</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> 전체 역할</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--p)"></div> PM 이상</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Super Admin</div>
+  <div class="legend-item"><span class="badge badge-post">Post-Beta</span> Open Beta 이후</div>
+  <div class="legend-item"><span class="badge badge-wip">WIP</span> 미구현</div>
+</div>
+
+<div class="root-wrap">
+
+  <div class="auth-block">
+    <div class="auth-label">Auth Server</div>
+    <div>
+      <div style="margin-bottom:10px">
+        <span class="auth-domain">auth.edencrew.com</span>
+        <span style="font-size:11px;color:var(--dim);margin-left:8px">lucy-auth SSO — 독립 인증 서버 (이미 완성)</span>
+      </div>
+      <div class="auth-cards">
+        <div class="auth-card"><div class="card-title">로그인</div><div class="card-url">/login</div></div>
+        <div class="auth-card"><div class="card-title">회원가입</div><div class="card-url">/register</div></div>
+        <div class="auth-card"><div class="card-title">이메일 인증</div><div class="card-url">/verify-email</div></div>
+        <div class="auth-card"><div class="card-title">비밀번호 재설정</div><div class="card-url">/forgot-password<br>/reset-password</div></div>
+        <div class="auth-card" style="border-color:rgba(252,211,77,.3)"><div class="card-title" style="color:var(--yellow)">Google 로그인</div><div class="card-url">OAuth2 SSO</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:11px;color:var(--dim)">
+    로그인 완료 → <span style="color:var(--p2)">app.edencrew.com/dashboard</span> 로 redirect
+  </div>
+
+  <div class="app-block">
+    <div class="sidebar-col">
+      <div class="sidebar-header">Lucy TeamCloud<span class="sidebar-domain">app.edencrew.com</span></div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">메인</div>
+        <div class="nav-item active"><span class="nav-icon">⬛</span> Dashboard</div>
+        <div class="nav-item"><span class="nav-icon">📁</span> Projects</div>
+        <div class="nav-section-label">조직</div>
+        <div class="nav-item"><span class="nav-icon">👥</span> Members</div>
+        <div class="nav-item"><span class="nav-icon">🔗</span> Git Integrations</div>
+        <div class="nav-section-label">계정</div>
+        <div class="nav-item"><span class="nav-icon">💳</span> Billing<span class="nav-badge">Beta+</span></div>
+        <div class="nav-item"><span class="nav-icon">⚙️</span> Settings</div>
+        <div class="nav-section-label" style="color:var(--yellow)">관리자</div>
+        <div class="nav-item" style="border-color:rgba(252,211,77,.2)"><span class="nav-icon">🛡️</span> Admin Panel<span class="nav-badge" style="background:rgba(252,211,77,.15);color:var(--yellow)">SA</span></div>
+        <div class="nav-section-label" style="color:var(--blue)">Post-Beta</div>
+        <div class="nav-item" style="border-color:rgba(96,165,250,.2);color:rgba(96,165,250,.6)"><span class="nav-icon">🚀</span> Deploy</div>
+        <div class="nav-item" style="border-color:rgba(96,165,250,.2);color:rgba(96,165,250,.6)"><span class="nav-icon">💬</span> Community</div>
+        <div class="nav-item" style="border-color:rgba(96,165,250,.2);color:rgba(96,165,250,.6)"><span class="nav-icon">📚</span> Learn</div>
+      </div>
+    </div>
+
+    <div class="content-area">
+
+      <div class="screen-group">
+        <div class="screen-group-header"><div class="screen-group-title">⬛ Dashboard</div><div class="screen-group-url">/dashboard</div></div>
+        <div class="screen-cards">
+          <div class="screen-card"><div class="sc-title">Overview</div><span class="sc-url">/dashboard</span><div class="sc-desc">전체 프로젝트 현황<br>진행 중/완료 요약</div><span class="role-tag role-all">전체</span></div>
+          <div class="screen-card"><div class="sc-title">Notifications</div><span class="sc-url">/dashboard/notifications</span><div class="sc-desc">실시간 알림<br>공지사항 수신</div><span class="role-tag role-all">전체</span></div>
+          <div class="screen-card"><div class="sc-title">Profile</div><span class="sc-url">/dashboard/profile</span><div class="sc-desc">개인정보 · 비밀번호<br>Personal Access Token</div><span class="role-tag role-all">전체</span></div>
+        </div>
+      </div>
+
+      <div class="screen-group">
+        <div class="screen-group-header"><div class="screen-group-title">📁 Projects</div><div class="screen-group-url">/projects</div></div>
+        <div class="screen-cards">
+          <div class="screen-card"><div class="sc-title">Project List</div><span class="sc-url">/projects</span><div class="sc-desc">내 프로젝트 목록<br>생성 / 검색</div><span class="role-tag role-all">전체</span></div>
+          <div class="screen-card"><div class="sc-title">Project Overview</div><span class="sc-url">/projects/:id</span><div class="sc-desc">프로젝트 현황<br>Studio 산출물 목록</div><span class="role-tag role-all">전체</span></div>
+          <div class="screen-card"><div class="sc-title">Files / Assets</div><span class="sc-url">/projects/:id/files</span><div class="sc-desc">산출물 파일 관리<br>버전별 이력</div><span class="role-tag role-all">전체</span></div>
+          <div class="screen-card"><div class="sc-title">Git</div><span class="sc-url">/projects/:id/git</span><div class="sc-desc">External Git 연동<br>Branch · Commit · Tag</div><span class="role-tag role-pm">PM+</span></div>
+          <div class="screen-card"><div class="sc-title">Members</div><span class="sc-url">/projects/:id/members</span><div class="sc-desc">프로젝트 멤버 관리<br>역할 배정</div><span class="role-tag role-pm">PM+</span></div>
+          <div class="screen-card"><div class="sc-title">Notices</div><span class="sc-url">/projects/:id/notices</span><div class="sc-desc">공지사항 발송<br>MQTT 실시간 전달</div><span class="role-tag role-pm">PM+</span></div>
+          <div class="screen-card"><div class="sc-title">Project Settings</div><span class="sc-url">/projects/:id/settings</span><div class="sc-desc">프로젝트 정보 수정<br>저장소 연결 설정</div><span class="role-tag role-pm">PM+</span></div>
+        </div>
+      </div>
+
+      <div class="screen-group">
+        <div class="screen-group-header"><div class="screen-group-title">👥 Members</div><div class="screen-group-url">/members</div></div>
+        <div class="screen-cards">
+          <div class="screen-card"><div class="sc-title">Member List</div><span class="sc-url">/members</span><div class="sc-desc">조직 전체 멤버<br>역할 조회</div><span class="role-tag role-all">전체</span></div>
+          <div class="screen-card"><div class="sc-title">Invite Member</div><span class="sc-url">/members/invite</span><div class="sc-desc">이메일 초대<br>역할 지정</div><span class="role-tag role-pm">PM+</span></div>
+          <div class="screen-card"><div class="sc-title">RBAC 권한 관리</div><span class="sc-url">/members/roles</span><div class="sc-desc">Permission-Based RBAC<br>역할별 권한 정의</div><span class="role-tag role-admin">Super Admin</span></div>
+        </div>
+      </div>
+
+      <div class="screen-group">
+        <div class="screen-group-header"><div class="screen-group-title">🔗 Git Integrations</div><div class="screen-group-url">/integrations/git</div></div>
+        <div class="screen-cards">
+          <div class="screen-card"><div class="sc-title">Connected Repos</div><span class="sc-url">/integrations/git</span><div class="sc-desc">연결된 Git 저장소 목록<br>GitHub · GitLab</div><span class="role-tag role-pm">PM+</span></div>
+          <div class="screen-card"><div class="sc-title">Add Repository</div><span class="sc-url">/integrations/git/add</span><div class="sc-desc">External Git 연결<br>Webhook 설정</div><span class="role-tag role-pm">PM+</span></div>
+          <div class="screen-card"><div class="sc-title">Service Account</div><span class="sc-url">/integrations/service-account</span><div class="sc-desc">Service Account<br>Personal Access Token</div><span class="role-tag role-pm">PM+</span></div>
+        </div>
+      </div>
+
+      <div class="screen-group">
+        <div class="screen-group-header"><div class="screen-group-title">💳 Billing</div><div class="screen-group-url">/billing</div><span class="badge badge-post" style="margin-left:8px">Open Beta+</span></div>
+        <div class="screen-cards">
+          <div class="screen-card" style="border-color:rgba(96,165,250,.2)"><div class="sc-title">Plan Overview</div><span class="sc-url">/billing</span><div class="sc-desc">현재 플랜 · Seat 현황</div><span class="role-tag role-admin">Admin+</span></div>
+          <div class="screen-card" style="border-color:rgba(96,165,250,.2)"><div class="sc-title">Upgrade Plan</div><span class="sc-url">/billing/upgrade</span><div class="sc-desc">Stripe Checkout 연동</div><span class="role-tag role-admin">Admin+</span></div>
+          <div class="screen-card" style="border-color:rgba(96,165,250,.2)"><div class="sc-title">Invoices</div><span class="sc-url">/billing/invoices</span><div class="sc-desc">인보이스 목록<br>결제 이력</div><span class="role-tag role-admin">Admin+</span></div>
+        </div>
+      </div>
+
+      <div class="screen-group">
+        <div class="screen-group-header"><div class="screen-group-title">⚙️ Settings</div><div class="screen-group-url">/settings</div></div>
+        <div class="screen-cards">
+          <div class="screen-card"><div class="sc-title">Organization</div><span class="sc-url">/settings/org</span><div class="sc-desc">조직(테넌트) 정보<br>이름 · 로고</div><span class="role-tag role-pm">Admin+</span></div>
+          <div class="screen-card"><div class="sc-title">Security</div><span class="sc-url">/settings/security</span><div class="sc-desc">2FA · 세션 관리<br>API Key 관리</div><span class="role-tag role-pm">Admin+</span></div>
+          <div class="screen-card"><div class="sc-title">Notifications</div><span class="sc-url">/settings/notifications</span><div class="sc-desc">알림 채널 설정<br>Slack · 이메일</div><span class="role-tag role-all">전체</span></div>
+        </div>
+      </div>
+
+      <div class="screen-group" style="border-color:rgba(252,211,77,.15)">
+        <div class="screen-group-header" style="background:rgba(252,211,77,.05);border-bottom-color:rgba(252,211,77,.1)">
+          <div class="screen-group-title" style="color:var(--yellow)">🛡️ Admin Panel</div>
+          <span style="font-size:10px;color:var(--yellow);opacity:.7">Super Admin 전용</span>
+          <div class="screen-group-url">/admin</div>
+        </div>
+        <div class="screen-cards">
+          <div class="screen-card" style="border-color:rgba(252,211,77,.2)"><div class="sc-title">Users</div><span class="sc-url">/admin/users</span><div class="sc-desc">전체 사용자 관리<br>계정 활성/비활성</div><span class="role-tag role-admin">Super Admin</span></div>
+          <div class="screen-card" style="border-color:rgba(252,211,77,.2)"><div class="sc-title">Organizations</div><span class="sc-url">/admin/orgs</span><div class="sc-desc">전체 테넌트 조회<br>플랜 강제 변경</div><span class="role-tag role-admin">Super Admin</span></div>
+          <div class="screen-card" style="border-color:rgba(252,211,77,.2)"><div class="sc-title">All Projects</div><span class="sc-url">/admin/projects</span><div class="sc-desc">전체 프로젝트 조회<br>PM 지정 · 강제 설정</div><span class="role-tag role-admin">Super Admin</span></div>
+          <div class="screen-card" style="border-color:rgba(252,211,77,.2)"><div class="sc-title">License</div><span class="sc-url">/admin/license</span><div class="sc-desc">NH 라이선스 발급<br>On-prem 라이선스 관리</div><span class="role-tag role-admin">Super Admin</span></div>
+        </div>
+      </div>
+
+      <div class="post-beta-section">
+        <div class="post-beta-label">Post-Beta 기능</div>
+        <div class="post-beta-cards">
+          <div class="post-beta-card"><div class="sc-title">🚀 Deploy</div><span class="sc-url">/projects/:id/deploy</span><div class="sc-desc" style="color:var(--mid);font-size:10px;margin-top:4px">Git 산출물 배포 Orchestrator<br>dev · staging · prod 환경</div><span class="badge badge-post" style="margin-top:6px">Post-Beta</span></div>
+          <div class="post-beta-card"><div class="sc-title">💬 Community</div><span class="sc-url">/community</span><div class="sc-desc" style="color:var(--mid);font-size:10px;margin-top:4px">공지 · Q&A · 사례 공유</div><span class="badge badge-post" style="margin-top:6px">Post-Beta</span></div>
+          <div class="post-beta-card"><div class="sc-title">📚 Learn</div><span class="sc-url">/learn</span><div class="sc-desc" style="color:var(--mid);font-size:10px;margin-top:4px">Quick Start · 튜토리얼<br>동영상 · Release Note</div><span class="badge badge-post" style="margin-top:6px">Post-Beta</span></div>
+          <div class="post-beta-card"><div class="sc-title">🏢 On-prem 패키지</div><span class="sc-url">—</span><div class="sc-desc" style="color:var(--mid);font-size:10px;margin-top:4px">Enterprise On-prem 배포<br>SSO · 고급 보안 정책</div><span class="badge badge-post" style="margin-top:6px">Post-Beta</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="note">
+  <strong>역할 구조:</strong> Super Admin (전체 관리) · PM / Admin (프로젝트·조직 관리) · Member (일반 사용)<br>
+  <strong>URL:</strong> 현재 cloud.edencrew.io → 향후 app.edencrew.com<br>
+  <strong>인증:</strong> auth.edencrew.com (lucy-auth SSO) — 로그인 완료 후 /dashboard redirect<br>
+  <strong>Phase:</strong> Close Alpha 2026.06 · Open Beta 2026.09 · Post-Beta (Deploy · Community · Billing 고도화)
+</div>

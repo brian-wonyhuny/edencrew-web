@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animation Compare</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#080808; font-family:'Inter',sans-serif; color:#F0EDE8; }
+
+/* 탭 네비 */
+.tabs {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; gap:0;
+  background:#0D0D0D; border-bottom:1px solid rgba(255,255,255,.08);
+}
+.tab {
+  flex:1; padding:16px 0; text-align:center;
+  font-size:13px; font-weight:600; color:rgba(240,237,232,.4);
+  cursor:pointer; border:none; background:none;
+  border-bottom:2px solid transparent; transition:all .2s;
+}
+.tab.on { color:#F0EDE8; border-bottom-color:#8361FF; }
+.tab:hover { color:#F0EDE8; }
+
+/* 섹션 공통 */
+.scene {
+  display:none; position:relative;
+  width:100%; height:100vh; overflow:hidden;
+  align-items:center; justify-content:center; flex-direction:column;
+}
+.scene.on { display:flex; }
+
+.content {
+  position:relative; z-index:2; text-align:center; padding:0 40px;
+}
+h1 {
+  font-family:'Montserrat',sans-serif;
+  font-size:64px; font-weight:900; line-height:1.05; letter-spacing:-.04em;
+  margin-bottom:20px; min-height:140px;
+}
+h1 em { color:#8361FF; font-style:normal; }
+.sub { font-size:18px; color:rgba(240,237,232,.45); margin-bottom:8px; }
+.label {
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(240,237,232,.2); margin-bottom:40px;
+}
+
+/* 커서 */
+#tc1, #tc2, #tc3 {
+  display:inline-block; width:3px; height:.82em;
+  background:#8361FF; border-radius:2px;
+  margin-left:4px; vertical-align:middle;
+  animation:cur 1s step-end infinite;
+}
+@keyframes cur { 50%{opacity:0} }
+
+/* ───────────────────────────────────
+   1. WAVE (SVG 사인 곡선)
+─────────────────────────────────── */
+#scene1 svg {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+.wave-path {
+  fill:none; stroke-width:1.5;
+}
+
+/* ───────────────────────────────────
+   2. MORPH (SVG path 모핑)
+─────────────────────────────────── */
+#scene2 { background:#080808; }
+#scene2 canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+
+/* ───────────────────────────────────
+   3. ORB TRAIL (빛나는 궤적)
+─────────────────────────────────── */
+#scene3 canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+</style>
+</head>
+<body>
+
+<div class="tabs">
+  <button class="tab on" onclick="show(1)">① Wave — 물결 곡선</button>
+  <button class="tab"    onclick="show(2)">② Morph — 변형 선</button>
+  <button class="tab"    onclick="show(3)">③ Orb Trail — 빛나는 궤적</button>
+</div>
+
+<!-- ① WAVE -->
+<div class="scene on" id="scene1">
+  <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <!-- JS로 그릴 예정 -->
+  </svg>
+  <div class="content">
+    <div class="label">① Wave — 물결치는 선</div>
+    <h1 id="t1"></h1>
+    <p class="sub">여러 선이 위아래로 물결치며 움직임</p>
+  </div>
+</div>
+
+<!-- ② MORPH -->
+<div class="scene" id="scene2">
+  <canvas id="c2"></canvas>
+  <div class="content">
+    <div class="label">② Morph — 선이 구불구불 변형됨</div>
+    <h1 id="t2"></h1>
+    <p class="sub">선의 모양 자체가 변하면서 춤추는 느낌</p>
+  </div>
+</div>
+
+<!-- ③ ORB TRAIL -->
+<div class="scene" id="scene3">
+  <canvas id="c3"></canvas>
+  <div class="content">
+    <div class="label">③ Orb Trail — 밝은 점이 곡선을 그리며 이동</div>
+    <h1 id="t3"></h1>
+    <p class="sub">빛나는 오브가 궤적을 남기며 흐름</p>
+  </div>
+</div>
+
+<script>
+// ── 탭 전환 ──
+function show(n) {
+  document.querySelectorAll('.scene').forEach((s,i) => s.classList.toggle('on', i===n-1));
+  document.querySelectorAll('.tab').forEach((t,i)  => t.classList.toggle('on',  i===n-1));
+}
+
+// ── 타이핑 공통 ──
+function startTyping(el) {
+  if (!el) return;
+  var parts = ['Turn project experience', '\ninto ', 'platform assets'];
+  var isEm  = [false, false, true];
+  var cur   = document.createElement('span');
+  cur.style.cssText = 'display:inline-block;width:3px;height:.82em;background:#8361FF;border-radius:2px;margin-left:4px;vertical-align:middle;animation:cur 1s step-end infinite;';
+  var pi=0, ci=0, done=[];
+  function render(){
+    el.innerHTML='';
+    for(var i=0;i<done.length;i++){
+      var t=parts[i];
+      if(t==='\ninto '){
+        el.appendChild(document.createTextNode('Turn project experience'));
+        el.appendChild(document.createElement('br'));
+        el.appendChild(document.createTextNode('into '));
+      } else {
+        var nd = isEm[i] ? document.createElement('em') : document.createTextNode(t);
+        if(isEm[i]) nd.textContent=t;
+        el.appendChild(nd);
+      }
+    }
+    if(pi<parts.length){
+      var p=parts[pi];
+      if(p==='\ninto '){
+        // 줄바꿈+into 타이핑 중
+        var full='Turn project experience\ninto ';
+        var before=full.slice(0,done.reduce((a,_,i2)=>a+parts[i2].length,0)+ci);
+        var lines=before.split('\n');
+        el.appendChild(document.createTextNode(lines[0]));
+        if(lines[1]!==undefined){el.appendChild(document.createElement('br'));el.appendChild(document.createTextNode(lines[1]));}
+      } else {
+        var nd2=isEm[pi]?document.createElement('em'):null;
+        var tx=p.slice(0,ci);
+        if(nd2){nd2.textContent=tx;el.appendChild(nd2);}
+        else el.appendChild(document.createTextNode(tx));
+      }
+    }
+    el.appendChild(cur);
+  }
+  function type(){
+    if(pi>=parts.length){setTimeout(()=>cur.remove(),3000);return;}
+    ci++;
+    if(ci>parts[pi].length){done.push(parts[pi]);pi++;ci=0;render();setTimeout(type,pi===1?420:80);return;}
+    render();
+    setTimeout(type,Math.random()*55+85);
+  }
+  el.appendChild(cur);
+  setTimeout(type,700);
+}
+
+// ── ① WAVE ──
+(function(){
+  var svg = document.querySelector('#scene1 svg');
+  var W,H, paths=[], time=0;
+  var COLORS=['rgba(131,97,255,', 'rgba(160,130,255,', 'rgba(100,70,220,'];
+  var WAVES=[
+    {amp:60, freq:.008, speed:.018, phase:0,   y:.2, alpha:.18},
+    {amp:45, freq:.010, speed:.022, phase:1.5, y:.35, alpha:.14},
+    {amp:80, freq:.006, speed:.014, phase:0.8, y:.5,  alpha:.20},
+    {amp:35, freq:.012, speed:.026, phase:2.2, y:.65, alpha:.12},
+    {amp:55, freq:.009, speed:.016, phase:1.0, y:.78, alpha:.16},
+  ];
+
+  function resize(){
+    W=window.innerWidth; H=window.innerHeight;
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML='';
+    paths=[];
+    WAVES.forEach(function(w,i){
+      var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      var c=COLORS[i%COLORS.length];
+      p.setAttribute('stroke', c+w.alpha+')');
+      p.setAttribute('fill','none');
+      p.setAttribute('stroke-width', i===2?2:1.2);
+      svg.appendChild(p);
+      paths.push(p);
+    });
+  }
+
+  function buildPath(w){
+    var pts=['M 0 '+(H*w.y)];
+    for(var x=0;x<=W;x+=6){
+      var y=H*w.y + Math.sin(x*w.freq + time*w.speed + w.phase)*w.amp;
+      pts.push('L '+x+' '+y.toFixed(1));
+    }
+    return pts.join(' ');
+  }
+
+  function draw(){
+    time++;
+    WAVES.forEach(function(w,i){ paths[i].setAttribute('d',buildPath(w)); });
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize',resize);
+  draw();
+  startTyping(document.getElementById('t1'));
+})();
+
+// ── ② MORPH ──
+(function(){
+  var canvas=document.getElementById('c2');
+  var ctx=canvas.getContext('2d');
+  var W,H,t=0;
+
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  // 모핑 선 5개 — 각각 여러 컨트롤 포인트로 베지어 곡선
+  var lines=Array.from({length:6},function(_,i){
+    return {
+      y: H*(0.15+i*0.14),
+      pts: Array.from({length:6},function(){return {ox:0,oy:0,vx:Math.random()*.8-.4,vy:Math.random()*.6-.3};}),
+      alpha: Math.random()*.15+.06,
+      col: i%2===0?'131,97,255':'160,130,255'
+    };
+  });
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    t+=0.012;
+
+    lines.forEach(function(l,li){
+      // 컨트롤 포인트를 사인파로 진동
+      var segs=l.pts.length;
+      ctx.beginPath();
+      ctx.strokeStyle='rgba('+l.col+','+l.alpha+')';
+      ctx.lineWidth = li===2?2:1.2;
+      ctx.lineJoin='round';
+
+      var pts=[];
+      for(var i=0;i<segs;i++){
+        var x=(W/(segs-1))*i;
+        var y=l.y
+          + Math.sin(t*1.1+i*0.9+li)*55
+          + Math.sin(t*0.7+i*1.3)*30
+          + Math.cos(t*0.5+i*0.5+li*0.8)*20;
+        pts.push({x:x,y:y});
+      }
+
+      ctx.moveTo(pts[0].x,pts[0].y);
+      for(var i=1;i<pts.length-1;i++){
+        var mx=(pts[i].x+pts[i+1].x)/2;
+        var my=(pts[i].y+pts[i+1].y)/2;
+        ctx.quadraticCurveTo(pts[i].x,pts[i].y,mx,my);
+      }
+      ctx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);
+      ctx.stroke();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+  startTyping(document.getElementById('t2'));
+})();
+
+// ── ③ ORB TRAIL ──
+(function(){
+  var canvas=document.getElementById('c3');
+  var ctx=canvas.getContext('2d');
+  var W,H;
+
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  // 여러 오브 — 각자 베지어 곡선 경로를 따라 이동하며 trail 남김
+  var orbs=Array.from({length:5},function(_,i){
+    return {
+      t:Math.random(),
+      speed:(Math.random()*.003+.002)*(i%2===0?1:-1),
+      trail:[],
+      maxTrail:80,
+      size:Math.random()*3+2,
+      // 이동 경로 — 사인 복합
+      ay: H*(0.2+i*0.15),
+      ampX: W*.35+Math.random()*W*.1,
+      ampY: 60+Math.random()*60,
+      freqX: 0.5+Math.random()*.3,
+      freqY: 0.8+Math.random()*.4,
+      col:'131,97,255',
+    };
+  });
+
+  function getPos(o){
+    var x=W/2 + Math.sin(o.t*o.freqX)*o.ampX;
+    var y=o.ay + Math.sin(o.t*o.freqY+o.t*0.3)*o.ampY;
+    return {x:x,y:y};
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    orbs.forEach(function(o){
+      o.t+=o.speed;
+      var pos=getPos(o);
+      o.trail.push({x:pos.x,y:pos.y});
+      if(o.trail.length>o.maxTrail) o.trail.shift();
+
+      // 궤적 그리기
+      for(var i=1;i<o.trail.length;i++){
+        var alpha=(i/o.trail.length)*0.35;
+        var width=(i/o.trail.length)*o.size*.8;
+        ctx.beginPath();
+        ctx.strokeStyle='rgba('+o.col+','+alpha+')';
+        ctx.lineWidth=width;
+        ctx.lineCap='round';
+        ctx.moveTo(o.trail[i-1].x,o.trail[i-1].y);
+        ctx.lineTo(o.trail[i].x,o.trail[i].y);
+        ctx.stroke();
+      }
+
+      // 오브 헤드 — 빛나는 점
+      var grd=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,o.size*6);
+      grd.addColorStop(0,'rgba(200,180,255,.9)');
+      grd.addColorStop(0.3,'rgba(131,97,255,.6)');
+      grd.addColorStop(1,'rgba(131,97,255,0)');
+      ctx.beginPath();
+      ctx.fillStyle=grd;
+      ctx.arc(pos.x,pos.y,o.size*6,0,Math.PI*2);
+      ctx.fill();
+
+      // 코어
+      ctx.beginPath();
+      ctx.fillStyle='rgba(220,210,255,.95)';
+      ctx.arc(pos.x,pos.y,o.size*.8,0,Math.PI*2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+  startTyping(document.getElementById('t3'));
+})();
+</script>
+</body>
+</html>
