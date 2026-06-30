@@ -95,12 +95,10 @@ body {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.ws-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 7px; }
-.ws-name { font-size: 13.5px; font-weight: 600; color: var(--tx); overflow: hidden; text-overflow: ellipsis; }
-.ws-badge { font-size: 9px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: #F3F4F6; color: var(--sub); flex-shrink: 0; }
-[data-theme="dark"] .ws-badge { background: rgba(255,255,255,0.08); color: var(--mu); }
+.ws-wm { flex: 1; }
+[data-theme="dark"] .ws-wm path[fill="#111827"] { fill: #F0EDE8; }
 .ws-chev { color: var(--mu); flex-shrink: 0; }
-.sidebar.col .ws-info, .sidebar.col .ws-chev { display: none; }
+.sidebar.col .ws-wm, .sidebar.col .ws-chev { display: none; }
 .sidebar.col .sb-ws { justify-content: center; padding: 0; }
 
 /* nav */
@@ -320,15 +318,17 @@ body {
 
   <div class="sb-ws">
     <div class="ws-icon">
-      <svg width="12" height="12" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="14" height="14" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill="#fff" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
         <path fill="#fff" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
       </svg>
     </div>
-    <div class="ws-info">
-      <span class="ws-name">LUUM</span>
-      <span class="ws-badge">STARTER</span>
-    </div>
+    <svg class="ws-wm" width="68" height="12" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#111827" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
+      <path fill="#8361FF" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      <path fill="#8361FF" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      <path fill="#111827" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
+    </svg>
     <svg class="ws-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   </div>
 
@@ -366,10 +366,6 @@ body {
         <div class="upd-title">New updates available!</div>
         <div class="upd-sub">Check out new features</div>
       </div>
-    </div>
-    <div class="sb-upd-link">
-      <div class="upd-dot"></div>
-      <span>Updates &amp; Patch Notes</span>
     </div>
     <div class="sb-div" style="margin:2px 0;"></div>
     <div class="sb-user">
