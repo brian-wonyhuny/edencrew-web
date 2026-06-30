@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,772 +11,718 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:           #F4F1EB;
-    --surface:      #FFFFFF;
-    --border:       #E6E0D5;
-    --accent:       #8361FF;
-    --accent-faint: rgba(131,97,255,0.09);
-    --text:         #0D0B14;
-    --sub:          #4A4658;
-    --muted:        rgba(13,11,20,0.40);
-    --faint:        rgba(13,11,20,0.08);
-    --sidebar-bg:   #FAFAF7;
-    --tt-bg:        rgba(13,11,20,0.06);
-    --tt-act:       rgba(13,11,20,0.12);
-    --green:        #16A34A;
-    --orange:       #D97706;
-    --blue:         #2563EB;
-    --gray:         #6B7280;
+    --bg:      #09090D;
+    --sur:     #111118;
+    --sur2:    #15151D;
+    --bdr:     rgba(255,255,255,0.07);
+    --bdr-s:   rgba(255,255,255,0.13);
+    --acc:     #8361FF;
+    --acc-f:   rgba(131,97,255,0.12);
+    --tx:      #F0EDE8;
+    --sub:     rgba(240,237,232,0.55);
+    --mu:      rgba(240,237,232,0.32);
+    --fa:      rgba(255,255,255,0.05);
+    --tt:      rgba(255,255,255,0.06);
+    --tta:     rgba(255,255,255,0.12);
+    --green:   #34D399;
+    --orange:  #FBBF24;
+    --blue:    #60A5FA;
+    --red:     #F87171;
   }
-
-  [data-theme="dark"] {
-    --bg:           #09090D;
-    --surface:      #111118;
-    --border:       #1E1E2A;
-    --text:         #F0EDE8;
-    --sub:          #A89FC0;
-    --muted:        rgba(240,237,232,0.35);
-    --faint:        rgba(240,237,232,0.07);
-    --sidebar-bg:   #0C0C10;
-    --tt-bg:        rgba(255,255,255,0.06);
-    --tt-act:       rgba(255,255,255,0.13);
-    --accent-faint: rgba(131,97,255,0.13);
+  [data-theme="light"] {
+    --bg:    #F4F1EB;
+    --sur:   #FFFFFF;
+    --sur2:  #F8F5F0;
+    --bdr:   rgba(0,0,0,0.08);
+    --bdr-s: rgba(0,0,0,0.15);
+    --acc:   #8361FF;
+    --acc-f: rgba(131,97,255,0.08);
+    --tx:    #0D0B14;
+    --sub:   rgba(13,11,20,0.55);
+    --mu:    rgba(13,11,20,0.35);
+    --fa:    rgba(13,11,20,0.05);
+    --tt:    rgba(13,11,20,0.06);
+    --tta:   rgba(13,11,20,0.12);
+    --green:   #16A34A;
+    --orange:  #D97706;
+    --blue:    #2563EB;
+    --red:     #DC2626;
   }
 
   html, body { height: 100%; overflow: hidden; }
-
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', -apple-system, system-ui, sans-serif;
-    display: flex;
-    transition: background 0.25s, color 0.25s;
-    font-size: 13.5px;
+    background: var(--bg); color: var(--tx);
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 14px; display: flex;
+    transition: background .25s, color .25s;
   }
 
-  /* ══ SIDEBAR ══ */
+  /* ═══ SIDEBAR ═══ */
   .sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    height: 100vh;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    transition: background 0.25s, border-color 0.25s;
-    overflow-y: auto;
+    width: 260px; flex-shrink: 0; height: 100vh;
+    background: var(--sur); border-right: 1px solid var(--bdr);
+    display: flex; flex-direction: column;
+    transition: width .22s cubic-bezier(.4,0,.2,1), background .25s, border-color .25s;
+    overflow: hidden; position: relative; z-index: 20;
   }
+  .sidebar.col { width: 52px; }
 
+  /* logo */
   .sb-logo {
-    padding: 18px 20px 16px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
+    padding: 0 14px; height: 52px; border-bottom: 1px solid var(--bdr);
+    flex-shrink: 0; display: flex; align-items: center; overflow: hidden;
   }
-  .sb-logo svg .lm { fill: var(--text); transition: fill 0.25s; }
-  .sb-logo svg .uu { fill: var(--accent); }
+  .logo-full .lm { fill: var(--tx); transition: fill .25s; }
+  .logo-full .uu { fill: var(--acc); }
+  .logo-icon { display: none; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 6px; background: var(--acc-f); flex-shrink: 0; }
+  .logo-icon svg .uu { fill: var(--acc); }
+  .sidebar.col .logo-full { display: none; }
+  .sidebar.col .logo-icon { display: flex; }
 
+  /* profile */
   .sb-profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 20px 16px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
+    display: flex; align-items: center; gap: 9px;
+    padding: 11px 14px; border-bottom: 1px solid var(--bdr);
+    flex-shrink: 0; overflow: hidden; white-space: nowrap;
   }
-
-  .profile-avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: linear-gradient(135deg, #8361FF 0%, #5B3FD4 100%);
+  .sidebar.col .sb-profile { justify-content: center; padding: 11px 0; }
+  .sidebar.col .sb-pinfo, .sidebar.col .sb-pacts { display: none; }
+  .p-av {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg,#8361FF,#5B3FD4);
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 600; color: #fff;
-    margin-bottom: 10px;
+    font-size: 12px; font-weight: 600; color: #fff;
   }
-
-  .profile-name { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; margin-bottom: 4px; }
-
-  .role-badge {
-    font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em;
-    padding: 2px 9px; border-radius: 4px;
-    background: var(--accent-faint); color: var(--accent);
-    text-transform: uppercase; margin-bottom: 14px;
+  .sb-pinfo { flex: 1; min-width: 0; }
+  .p-name { font-size: 13.5px; font-weight: 600; color: var(--tx); letter-spacing: -.01em; }
+  .p-badge {
+    display: inline-block; font-size: 9.5px; font-weight: 600;
+    letter-spacing: .05em; padding: 1px 6px; border-radius: 3px;
+    background: var(--acc-f); color: var(--acc); text-transform: uppercase;
   }
-
-  .profile-actions { display: flex; gap: 6px; }
-
+  .sb-pacts { display: flex; gap: 3px; flex-shrink: 0; }
   .pa-btn {
-    width: 32px; height: 32px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--surface);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: var(--muted);
-    transition: background 0.12s, color 0.12s;
+    width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--bdr);
+    background: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--mu); transition: background .12s, color .12s;
   }
-  .pa-btn:hover { background: var(--faint); color: var(--text); }
+  .pa-btn:hover { background: var(--fa); color: var(--tx); }
 
-  .sb-search {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
+  /* search */
+  .sb-search { padding: 9px 12px; border-bottom: 1px solid var(--bdr); flex-shrink: 0; }
+  .sidebar.col .sb-search { display: none; }
+  .srch {
+    display: flex; align-items: center; gap: 7px;
+    background: var(--fa); border: 1px solid transparent;
+    border-radius: 7px; padding: 6px 10px;
   }
-
-  .search-wrap {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--faint); border: 1px solid transparent;
-    border-radius: 8px; padding: 7px 10px;
-    transition: border-color 0.15s;
-  }
-  .search-wrap:focus-within { border-color: var(--accent); background: var(--surface); }
-  .search-wrap svg { color: var(--muted); flex-shrink: 0; }
-  .search-wrap input {
+  .srch:focus-within { border-color: rgba(131,97,255,.35); }
+  .srch svg { color: var(--mu); flex-shrink: 0; }
+  .srch input {
     border: none; background: none; outline: none;
-    font-size: 13px; color: var(--text); font-family: inherit; width: 100%;
+    font-size: 13px; color: var(--tx); font-family: inherit; width: 100%;
   }
-  .search-wrap input::placeholder { color: var(--muted); }
+  .srch input::placeholder { color: var(--mu); }
 
-  .sb-nav {
-    flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 1px;
+  /* nav */
+  .sb-nav { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+  .ni {
+    display: flex; align-items: center; gap: 9px; padding: 8px 9px;
+    border-radius: 7px; font-size: 13.5px; font-weight: 400; color: var(--mu);
+    cursor: pointer; transition: background .12s, color .12s;
+    border: none; background: none; width: 100%; text-align: left;
+    font-family: inherit; white-space: nowrap; overflow: hidden;
   }
+  .ni:hover { background: var(--fa); color: var(--tx); }
+  .ni.act  { background: var(--acc-f); color: var(--acc); font-weight: 500; }
+  .sidebar.col .ni { justify-content: center; padding: 10px 0; }
+  .sidebar.col .ni-lbl, .sidebar.col .ni-n { display: none; }
+  .ni-ico { flex-shrink: 0; width: 15px; height: 15px; }
+  .ni-lbl { flex: 1; }
+  .ni-n {
+    margin-left: auto; background: var(--fa); color: var(--mu);
+    font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; flex-shrink: 0;
+  }
+  .ni.act .ni-n { background: rgba(131,97,255,.18); color: var(--acc); }
 
-  .nav-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 10px; border-radius: 7px;
-    font-size: 13.5px; font-weight: 400; color: var(--muted);
-    cursor: pointer; transition: background 0.12s, color 0.12s;
-    border: none; background: none; width: 100%; text-align: left; font-family: inherit;
+  /* bottom */
+  .sb-bot {
+    flex-shrink: 0; padding: 9px 12px;
+    border-top: 1px solid var(--bdr);
+    display: flex; align-items: center; justify-content: space-between; gap: 6px;
   }
-  .nav-item:hover { background: var(--faint); color: var(--text); }
-  .nav-item.active { background: var(--accent-faint); color: var(--accent); font-weight: 500; }
-
-  .nav-badge {
-    margin-left: auto; background: var(--faint); color: var(--muted);
-    font-size: 10.5px; font-weight: 600; padding: 1px 6px; border-radius: 4px;
-  }
-  .nav-item.active .nav-badge { background: rgba(131,97,255,0.15); color: var(--accent); }
-
-  .sb-bottom {
-    flex-shrink: 0; padding: 10px 10px 14px;
-    border-top: 1px solid var(--border);
-    display: flex; justify-content: center;
-  }
-
-  .theme-toggle {
-    display: flex; gap: 2px; background: var(--tt-bg);
-    border-radius: 8px; padding: 3px; transition: background 0.25s;
-  }
+  .sidebar.col .sb-bot { justify-content: center; }
+  .sidebar.col .th-toggle { display: none; }
+  .th-toggle { display: flex; gap: 1px; background: var(--tt); border-radius: 7px; padding: 2px; }
   .tt-btn {
     display: flex; align-items: center; justify-content: center;
-    width: 32px; height: 28px; border: none; background: none;
-    border-radius: 5px; cursor: pointer; color: var(--muted);
-    transition: background 0.12s, color 0.12s; font-family: inherit;
+    width: 27px; height: 25px; border: none; background: none; border-radius: 5px;
+    cursor: pointer; color: var(--mu); transition: background .12s, color .12s;
   }
-  .tt-btn:hover { color: var(--text); }
-  .tt-btn.tt-active { background: var(--tt-act); color: var(--text); }
+  .tt-btn:hover { color: var(--tx); }
+  .tt-btn.on { background: var(--tta); color: var(--tx); }
+  .sb-tog {
+    width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--bdr);
+    background: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--mu); transition: background .12s, color .12s; flex-shrink: 0;
+  }
+  .sb-tog:hover { background: var(--fa); color: var(--tx); }
 
-  /* ══ MAIN ══ */
-  .main { flex: 1; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+  /* ═══ MAIN ═══ */
+  .main { flex: 1; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
 
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 28px; border-bottom: 1px solid var(--border);
-    background: var(--surface); position: sticky; top: 0; z-index: 10;
-    transition: background 0.25s, border-color 0.25s; flex-shrink: 0;
+    padding: 0 24px; height: 52px; flex-shrink: 0;
+    border-bottom: 1px solid var(--bdr); background: var(--sur);
+    position: sticky; top: 0; z-index: 10;
+    transition: background .25s, border-color .25s;
   }
-
-  .topbar-title {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.02em;
+  .tb-l { display: flex; align-items: center; gap: 10px; }
+  .tb-title { font-size: 15px; font-weight: 600; color: var(--tx); letter-spacing: -.02em; }
+  .tb-date { font-size: 12px; color: var(--mu); }
+  .tb-r { display: flex; align-items: center; gap: 6px; }
+  .ib {
+    width: 32px; height: 32px; border-radius: 7px; border: 1px solid var(--bdr);
+    background: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--mu); transition: background .12s, color .12s;
   }
-  .topbar-title svg { color: var(--muted); }
-
-  .topbar-actions { display: flex; gap: 6px; }
-
-  .icon-btn {
-    width: 34px; height: 34px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--surface);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: var(--muted); transition: background 0.12s, color 0.12s;
+  .ib:hover { background: var(--fa); color: var(--tx); }
+  .btn-new {
+    display: flex; align-items: center; gap: 6px; padding: 6px 14px;
+    background: var(--acc); color: #fff; border: none; border-radius: 7px;
+    font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;
+    transition: opacity .15s;
   }
-  .icon-btn:hover { background: var(--faint); color: var(--text); }
+  .btn-new:hover { opacity: .88; }
 
-  .content { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; flex: 1; }
+  /* ═══ BENTO ═══ */
+  .content { padding: 20px 24px 28px; flex: 1; }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0,1fr));
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+  }
+  .b-s1 { grid-column: 1/4; }
+  .b-s2 { grid-column: 4/7; }
+  .b-s3 { grid-column: 7/10; }
+  .b-tm { grid-column: 10/13; grid-row: 1/3; }
+  .b-ch { grid-column: 1/10; grid-row: 2; }
+  .b-pr { grid-column: 1/13; grid-row: 3; }
 
-  /* stat row */
-  .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr 272px; gap: 12px; align-items: start; }
-
-  .stat-card {
-    background: var(--surface); border: 1px solid var(--border);
+  /* card base */
+  .bc {
+    background: var(--sur); border: 1px solid var(--bdr);
     border-radius: 10px; padding: 14px 16px;
-    transition: background 0.25s, border-color 0.25s;
+    transition: background .25s, border-color .25s;
   }
 
-  .stat-header { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+  /* stat cards */
+  .sc { height: 100%; display: flex; flex-direction: column; justify-content: space-between; min-height: 96px; }
+  .sc-lbl { font-size: 11.5px; font-weight: 500; color: var(--mu); display: flex; align-items: center; gap: 5px; margin-bottom: 8px; }
+  .sc-dot { width: 6px; height: 6px; border-radius: 2px; flex-shrink: 0; }
+  .sc-val { font-size: 34px; font-weight: 200; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; flex: 1; display: flex; align-items: center; }
+  .sc-d   { font-size: 11px; color: var(--mu); display: flex; align-items: center; gap: 3px; }
+  .d-up   { color: var(--green); }
 
-  .stat-dot { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
-
-  .stat-label { font-size: 12.5px; font-weight: 500; color: var(--sub); letter-spacing: -0.01em; }
-
-  .stat-value {
-    font-size: 34px; font-weight: 300; color: var(--text);
-    letter-spacing: -0.03em; line-height: 1;
-    font-variant-numeric: tabular-nums; margin-bottom: 6px;
-  }
-
-  .stat-delta { font-size: 11.5px; font-weight: 500; display: flex; align-items: center; gap: 3px; color: var(--muted); }
-  .delta-up { color: var(--green); }
-
-  .team-panel {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px 16px;
-    display: flex; flex-direction: column;
-    transition: background 0.25s, border-color 0.25s; overflow: hidden;
-  }
-
-  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .panel-title { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
-  .panel-count { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--faint); padding: 1px 7px; border-radius: 4px; }
-
-  .team-list { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-
-  .team-member { display: flex; align-items: center; gap: 9px; }
-
-  .member-av {
-    width: 28px; height: 28px; border-radius: 50%;
+  /* team panel */
+  .b-tm .bc { height: 100%; display: flex; flex-direction: column; }
+  .ph { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .ph-t { font-size: 13px; font-weight: 600; color: var(--tx); }
+  .ph-b { font-size: 10px; font-weight: 600; color: var(--mu); background: var(--fa); padding: 2px 7px; border-radius: 4px; }
+  .tm-list { display: flex; flex-direction: column; gap: 11px; overflow-y: auto; flex: 1; }
+  .tm-row { display: flex; align-items: center; gap: 9px; }
+  .tm-av {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600; color: #fff; flex-shrink: 0;
+    font-size: 11px; font-weight: 600; color: #fff;
   }
-
-  .member-info { min-width: 0; }
-  .member-name  { font-size: 12.5px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .member-email { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tm-info { flex: 1; min-width: 0; }
+  .tm-name  { font-size: 13px; font-weight: 500; color: var(--tx); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tm-mail  { font-size: 11px; color: var(--mu); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tm-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
   /* chart */
-  .chart-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 18px 20px;
-    transition: background 0.25s, border-color 0.25s;
-  }
+  .ch-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .ch-t  { font-size: 13px; font-weight: 600; color: var(--tx); }
+  .ch-lg { display: flex; align-items: center; gap: 12px; }
+  .lg-i  { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--mu); }
+  .lg-d  { width: 6px; height: 6px; border-radius: 2px; }
+  #tchart { display: block; width: 100%; height: 110px; }
 
-  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .chart-title { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
-
-  .chart-legend { display: flex; align-items: center; gap: 14px; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--muted); }
-  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
-
-  .chart-area { width: 100%; height: 110px; }
-
-  /* ── project cards section ── */
-  .projects-section {}
-
-  .proj-top {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
-  }
-  .proj-top-title { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
-
-  .btn-new-proj {
-    display: flex; align-items: center; gap: 6px;
-    padding: 7px 13px; background: var(--accent); color: #fff;
-    border: none; border-radius: 7px; font-size: 12.5px; font-weight: 500;
-    cursor: pointer; font-family: inherit; transition: opacity 0.15s;
-  }
-  .btn-new-proj:hover { opacity: 0.88; }
-
-  .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-
-  .ftab {
+  /* projects */
+  .pr-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .pr-t  { font-size: 14px; font-weight: 600; color: var(--tx); }
+  .ft-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .ft {
     display: flex; align-items: center; gap: 5px;
-    padding: 5px 11px; border-radius: 6px;
-    border: 1px solid var(--border); background: none;
-    color: var(--muted); font-size: 12.5px; font-weight: 400;
+    padding: 4px 10px; border-radius: 6px;
+    border: 1px solid var(--bdr); background: none;
+    color: var(--mu); font-size: 12.5px; font-weight: 400;
     cursor: pointer; font-family: inherit;
-    transition: border-color 0.12s, background 0.12s, color 0.12s;
+    transition: border-color .12s, background .12s, color .12s;
   }
-  .ftab:hover { border-color: rgba(131,97,255,0.4); color: var(--text); }
-  .ftab.active { background: var(--accent-faint); border-color: rgba(131,97,255,0.3); color: var(--accent); font-weight: 500; }
-
-  .ftab-n {
-    font-size: 10.5px; font-weight: 600;
-    background: var(--faint); color: var(--muted);
-    padding: 1px 5px; border-radius: 3px;
+  .ft:hover { border-color: rgba(131,97,255,.4); color: var(--tx); }
+  .ft.on { background: var(--acc-f); border-color: rgba(131,97,255,.3); color: var(--acc); font-weight: 500; }
+  .ft-n { font-size: 10px; font-weight: 600; background: var(--fa); color: var(--mu); padding: 1px 5px; border-radius: 3px; }
+  .ft.on .ft-n { background: rgba(131,97,255,.18); color: var(--acc); }
+  .sec-lbl {
+    font-size: 11px; font-weight: 600; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--mu);
+    margin: 16px 0 10px;
   }
-  .ftab.active .ftab-n { background: rgba(131,97,255,0.15); color: var(--accent); }
-
-  .section-label {
-    font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em;
-    text-transform: uppercase; color: var(--muted);
-    margin-bottom: 10px; margin-top: 18px;
-  }
-  .section-label:first-of-type { margin-top: 0; }
-
-  .project-grid {
+  .sec-lbl:first-of-type { margin-top: 0; }
+  .pgrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
-    gap: 10px;
-    margin-bottom: 4px;
+    grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+    gap: 10px; margin-bottom: 2px;
   }
-
-  .project-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 16px 18px;
+  .pc {
+    background: var(--sur2); border: 1px solid var(--bdr);
+    border-radius: 10px; padding: 15px 16px;
     display: flex; flex-direction: column; gap: 10px;
-    cursor: pointer;
-    transition: border-color 0.15s, transform 0.12s, background 0.25s, box-shadow 0.15s;
+    cursor: pointer; transition: border-color .15s, transform .12s;
   }
-  .project-card:hover {
-    border-color: rgba(131,97,255,0.45);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(131,97,255,0.08);
-  }
-
-  .card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-
-  .card-tag {
-    font-size: 10.5px; font-weight: 500; letter-spacing: 0.04em;
+  .pc:hover { border-color: rgba(131,97,255,.5); transform: translateY(-1px); }
+  .pc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pc-tag {
+    font-size: 10.5px; font-weight: 500; letter-spacing: .04em;
     padding: 2px 7px; border-radius: 4px; text-transform: uppercase; flex-shrink: 0;
   }
-  .tag-design    { background: rgba(192,38,211,0.09); color: #A21CAF; }
-  .tag-eng       { background: rgba(37,99,235,0.09);  color: #1D4ED8; }
-  .tag-product   { background: rgba(217,119,6,0.09);  color: #B45309; }
-  .tag-marketing { background: rgba(22,163,74,0.09);  color: #15803D; }
-
-  .card-status { font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
-  .s-active   { color: var(--green); }
-  .s-progress { color: var(--blue); }
-  .s-planning { color: var(--orange); }
-  .s-review   { color: var(--accent); }
-  .s-done     { color: var(--muted); }
-
-  .card-name { font-size: 14.5px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; }
-  .card-meta { font-size: 11.5px; color: var(--muted); }
-
-  .progress-track { height: 3px; background: var(--faint); border-radius: 2px; overflow: hidden; }
-  .progress-fill  { height: 100%; border-radius: 2px; background: var(--accent); }
-  .progress-fill.done { background: var(--green); }
-
-  .card-bottom { display: flex; align-items: center; justify-content: space-between; }
-
-  .avatars { display: flex; align-items: center; }
+  .t-dsn { background: rgba(192,38,211,.1); color: #C084FC; }
+  .t-eng { background: rgba(96,165,250,.1);  color: #60A5FA; }
+  .t-prd { background: rgba(251,191,36,.1);  color: #FCD34D; }
+  .t-mkt { background: rgba(52,211,153,.1);  color: #6EE7B7; }
+  .pc-st { font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .s-act  { color: var(--green); }
+  .s-pro  { color: var(--blue); }
+  .s-pln  { color: var(--orange); }
+  .s-rev  { color: var(--acc); }
+  .s-don  { color: var(--mu); }
+  .pc-name { font-size: 14px; font-weight: 600; color: var(--tx); letter-spacing: -.02em; line-height: 1.3; }
+  .pc-meta { font-size: 12px; color: var(--mu); }
+  .pbar { height: 3px; background: var(--fa); border-radius: 2px; overflow: hidden; }
+  .pfill { height: 100%; border-radius: 2px; background: var(--acc); }
+  .pfill.done { background: var(--green); }
+  .pc-bot { display: flex; align-items: center; justify-content: space-between; }
+  .avs { display: flex; align-items: center; }
   .av {
     width: 22px; height: 22px; border-radius: 50%;
-    border: 2px solid var(--surface);
+    border: 2px solid var(--sur2);
     display: flex; align-items: center; justify-content: center;
     font-size: 9px; font-weight: 600; color: #fff;
-    margin-left: -5px; transition: border-color 0.25s; flex-shrink: 0;
+    margin-left: -5px; flex-shrink: 0;
   }
   .av:first-child { margin-left: 0; }
+  .pct { font-size: 12px; font-weight: 600; color: var(--mu); font-variant-numeric: tabular-nums; }
+  .pc-fa { opacity: .55; }
+  .pc-fa:hover { opacity: .82; }
 
-  .pct { font-size: 12px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
-
-  .card-faded { opacity: 0.6; }
-  .card-faded:hover { opacity: 0.85; }
-
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (prefers-reduced-motion:reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
 
-<!-- ══ SIDEBAR ══ -->
-<aside class="sidebar">
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sb">
 
   <div class="sb-logo">
-    <svg width="130" height="23" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path class="lm" d="M-7.7635e-06 8.54401V6.19888e-06H2.39999V8.54401H-7.7635e-06ZM1.95599 8.54401V6.50401H5.95199V8.54401H1.95599Z"/>
-      <path class="uu" d="M15.9222 8.68801C15.1702 8.68801 14.5142 8.53601 13.9542 8.23201C13.3942 7.92001 12.9582 7.49201 12.6462 6.94801C12.3342 6.40401 12.1782 5.78001 12.1782 5.07601V6.19888e-06H14.5782V5.29201C14.5782 5.56401 14.6382 5.79601 14.7582 5.98801C14.8782 6.18001 15.0382 6.32801 15.2382 6.43201C15.4462 6.52801 15.6742 6.57601 15.9222 6.57601C16.1782 6.57601 16.4022 6.52801 16.5942 6.43201C16.7942 6.32801 16.9502 6.18401 17.0622 6.00001C17.1742 5.80801 17.2302 5.57601 17.2302 5.30401V6.19888e-06H19.6422V5.08801C19.6422 5.79201 19.4862 6.41601 19.1742 6.96001C18.8702 7.49601 18.4382 7.92001 17.8782 8.23201C17.3262 8.53601 16.6742 8.68801 15.9222 8.68801Z"/>
-      <path class="uu" d="M30.2486 8.68801C29.4966 8.68801 28.8406 8.53601 28.2806 8.23201C27.7206 7.92001 27.2846 7.49201 26.9726 6.94801C26.6606 6.40401 26.5046 5.78001 26.5046 5.07601V6.19888e-06H28.9046V5.29201C28.9046 5.56401 28.9646 5.79601 29.0846 5.98801C29.2046 6.18001 29.3646 6.32801 29.5646 6.43201C29.7726 6.52801 30.0006 6.57601 30.2486 6.57601C30.5046 6.57601 30.7286 6.52801 30.9206 6.43201C31.1206 6.32801 31.2766 6.18401 31.3886 6.00001C31.5006 5.80801 31.5566 5.57601 31.5566 5.30401V6.19888e-06H33.9686V5.08801C33.9686 5.79201 33.8126 6.41601 33.5006 6.96001C33.1966 7.49601 32.7646 7.92001 32.2046 8.23201C31.6526 8.53601 31.0006 8.68801 30.2486 8.68801Z"/>
-      <path class="lm" d="M40.987 8.54401V6.19888e-06H42.727L45.907 4.65601H45.151L48.319 6.19888e-06H50.059V8.54401H47.683V3.93601L48.031 4.03201L46.291 6.52801H44.755L43.027 4.03201L43.363 3.93601V8.54401H40.987Z"/>
+    <svg class="logo-full" width="96" height="17" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="lm" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
+      <path class="uu" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      <path class="uu" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      <path class="lm" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
     </svg>
+    <div class="logo-icon">
+      <svg width="14" height="14" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="uu" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+        <path class="uu" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
+      </svg>
+    </div>
   </div>
 
   <div class="sb-profile">
-    <div class="profile-avatar">B</div>
-    <div class="profile-name">Brian</div>
-    <div class="role-badge">Admin</div>
-    <div class="profile-actions">
-      <button class="pa-btn" title="Profile">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </button>
+    <div class="p-av">B</div>
+    <div class="sb-pinfo">
+      <div class="p-name">Brian</div>
+      <div class="p-badge">Admin</div>
+    </div>
+    <div class="sb-pacts">
       <button class="pa-btn" title="Notifications">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       </button>
-      <button class="pa-btn" title="Sign out" onclick="window.location.href='luum-login.html'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <button class="pa-btn" title="Sign out" onclick="location.href='luum-login.html'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       </button>
     </div>
   </div>
 
   <div class="sb-search">
-    <div class="search-wrap">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" placeholder="Search project or user…">
+    <div class="srch">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search…">
     </div>
   </div>
 
   <nav class="sb-nav">
-    <button class="nav-item active">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Dashboard
+    <button class="ni act">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span class="ni-lbl">Dashboard</span>
     </button>
-    <button class="nav-item">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-      Projects
-      <span class="nav-badge">6</span>
+    <button class="ni">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      <span class="ni-lbl">Projects</span><span class="ni-n">6</span>
     </button>
-    <button class="nav-item">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      Team
-      <span class="nav-badge">4</span>
+    <button class="ni">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="ni-lbl">Team</span><span class="ni-n">4</span>
     </button>
-    <button class="nav-item">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      Timeline
+    <button class="ni">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="ni-lbl">Timeline</span>
     </button>
-    <button class="nav-item">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
-      Reports
+    <button class="ni">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+      <span class="ni-lbl">Reports</span>
     </button>
-    <button class="nav-item">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      Settings
+    <button class="ni">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span class="ni-lbl">Settings</span>
     </button>
   </nav>
 
-  <div class="sb-bottom">
-    <div class="theme-toggle" role="group" aria-label="Theme">
+  <div class="sb-bot">
+    <div class="th-toggle" role="group">
       <button class="tt-btn" data-tt="light" title="Light" onclick="applyTheme('light')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
       <button class="tt-btn" data-tt="system" title="System" onclick="applyTheme('system')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
       </button>
       <button class="tt-btn" data-tt="dark" title="Dark" onclick="applyTheme('dark')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
     </div>
+    <button class="sb-tog" id="sbtog" onclick="toggleSB()" title="Toggle sidebar">
+      <svg id="sbchv" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
   </div>
 
 </aside>
 
-<!-- ══ MAIN ══ -->
+<!-- ═══ MAIN ═══ -->
 <main class="main">
 
   <div class="topbar">
-    <div class="topbar-title">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Dashboard
+    <div class="tb-l">
+      <div class="tb-title">Dashboard</div>
+      <div class="tb-date">Jun 30, 2026</div>
     </div>
-    <div class="topbar-actions">
-      <button class="icon-btn" title="Invite">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+    <div class="tb-r">
+      <button class="ib" title="Notifications">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       </button>
-      <button class="icon-btn" title="Share">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      <button class="ib" title="Settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
-      <button class="icon-btn" title="Settings">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <button class="btn-new">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Project
       </button>
     </div>
   </div>
 
   <div class="content">
+    <div class="bento">
 
-    <!-- stat + team row -->
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-header">
-          <div class="stat-dot" style="background:var(--text);opacity:0.4"></div>
-          <div class="stat-label">Total Projects</div>
-        </div>
-        <div class="stat-value">6</div>
-        <div class="stat-delta"><span class="delta-up">▲ +2</span>&nbsp;M/M</div>
-      </div>
+      <!-- STAT: Total -->
+      <div class="b-s1"><div class="bc sc">
+        <div><div class="sc-lbl"><div class="sc-dot" style="background:rgba(240,237,232,.3)"></div>Total Projects</div></div>
+        <div class="sc-val">6</div>
+        <div class="sc-d"><span class="d-up">▲ +2</span>&nbsp;M/M</div>
+      </div></div>
 
-      <div class="stat-card">
-        <div class="stat-header">
-          <div class="stat-dot" style="background:var(--green)"></div>
-          <div class="stat-label">Active</div>
-        </div>
-        <div class="stat-value" style="color:var(--green)">3</div>
-        <div class="stat-delta"><span class="delta-up">▲ +1</span>&nbsp;M/M</div>
-      </div>
+      <!-- STAT: Active -->
+      <div class="b-s2"><div class="bc sc">
+        <div><div class="sc-lbl"><div class="sc-dot" style="background:var(--green)"></div>Active</div></div>
+        <div class="sc-val" style="color:var(--green)">3</div>
+        <div class="sc-d"><span class="d-up">▲ +1</span>&nbsp;M/M</div>
+      </div></div>
 
-      <div class="stat-card">
-        <div class="stat-header">
-          <div class="stat-dot" style="background:var(--orange)"></div>
-          <div class="stat-label">In Review</div>
-        </div>
-        <div class="stat-value" style="color:var(--orange)">2</div>
-        <div class="stat-delta"><span style="color:var(--muted)">— 0</span>&nbsp;M/M</div>
-      </div>
+      <!-- STAT: In Review -->
+      <div class="b-s3"><div class="bc sc">
+        <div><div class="sc-lbl"><div class="sc-dot" style="background:var(--acc)"></div>In Review</div></div>
+        <div class="sc-val" style="color:var(--acc)">2</div>
+        <div class="sc-d"><span style="color:var(--mu)">— 0</span>&nbsp;M/M</div>
+      </div></div>
 
-      <div class="team-panel">
-        <div class="panel-header">
-          <div class="panel-title">Team</div>
-          <div class="panel-count">4</div>
+      <!-- TEAM -->
+      <div class="b-tm"><div class="bc" style="height:100%">
+        <div class="ph">
+          <div class="ph-t">Team</div>
+          <div class="ph-b">4 members</div>
         </div>
-        <div class="team-list">
-          <div class="team-member">
-            <div class="member-av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-            <div class="member-info"><div class="member-name">Brian</div><div class="member-email">brian@edencrew.com</div></div>
+        <div class="tm-list">
+          <div class="tm-row">
+            <div class="tm-av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+            <div class="tm-info"><div class="tm-name">Brian</div><div class="tm-mail">brian@edencrew.com</div></div>
+            <div class="tm-dot" style="background:var(--green)"></div>
           </div>
-          <div class="team-member">
-            <div class="member-av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-            <div class="member-info"><div class="member-name">Jisoo</div><div class="member-email">jisoo@edencrew.com</div></div>
+          <div class="tm-row">
+            <div class="tm-av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
+            <div class="tm-info"><div class="tm-name">Jisoo</div><div class="tm-mail">jisoo@edencrew.com</div></div>
+            <div class="tm-dot" style="background:var(--green)"></div>
           </div>
-          <div class="team-member">
-            <div class="member-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
-            <div class="member-info"><div class="member-name">Sungmin</div><div class="member-email">sungmin@edencrew.com</div></div>
+          <div class="tm-row">
+            <div class="tm-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+            <div class="tm-info"><div class="tm-name">Sungmin</div><div class="tm-mail">sungmin@edencrew.com</div></div>
+            <div class="tm-dot" style="background:var(--orange)"></div>
           </div>
-          <div class="team-member">
-            <div class="member-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
-            <div class="member-info"><div class="member-name">Karin</div><div class="member-email">karin@edencrew.com</div></div>
+          <div class="tm-row">
+            <div class="tm-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+            <div class="tm-info"><div class="tm-name">Karin</div><div class="tm-mail">karin@edencrew.com</div></div>
+            <div class="tm-dot" style="background:rgba(240,237,232,.2)"></div>
           </div>
         </div>
-      </div>
-    </div>
+      </div></div>
 
-    <!-- trend chart -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <div class="chart-title">Projects Trend</div>
-        <div class="chart-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Active</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>In Review</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Planning</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div>Done</div>
+      <!-- CHART -->
+      <div class="b-ch"><div class="bc">
+        <div class="ch-hd">
+          <div class="ch-t">Project Trends</div>
+          <div class="ch-lg">
+            <div class="lg-i"><div class="lg-d" style="background:var(--green)"></div>Active</div>
+            <div class="lg-i"><div class="lg-d" style="background:var(--acc)"></div>Review</div>
+            <div class="lg-i"><div class="lg-d" style="background:var(--orange)"></div>Planning</div>
+            <div class="lg-i"><div class="lg-d" style="background:rgba(240,237,232,.25)"></div>Done</div>
+          </div>
         </div>
-      </div>
-      <svg class="chart-area" viewBox="0 0 700 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" id="trend-chart"></svg>
-    </div>
+        <svg id="tchart" viewBox="0 0 600 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div></div>
 
-    <!-- project cards -->
-    <div class="projects-section">
-      <div class="proj-top">
-        <div class="proj-top-title">Projects</div>
-        <button class="btn-new-proj">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          New Project
-        </button>
-      </div>
+      <!-- PROJECTS -->
+      <div class="b-pr"><div class="bc">
+        <div class="pr-hd">
+          <div class="pr-t">Projects</div>
+        </div>
 
-      <div class="filter-tabs">
-        <button class="ftab active" onclick="setFilter(this,'all')">All <span class="ftab-n">6</span></button>
-        <button class="ftab" onclick="setFilter(this,'active')">Active <span class="ftab-n">3</span></button>
-        <button class="ftab" onclick="setFilter(this,'review')">In Review <span class="ftab-n">1</span></button>
-        <button class="ftab" onclick="setFilter(this,'planning')">Planning <span class="ftab-n">1</span></button>
-        <button class="ftab" onclick="setFilter(this,'done')">Done <span class="ftab-n">1</span></button>
-      </div>
+        <div class="ft-row">
+          <button class="ft on" onclick="setFilter(this,'all')">All <span class="ft-n">6</span></button>
+          <button class="ft" onclick="setFilter(this,'active')">Active <span class="ft-n">3</span></button>
+          <button class="ft" onclick="setFilter(this,'review')">In Review <span class="ft-n">2</span></button>
+          <button class="ft" onclick="setFilter(this,'planning')">Planning <span class="ft-n">1</span></button>
+          <button class="ft" onclick="setFilter(this,'done')">Done <span class="ft-n">1</span></button>
+        </div>
 
-      <div id="proj-groups">
-
-        <div class="section-label" data-group="active">Active — 3 projects</div>
-        <div class="project-grid" data-group="active">
-          <div class="project-card" data-status="active" onclick="goToProject()">
-            <div class="card-top">
-              <div class="card-tag tag-design">Design</div>
-              <div class="card-status s-active">● Active</div>
-            </div>
-            <div class="card-name">edencrew.com Renewal</div>
-            <div class="card-meta">Updated 2 hours ago</div>
-            <div class="progress-track"><div class="progress-fill" style="width:65%"></div></div>
-            <div class="card-bottom">
-              <div class="avatars">
-                <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-                <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-                <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+        <div id="pg">
+          <div class="sec-lbl" data-g="active">Active — 3 projects</div>
+          <div class="pgrid" data-g="active">
+            <div class="pc" data-s="active" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-dsn">Design</div><div class="pc-st s-act">● Active</div></div>
+              <div class="pc-name">edencrew.com Renewal</div>
+              <div class="pc-meta">Updated 2 hours ago</div>
+              <div class="pbar"><div class="pfill" style="width:65%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+                  <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
+                  <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+                </div>
+                <div class="pct">65%</div>
               </div>
-              <div class="pct">65%</div>
             </div>
-          </div>
 
-          <div class="project-card" data-status="active" onclick="goToProject()">
-            <div class="card-top">
-              <div class="card-tag tag-eng">Engineering</div>
-              <div class="card-status s-progress">● In Progress</div>
-            </div>
-            <div class="card-name">Luum PMS Development</div>
-            <div class="card-meta">Updated 1 day ago</div>
-            <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
-            <div class="card-bottom">
-              <div class="avatars">
-                <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-                <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+            <div class="pc" data-s="active" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-eng">Engineering</div><div class="pc-st s-pro">● In Progress</div></div>
+              <div class="pc-name">Luum PMS Development</div>
+              <div class="pc-meta">Updated 1 day ago</div>
+              <div class="pbar"><div class="pfill" style="width:40%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+                  <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+                </div>
+                <div class="pct">40%</div>
               </div>
-              <div class="pct">40%</div>
             </div>
-          </div>
 
-          <div class="project-card" data-status="active" onclick="goToProject()">
-            <div class="card-top">
-              <div class="card-tag tag-eng">Engineering</div>
-              <div class="card-status s-active">● Active</div>
-            </div>
-            <div class="card-name">API Integration Layer</div>
-            <div class="card-meta">Updated 3 hours ago</div>
-            <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
-            <div class="card-bottom">
-              <div class="avatars">
-                <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
-                <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+            <div class="pc" data-s="active" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-eng">Engineering</div><div class="pc-st s-act">● Active</div></div>
+              <div class="pc-name">API Integration Layer</div>
+              <div class="pc-meta">Updated 3 hours ago</div>
+              <div class="pbar"><div class="pfill" style="width:55%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+                  <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+                </div>
+                <div class="pct">55%</div>
               </div>
-              <div class="pct">55%</div>
             </div>
           </div>
-        </div>
 
-        <div class="section-label" data-group="review">Review &amp; Planning — 2 projects</div>
-        <div class="project-grid" data-group="review">
-          <div class="project-card" data-status="review" onclick="goToProject()">
-            <div class="card-top">
-              <div class="card-tag tag-marketing">Marketing</div>
-              <div class="card-status s-review">● Review</div>
-            </div>
-            <div class="card-name">Brand Guidelines 2026</div>
-            <div class="card-meta">Updated 5 hours ago</div>
-            <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
-            <div class="card-bottom">
-              <div class="avatars">
-                <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-                <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+          <div class="sec-lbl" data-g="review">In Review &amp; Planning — 3 projects</div>
+          <div class="pgrid" data-g="review">
+            <div class="pc" data-s="review" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-mkt">Marketing</div><div class="pc-st s-rev">● Review</div></div>
+              <div class="pc-name">Brand Guidelines 2026</div>
+              <div class="pc-meta">Updated 5 hours ago</div>
+              <div class="pbar"><div class="pfill" style="width:90%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
+                  <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+                </div>
+                <div class="pct">90%</div>
               </div>
-              <div class="pct">90%</div>
             </div>
-          </div>
 
-          <div class="project-card" data-status="planning" onclick="goToProject()">
-            <div class="card-top">
-              <div class="card-tag tag-product">Product</div>
-              <div class="card-status s-planning">● Planning</div>
-            </div>
-            <div class="card-name">Mobile App v2</div>
-            <div class="card-meta">Updated 2 days ago</div>
-            <div class="progress-track"><div class="progress-fill" style="width:10%"></div></div>
-            <div class="card-bottom">
-              <div class="avatars">
-                <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
-                <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
-                <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+            <div class="pc" data-s="review" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-dsn">Design</div><div class="pc-st s-rev">● Review</div></div>
+              <div class="pc-name">UX Audit Q2</div>
+              <div class="pc-meta">Updated 1 day ago</div>
+              <div class="pbar"><div class="pfill" style="width:78%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
+                  <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+                </div>
+                <div class="pct">78%</div>
               </div>
-              <div class="pct">10%</div>
             </div>
-          </div>
-        </div>
 
-        <div class="section-label" data-group="done">Done — 1 project</div>
-        <div class="project-grid" data-group="done">
-          <div class="project-card card-faded" data-status="done" onclick="goToProject()">
-            <div class="card-top">
-              <div class="card-tag tag-marketing">Marketing</div>
-              <div class="card-status s-done">● Complete</div>
-            </div>
-            <div class="card-name">Q3 Campaign Assets</div>
-            <div class="card-meta">Completed Jun 15, 2026</div>
-            <div class="progress-track"><div class="progress-fill done" style="width:100%"></div></div>
-            <div class="card-bottom">
-              <div class="avatars">
-                <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
-                <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+            <div class="pc" data-s="planning" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-prd">Product</div><div class="pc-st s-pln">● Planning</div></div>
+              <div class="pc-name">Mobile App v2</div>
+              <div class="pc-meta">Updated 2 days ago</div>
+              <div class="pbar"><div class="pfill" style="width:10%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#8361FF,#5B3FD4)">B</div>
+                  <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+                  <div class="av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">S</div>
+                </div>
+                <div class="pct">10%</div>
               </div>
-              <div class="pct">100%</div>
             </div>
           </div>
-        </div>
 
-      </div><!-- #proj-groups -->
-    </div>
+          <div class="sec-lbl" data-g="done">Done — 1 project</div>
+          <div class="pgrid" data-g="done">
+            <div class="pc pc-fa" data-s="done" onclick="goToProject()">
+              <div class="pc-top"><div class="pc-tag t-mkt">Marketing</div><div class="pc-st s-don">● Complete</div></div>
+              <div class="pc-name">Q3 Campaign Assets</div>
+              <div class="pc-meta">Completed Jun 15, 2026</div>
+              <div class="pbar"><div class="pfill done" style="width:100%"></div></div>
+              <div class="pc-bot">
+                <div class="avs">
+                  <div class="av" style="background:linear-gradient(135deg,#EC4899,#DB2777)">J</div>
+                  <div class="av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">K</div>
+                </div>
+                <div class="pct">100%</div>
+              </div>
+            </div>
+          </div>
+        </div><!-- #pg -->
 
+      </div></div>
+
+    </div><!-- .bento -->
   </div><!-- .content -->
 </main>
 
 <script>
-function applyTheme(pref) {
+function applyTheme(p) {
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
-  var resolved = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref;
-  document.documentElement.setAttribute('data-theme', resolved);
-  localStorage.setItem('luum-theme', pref);
+  var r = p === 'system' ? (mq.matches ? 'dark' : 'light') : p;
+  document.documentElement.setAttribute('data-theme', r);
+  localStorage.setItem('luum-theme', p);
   document.querySelectorAll('.tt-btn').forEach(function(b) {
-    b.classList.toggle('tt-active', b.dataset.tt === pref);
+    b.classList.toggle('on', b.dataset.tt === p);
   });
   drawChart();
 }
 
-function goToProject() {
-  window.location.href = 'project-dashboard.html';
+function toggleSB() {
+  var sb = document.getElementById('sb');
+  var col = sb.classList.toggle('col');
+  localStorage.setItem('luum-sb', col ? '1' : '0');
+  var chv = document.getElementById('sbchv').querySelector('polyline');
+  chv.setAttribute('points', col ? '9 18 15 12 9 6' : '15 18 9 12 15 6');
 }
 
-function setFilter(el, status) {
-  document.querySelectorAll('.ftab').forEach(function(b) { b.classList.remove('active'); });
-  el.classList.add('active');
+function goToProject() { location.href = 'project-dashboard.html'; }
 
-  var cards = document.querySelectorAll('.project-card');
-  cards.forEach(function(c) {
-    var show = status === 'all' || c.dataset.status === status;
-    c.style.display = show ? '' : 'none';
+function setFilter(el, s) {
+  document.querySelectorAll('.ft').forEach(function(b) { b.classList.remove('on'); });
+  el.classList.add('on');
+  document.querySelectorAll('.pc').forEach(function(c) {
+    c.style.display = (s === 'all' || c.dataset.s === s) ? '' : 'none';
   });
-
-  /* show/hide section labels and grids when all cards within are hidden */
-  var groups = document.querySelectorAll('[data-group]');
-  groups.forEach(function(el) {
-    var grid = el.classList.contains('project-grid') ? el : null;
-    var label = el.tagName === 'DIV' && !el.classList.contains('project-grid') ? el : null;
-    if (grid) {
-      var visible = Array.from(grid.querySelectorAll('.project-card')).some(function(c) { return c.style.display !== 'none'; });
-      grid.style.display = visible ? '' : 'none';
-      /* also toggle paired label */
-      var lbl = grid.previousElementSibling;
-      if (lbl && lbl.classList.contains('section-label')) lbl.style.display = visible ? '' : 'none';
-    }
+  document.querySelectorAll('.pgrid').forEach(function(g) {
+    var vis = Array.from(g.querySelectorAll('.pc')).some(function(c) { return c.style.display !== 'none'; });
+    g.style.display = vis ? '' : 'none';
+    var lbl = g.previousElementSibling;
+    if (lbl && lbl.classList.contains('sec-lbl')) lbl.style.display = vis ? '' : 'none';
   });
 }
 
 function drawChart() {
-  var svg = document.getElementById('trend-chart');
+  var svg = document.getElementById('tchart');
+  if (!svg) return;
   svg.innerHTML = '';
   var ns = 'http://www.w3.org/2000/svg';
   var st = getComputedStyle(document.documentElement);
+  var gc = st.getPropertyValue('--green').trim()  || '#34D399';
+  var ac = st.getPropertyValue('--acc').trim()    || '#8361FF';
+  var oc = st.getPropertyValue('--orange').trim() || '#FBBF24';
+  var fc = st.getPropertyValue('--fa').trim()     || 'rgba(255,255,255,0.05)';
+  var mc = st.getPropertyValue('--mu').trim()     || 'rgba(240,237,232,0.32)';
+  var donec = document.documentElement.getAttribute('data-theme') === 'light'
+    ? 'rgba(0,0,0,0.15)' : 'rgba(240,237,232,0.2)';
 
-  var cols  = ['#16A34A','#8361FF','#D97706','#6B7280'];
+  var cols = [gc, ac, oc, donec];
   var months = ['Jan','Feb','Mar','Apr','May','Jun'];
-  var data   = [[1,0,2,0],[1,1,2,0],[2,1,1,0],[2,1,1,0],[3,1,1,0],[3,1,1,1]];
+  var data = [[1,0,2,0],[1,1,2,0],[2,1,1,0],[2,1,1,0],[3,2,1,0],[3,2,0,1]];
+  var W=600,H=90,pL=4,pR=16,pT=6,pB=22;
+  var cW=W-pL-pR, cH=H-pT-pB, maxV=4;
+  var gW=cW/6, bW=10, bG=2;
 
-  var W=700, H=110, pL=0, pR=20, pT=6, pB=22;
-  var cW = W-pL-pR, cH = H-pT-pB, maxV=4;
-  var gW = cW/months.length, bW=13, bG=2;
-  var faintC = st.getPropertyValue('--faint').trim() || 'rgba(0,0,0,0.07)';
-  var mutedC = st.getPropertyValue('--muted').trim() || 'rgba(0,0,0,0.4)';
-
-  for (var g=0; g<=maxV; g++) {
-    var gy = pT + cH - (g/maxV)*cH;
-    var ln = document.createElementNS(ns,'line');
-    ln.setAttribute('x1',pL); ln.setAttribute('x2',W-pR);
-    ln.setAttribute('y1',gy); ln.setAttribute('y2',gy);
-    ln.setAttribute('stroke', faintC); ln.setAttribute('stroke-width','1');
-    svg.appendChild(ln);
+  for (var i=0;i<=4;i++) {
+    var gy=pT+cH-(i/4)*cH;
+    var l=document.createElementNS(ns,'line');
+    l.setAttribute('x1',pL);l.setAttribute('x2',W-pR);
+    l.setAttribute('y1',gy);l.setAttribute('y2',gy);
+    l.setAttribute('stroke',fc);l.setAttribute('stroke-width','1');
+    svg.appendChild(l);
   }
 
-  data.forEach(function(group, gi) {
-    var cx = pL + gi*gW + gW/2;
-    var totalB = 4, totalW = totalB*bW + (totalB-1)*bG;
-    var sx = cx - totalW/2;
-    group.forEach(function(val, bi) {
-      if (!val) return;
-      var bh = (val/maxV)*cH;
-      var rect = document.createElementNS(ns,'rect');
-      rect.setAttribute('x', sx + bi*(bW+bG));
-      rect.setAttribute('y', pT+cH-bh);
-      rect.setAttribute('width', bW);
-      rect.setAttribute('height', bh);
-      rect.setAttribute('rx', 3);
-      rect.setAttribute('fill', cols[bi]);
-      rect.setAttribute('opacity', gi===5 ? '1' : '0.5');
+  data.forEach(function(grp,gi) {
+    var cx=pL+gi*gW+gW/2;
+    var sx=cx-(4*bW+3*bG)/2;
+    grp.forEach(function(v,bi) {
+      if(!v) return;
+      var bh=(v/maxV)*cH;
+      var rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',sx+bi*(bW+bG));
+      rect.setAttribute('y',pT+cH-bh);
+      rect.setAttribute('width',bW);
+      rect.setAttribute('height',bh);
+      rect.setAttribute('rx','2');
+      rect.setAttribute('fill',cols[bi]);
+      rect.setAttribute('opacity',gi===5?'1':'0.55');
       svg.appendChild(rect);
     });
-    var txt = document.createElementNS(ns,'text');
-    txt.setAttribute('x', cx); txt.setAttribute('y', H-4);
-    txt.setAttribute('text-anchor','middle');
-    txt.setAttribute('font-size','11');
-    txt.setAttribute('font-family','Outfit,system-ui,sans-serif');
-    txt.setAttribute('fill', mutedC);
-    txt.textContent = months[gi];
-    svg.appendChild(txt);
+    var t=document.createElementNS(ns,'text');
+    t.setAttribute('x',cx);t.setAttribute('y',H-5);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-size','10');
+    t.setAttribute('font-family',"'Outfit',system-ui,sans-serif");
+    t.setAttribute('fill',mc);
+    t.textContent=months[gi];
+    svg.appendChild(t);
   });
 }
 
@@ -785,8 +731,13 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fun
 });
 
 (function() {
-  var saved = localStorage.getItem('luum-theme') || 'light';
-  applyTheme(saved);
+  var th = localStorage.getItem('luum-theme') || 'dark';
+  applyTheme(th);
+  if (localStorage.getItem('luum-sb') === '1') {
+    document.getElementById('sb').classList.add('col');
+    var chv = document.getElementById('sbchv');
+    if (chv) chv.querySelector('polyline').setAttribute('points','9 18 15 12 9 6');
+  }
 })();
 </script>
 
