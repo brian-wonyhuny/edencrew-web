@@ -61,7 +61,7 @@ html,body { height:100%; background:var(--bg); color:var(--wh); font-family:syst
 .ms-card { border-bottom:1px solid var(--bd); flex-shrink:0; }
 .ms-header { display:flex; align-items:center; gap:8px; padding:11px 14px; cursor:pointer; user-select:none; transition:background .15s; }
 .ms-header:hover { background:var(--s2); }
-.ms-icon { font-size:13px; }
+.ms-icon { width:14px; height:14px; display:flex; align-items:center; flex-shrink:0; }
 .ms-label { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--mu); flex:1; }
 .ms-badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:2px; white-space:nowrap; }
 .ms-chev { color:var(--mu); font-size:10px; transition:transform .2s; }
@@ -87,7 +87,7 @@ html,body { height:100%; background:var(--bg); color:var(--wh); font-family:syst
 .nav-sec { border-bottom:1px solid var(--bd); }
 .nav-sec-head { display:flex; align-items:center; gap:8px; padding:11px 14px; cursor:pointer; user-select:none; transition:background .15s; }
 .nav-sec-head:hover { background:var(--s2); }
-.nsh-icon { font-size:13px; }
+.nsh-icon { width:14px; height:14px; display:flex; align-items:center; flex-shrink:0; }
 .nsh-title { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--mu); flex:1; }
 .nsh-chev { color:var(--mu); font-size:10px; transition:transform .2s; }
 .nav-sec.open .nsh-chev { transform:rotate(180deg); }
@@ -486,7 +486,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     font-family:inherit; transition:color .15s;
   }
   .mob-tab.active { color:var(--p); }
-  .mob-tab-icon { font-size:18px; line-height:1; }
+  .mob-tab-icon { width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
   .mob-tab-lbl  { font-size:10px; font-weight:600; }
 
   /* 모바일에서 < 버튼 숨김 (공간 부족) */
@@ -518,7 +518,12 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
       <div class="btext">eden<em>crew</em></div>
     </div>
     <div class="strip-body">
-      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="사이드바 토글">&#9776;</button>
+      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="사이드바 토글">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1.5" y="1.5" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="5.5" y1="1.5" x2="5.5" y2="14.5" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </button>
       <span class="strip-title">edencrew.com 리뉴얼</span>
       <span class="strip-slash">/</span>
       <span class="strip-phase" id="stripPhase">로딩 중</span>
@@ -537,7 +542,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     <!-- 프로젝트 개요 -->
     <div class="nav-sec open" id="secOverview">
       <div class="nav-sec-head" onclick="toggleSec('secOverview')">
-        <span class="nsh-icon">📋</span>
+        <span class="nsh-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="4.5" y1="4.5" x2="9.5" y2="4.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="4.5" y1="9.5" x2="7.5" y2="9.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></span>
         <span class="nsh-title">프로젝트 개요</span>
         <span class="nsh-chev">▲</span>
       </div>
@@ -552,7 +557,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     <!-- Milestone card -->
     <div class="ms-card open" id="msCard">
       <div class="ms-header" onclick="toggleMs()">
-        <span class="ms-icon">📅</span>
+        <span class="ms-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="1.5" y1="6" x2="12.5" y2="6" stroke="currentColor" stroke-width="1.2"/><line x1="4.5" y1="1" x2="4.5" y2="4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="9.5" y1="1" x2="9.5" y2="4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
         <span class="ms-label">마일스톤</span>
         <span class="ms-badge" id="msBadge" style="background:var(--pg);color:var(--p);">—</span>
         <span class="ms-chev" id="msChev">▲</span>
@@ -578,7 +583,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     <!-- 사이트맵 -->
     <div class="nav-sec open" id="secSitemap">
       <div class="nav-sec-head" onclick="toggleSec('secSitemap')">
-        <span class="nsh-icon">🗺</span>
+        <span class="nsh-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L2 3.5v9L5 11l4 1.5 3-1.5V2L9 3.5 5 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="5" y1="2" x2="5" y2="11" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="3.5" x2="9" y2="12.5" stroke="currentColor" stroke-width="1.2"/></svg></span>
         <span class="nsh-title">사이트맵</span>
         <span class="nsh-chev">▲</span>
       </div>
@@ -603,7 +608,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     <!-- 설정 -->
     <div class="nav-sec nav-settings open" id="secSettings">
       <div class="nav-sec-head" onclick="toggleSec('secSettings')">
-        <span class="nsh-icon">⚙️</span>
+        <span class="nsh-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.06 1.06M10.04 10.04l1.06 1.06M2.9 11.1l1.06-1.06M10.04 3.96l1.06-1.06" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
         <span class="nsh-title">설정</span>
         <span class="nsh-chev">▲</span>
       </div>
@@ -626,16 +631,16 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
   <!-- Mobile bottom nav -->
   <nav class="mob-nav">
     <button class="mob-tab active" id="mobt-home"     onclick="mobTab('home',     'overview')">
-      <span class="mob-tab-icon">⊞</span><span class="mob-tab-lbl">홈</span>
+      <span class="mob-tab-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5 8.5V17h4v-4h2v4h4V8.5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span><span class="mob-tab-lbl">홈</span>
     </button>
     <button class="mob-tab"        id="mobt-wbs"      onclick="mobTab('wbs',      'wbs-map')">
-      <span class="mob-tab-icon">⬡</span><span class="mob-tab-lbl">WBS</span>
+      <span class="mob-tab-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="8" y="2" width="4" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="14" width="4" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="8" y="14" width="4" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="14" y="14" width="4" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/><line x1="10" y1="5" x2="10" y2="9" stroke="currentColor" stroke-width="1.3"/><line x1="4" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.3"/><line x1="4" y1="9" x2="4" y2="14" stroke="currentColor" stroke-width="1.3"/><line x1="10" y1="9" x2="10" y2="14" stroke="currentColor" stroke-width="1.3"/><line x1="16" y1="9" x2="16" y2="14" stroke="currentColor" stroke-width="1.3"/></svg></span><span class="mob-tab-lbl">WBS</span>
     </button>
     <button class="mob-tab"        id="mobt-team"     onclick="mobTab('team',     'settings-team')">
-      <span class="mob-tab-icon">◎</span><span class="mob-tab-lbl">팀</span>
+      <span class="mob-tab-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M4 17c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="mob-tab-lbl">팀</span>
     </button>
     <button class="mob-tab"        id="mobt-settings" onclick="mobTab('settings', 'settings-project')">
-      <span class="mob-tab-icon">⚙</span><span class="mob-tab-lbl">설정</span>
+      <span class="mob-tab-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="mob-tab-lbl">설정</span>
     </button>
   </nav>
 
