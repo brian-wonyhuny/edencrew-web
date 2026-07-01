@@ -619,19 +619,6 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
   <nav class="sidebar" id="sidebar">
   <div class="sidebar-resizer" id="sidebarResizer"></div>
 
-  <!-- LUUM 로고 헤더 — scroll 밖에 고정 -->
-  <div class="sb-ws">
-    <svg class="ws-wm" width="68" height="12" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="location.href='luum-index.html'" style="cursor:pointer;flex-shrink:0">
-      <path class="luum-l" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
-      <path fill="#8361FF" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
-      <path fill="#8361FF" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
-      <path class="luum-m" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
-    </svg>
-    <button class="sb-fold" onclick="toggleSidebar()" title="사이드바 접기">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-    </button>
-  </div>
-
   <div class="sidebar-scroll">
 
     <!-- 프로젝트 개요 -->
@@ -710,23 +697,6 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     </div>
 
   </div><!-- /sidebar-scroll -->
-  <div class="sidebar-bottom">
-    <!-- Bottom bar: copyright + theme + fold -->
-    <div class="sb-bot-bar">
-      <div class="th-seg">
-        <button class="th-btn" data-th="light" onclick="setTheme('light')" title="라이트">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        </button>
-        <button class="th-btn" data-th="system" onclick="setTheme('system')" title="시스템">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
-        </button>
-        <button class="th-btn" data-th="dark" onclick="setTheme('dark')" title="다크">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        </button>
-      </div>
-    </div>
-  </div><!-- /sidebar-bottom -->
-
   </nav>
 
   <!-- Mobile bottom nav -->
@@ -918,6 +888,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
   </main>
 </div>
 
+<script src="luum-sidebar.js"></script>
 <script>
 // ──────────────────────────────────────────────
 // Default state
@@ -3274,17 +3245,7 @@ function switchMainTab(tab) {
 }
 
 // ── Sidebar toggle & resize ──
-function toggleSidebar() {
-  const sb = document.getElementById('sidebar');
-  const isCol = sb.classList.toggle('col');
-  localStorage.setItem('ec_sidebar_col', isCol ? '1' : '0');
-}
-
-(function initSidebarState() {
-  if (localStorage.getItem('ec_sidebar_col') === '1') {
-    document.getElementById('sidebar').classList.add('col');
-  }
-})();
+function toggleSidebar() { LuumSidebar.toggleFold(); }
 
 // ── Mobile tab nav ──
 function mobTab(tabId, viewName) {
@@ -3295,25 +3256,10 @@ function mobTab(tabId, viewName) {
 }
 
 // ── Theme ──
-function setTheme(mode) {
-  const sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  const theme = mode === 'system' ? sys : mode;
-  if (theme === 'light') document.documentElement.setAttribute('data-theme','light');
-  else document.documentElement.removeAttribute('data-theme');
-  if (mode === 'system') localStorage.removeItem('luum-theme');
-  else localStorage.setItem('luum-theme', mode);
-  updateThemeBtn(mode);
-}
-function updateThemeBtn(mode) {
-  document.querySelectorAll('.th-btn').forEach(b => b.classList.toggle('active', b.dataset.th === mode));
-}
-(function initThemeUI() {
-  const s = localStorage.getItem('luum-theme');
-  const mode = (s === 'light' || s === 'dark') ? s : 'system';
-  updateThemeBtn(mode);
-})();
+function setTheme(mode) { LuumSidebar.applyTheme(mode); }
 
 // ── Init ──
+LuumSidebar.init('#sidebar', { foldable: false, showUser: false });
 initSubproj();
 buildGantt();
 renderOverview();
