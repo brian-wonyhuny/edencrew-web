@@ -253,6 +253,8 @@ body { padding:10px; }
 .nav-badge { margin-left:auto; font-size:10px; font-weight:700; padding:1px 6px; border-radius:2px; white-space:nowrap; }
 .nb-ok   { background:rgba(62,207,142,.12);  color:var(--ok);   }
 .nb-wip  { background:rgba(131,97,255,.12);  color:var(--p);    }
+.nb-sched{ background:var(--mu2);            color:var(--mu);   }
+.nb-beta { background:var(--pg);             color:var(--p);    }
 .nb-todo { background:var(--mu2);             color:var(--mu);   }
 .sub-arr { font-size:10px; color:var(--mu2); margin-right:-1px; }
 
@@ -265,10 +267,10 @@ body { padding:10px; }
 /* views */
 .view { display:none; flex:1; flex-direction:column; gap:20px; padding:24px 28px; }
 .view.active { display:flex; }
-/* PRD doc view — centered fixed-width document reader */
-#view-prd { padding:0; overflow:hidden; background:var(--bg); }
-.prd-frame-wrap { flex:1; display:flex; justify-content:center; overflow:hidden; }
-.prd-frame { border:none; width:880px; max-width:100%; height:100%; flex-shrink:0; }
+/* PRD doc view */
+#view-prd { padding:0; overflow:hidden; }
+.prd-frame-wrap { flex:1; min-height:0; display:flex; justify-content:center; overflow:hidden; }
+.prd-frame { border:none; width:900px; max-width:100%; height:100%; }
 
 /* Summary */
 .summary-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
@@ -731,6 +733,29 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
       </div>
     </div>
 
+    <!-- Overview (PRD / 기능명세서 / 유저플로우 / Ecosystem) -->
+    <div class="nav-sec open" id="secOverview">
+      <div class="nav-sec-head" onclick="toggleSec('secOverview')">
+        <span class="nsh-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+        <span class="nsh-title">Overview</span>
+        <span class="nsh-chev">▲</span>
+      </div>
+      <div class="nav-items">
+        <a class="nav-item" onclick="switchMainTab('prd')">
+          <span class="sub-arr">└</span>PRD <span class="nav-badge nb-ok">v1.0</span>
+        </a>
+        <a class="nav-item" onclick="switchMainTab('feature-spec')">
+          <span class="sub-arr">└</span>기능명세서 <span class="nav-badge nb-ok">v1.0</span>
+        </a>
+        <span class="nav-item nav-item-dis" style="opacity:.38;pointer-events:none;">
+          <span class="sub-arr">└</span>유저플로우 <span class="nav-badge nb-sched">예정</span>
+        </span>
+        <span class="nav-item nav-item-dis" style="opacity:.38;pointer-events:none;">
+          <span class="sub-arr">└</span>Ecosystem <span class="nav-badge nb-beta">BETA</span>
+        </span>
+      </div>
+    </div>
+
     <!-- 사이트맵 -->
     <div class="nav-sec open" id="secSitemap">
       <div class="nav-sec-head" onclick="toggleSec('secSitemap')">
@@ -820,7 +845,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     <!-- PRD 인라인 뷰 -->
     <div class="view" id="view-prd">
       <div class="prd-frame-wrap">
-        <iframe class="prd-frame" id="prdFrame" src="edencrew-prd.html" title="PRD"></iframe>
+        <iframe class="prd-frame" id="prdFrame" src="edencrew-prd.html?embedded=true" title="PRD"></iframe>
       </div>
     </div>
 
