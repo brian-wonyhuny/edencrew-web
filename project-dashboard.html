@@ -267,10 +267,46 @@ body { padding:10px; }
 /* views */
 .view { display:none; flex:1; flex-direction:column; gap:20px; padding:24px 28px; }
 .view.active { display:flex; }
-/* PRD doc view */
+/* ── PRD View ── */
 #view-prd { padding:0; overflow:hidden; }
-.prd-frame-wrap { flex:1; min-height:0; display:flex; justify-content:center; overflow:hidden; }
-.prd-frame { border:none; width:900px; max-width:100%; height:100%; }
+/* empty state */
+.prd-empty { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:40px 24px; }
+.prd-empty.hidden { display:none; }
+.prd-empty-icon { color:var(--mu); }
+.prd-empty-ttl { font-size:15px; font-weight:700; color:var(--wh); }
+.prd-empty-sub { font-size:13px; color:var(--mu); text-align:center; line-height:1.65; }
+.btn-prd-write { margin-top:6px; padding:9px 22px; background:var(--p); color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; transition:opacity .1s; }
+.btn-prd-write:hover { opacity:.85; }
+/* source panel */
+.prd-src-panel { width:min(480px,100%); background:var(--s1); border:1px solid var(--bd); border-radius:12px; padding:22px; display:none; flex-direction:column; gap:14px; margin-top:6px; }
+.prd-src-panel.show { display:flex; }
+.prd-src-tabs { display:flex; background:var(--s3); border-radius:7px; padding:3px; gap:2px; }
+.prd-src-tab { flex:1; padding:6px; border:none; background:none; border-radius:5px; font-size:12.5px; font-weight:500; color:var(--mu); cursor:pointer; font-family:inherit; transition:background .1s,color .1s; }
+.prd-src-tab.active { background:var(--s1); color:var(--wh); box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.prd-src-pane { display:none; flex-direction:column; gap:10px; }
+.prd-src-pane.active { display:flex; }
+.prd-src-hint { font-size:12px; color:var(--mu); line-height:1.6; }
+.prd-src-input { padding:8px 12px; border:1px solid var(--bd); border-radius:7px; background:var(--s2); color:var(--wh); font-size:13px; font-family:inherit; width:100%; outline:none; transition:border-color .1s; }
+.prd-src-input:focus { border-color:var(--p); }
+.prd-src-textarea { padding:10px 12px; border:1px solid var(--bd); border-radius:7px; background:var(--s2); color:var(--wh); font-size:13px; font-family:inherit; width:100%; height:140px; resize:none; outline:none; line-height:1.6; transition:border-color .1s; }
+.prd-src-textarea:focus { border-color:var(--p); }
+.prd-src-file-row { display:flex; align-items:center; gap:10px; }
+.prd-src-file-lbl { padding:7px 14px; border:1px solid var(--bd); border-radius:7px; font-size:12.5px; color:var(--mu); cursor:pointer; background:var(--s2); transition:border-color .1s,color .1s; white-space:nowrap; }
+.prd-src-file-lbl:hover { border-color:var(--p); color:var(--wh); }
+.prd-src-file-name { font-size:12px; color:var(--mu); }
+.btn-prd-src { padding:8px 18px; background:var(--p); color:#fff; border:none; border-radius:7px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; align-self:flex-end; transition:opacity .1s; }
+.btn-prd-src:hover { opacity:.85; }
+/* registered doc layout */
+.prd-doc-layout { flex:1; min-height:0; display:flex; }
+.prd-doc-layout.hidden { display:none; }
+.prd-anchor-nav { width:190px; flex-shrink:0; border-right:1px solid var(--bd); overflow-y:auto; padding:20px 0; display:flex; flex-direction:column; }
+.prd-anchor-lbl { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mu); padding:0 14px; margin-bottom:6px; }
+.prd-anchor-link { display:flex; align-items:center; gap:8px; padding:6px 14px; font-size:12.5px; color:var(--mu); cursor:pointer; border-radius:6px; margin:0 6px; transition:background .1s,color .1s; }
+.prd-anchor-link:hover { background:var(--s3); color:var(--wh); }
+.prd-anchor-link.active { color:var(--p); background:var(--pg); }
+.prd-anchor-num { font-size:10px; font-weight:700; color:var(--p); min-width:16px; }
+.prd-frame-area { flex:1; display:flex; overflow:hidden; }
+.prd-frame { flex:1; border:none; width:100%; }
 
 /* Summary */
 .summary-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
@@ -841,9 +877,60 @@ Admin <span class="nav-badge nb-wip">NEW</span>
     <!-- Overview view -->
     <!-- PRD 인라인 뷰 -->
     <div class="view" id="view-prd">
-      <div class="prd-frame-wrap">
-        <iframe class="prd-frame" id="prdFrame" src="edencrew-prd.html?embedded=true" title="PRD"></iframe>
+
+      <!-- 빈 상태 -->
+      <div class="prd-empty" id="prdEmpty">
+        <svg class="prd-empty-icon" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <div class="prd-empty-ttl">등록된 PRD가 없습니다</div>
+        <div class="prd-empty-sub">Notion에서 불러오거나 MD 파일을 등록하거나<br>직접 작성해서 PRD를 시작하세요.</div>
+        <button class="btn-prd-write" onclick="togglePrdSrcPanel()">PRD 작성</button>
+        <div class="prd-src-panel" id="prdSrcPanel">
+          <div class="prd-src-tabs">
+            <button class="prd-src-tab active" onclick="switchPrdSrc('notion',this)">Notion</button>
+            <button class="prd-src-tab" onclick="switchPrdSrc('md',this)">MD 파일</button>
+            <button class="prd-src-tab" onclick="switchPrdSrc('form',this)">직접 작성</button>
+          </div>
+          <div class="prd-src-pane active" id="prd-src-notion">
+            <p class="prd-src-hint">Notion 페이지 URL을 입력하면 내용을 불러옵니다.</p>
+            <input class="prd-src-input" type="url" placeholder="https://notion.so/..." id="prdNotionUrl">
+            <button class="btn-prd-src" onclick="registerPrd('notion')">불러오기</button>
+          </div>
+          <div class="prd-src-pane" id="prd-src-md">
+            <p class="prd-src-hint">Markdown(.md) 파일을 업로드하면 PRD로 등록됩니다.</p>
+            <div class="prd-src-file-row">
+              <label class="prd-src-file-lbl" for="prdMdFile">파일 선택</label>
+              <input type="file" id="prdMdFile" accept=".md" style="display:none" onchange="handleMdFile(this)">
+              <span class="prd-src-file-name" id="prdMdFileName">선택된 파일 없음</span>
+            </div>
+            <button class="btn-prd-src" onclick="registerPrd('md')">등록</button>
+          </div>
+          <div class="prd-src-pane" id="prd-src-form">
+            <p class="prd-src-hint">PRD 제목과 주요 내용을 입력하세요. 저장 후 상세 편집이 가능합니다.</p>
+            <input class="prd-src-input" type="text" placeholder="PRD 제목" id="prdFormTitle">
+            <textarea class="prd-src-textarea" placeholder="한 줄 정의, 목표, 주요 기능 등을 자유롭게 작성하세요..." id="prdFormContent"></textarea>
+            <button class="btn-prd-src" onclick="registerPrd('form')">저장</button>
+          </div>
+        </div>
       </div>
+
+      <!-- 등록된 상태 -->
+      <div class="prd-doc-layout hidden" id="prdDocLayout">
+        <nav class="prd-anchor-nav">
+          <span class="prd-anchor-lbl">목차</span>
+          <a class="prd-anchor-link active" onclick="prdScrollTo('overview',this)"><span class="prd-anchor-num">01</span>사이트 목적 & 타깃</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('sitemap',this)"><span class="prd-anchor-num">02</span>사이트맵 & 구조</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('pages',this)"><span class="prd-anchor-num">03</span>페이지별 요구사항</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('components',this)"><span class="prd-anchor-num">04</span>공통 컴포넌트</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('cta',this)"><span class="prd-anchor-num">05</span>CTA 전략</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('responsive',this)"><span class="prd-anchor-num">06</span>반응형 요구사항</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('mvp',this)"><span class="prd-anchor-num">07</span>MVP 1차 론칭 범위</a>
+          <a class="prd-anchor-link" onclick="prdScrollTo('stack',this)"><span class="prd-anchor-num">08</span>기술 스택 & 배포</a>
+        </nav>
+        <div class="prd-frame-area">
+          <iframe class="prd-frame" id="prdFrame" src="edencrew-prd.html?embedded=true" title="PRD"></iframe>
+        </div>
+      </div>
+
     </div>
 
     <div class="view active" id="view-overview">
@@ -3346,14 +3433,45 @@ document.addEventListener('click', function(e) {
 });
 
 function switchMainTab(tab) {
-  /* 뷰 전환 */
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const view = document.getElementById('view-' + tab);
   if (view) view.classList.add('active');
-  /* 탑바 탭 활성 */
   document.querySelectorAll('.tb-tab[id^="tbtab-"]').forEach(el => el.classList.remove('active'));
   const tbtab = document.getElementById('tbtab-' + tab);
   if (tbtab) tbtab.classList.add('active');
+  if (tab === 'prd') initPrdView();
+}
+
+// ── PRD View ──
+function initPrdView() {
+  var reg = localStorage.getItem('ec_prd_registered') === '1';
+  document.getElementById('prdEmpty').classList.toggle('hidden', reg);
+  document.getElementById('prdDocLayout').classList.toggle('hidden', !reg);
+}
+function togglePrdSrcPanel() {
+  document.getElementById('prdSrcPanel').classList.toggle('show');
+}
+function switchPrdSrc(src, btn) {
+  document.querySelectorAll('.prd-src-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.prd-src-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('prd-src-' + src).classList.add('active');
+}
+function handleMdFile(input) {
+  document.getElementById('prdMdFileName').textContent = input.files[0] ? input.files[0].name : '선택된 파일 없음';
+}
+function registerPrd(method) {
+  localStorage.setItem('ec_prd_registered', '1');
+  initPrdView();
+}
+function prdScrollTo(id, el) {
+  document.querySelectorAll('.prd-anchor-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  try {
+    var frame = document.getElementById('prdFrame');
+    var target = frame.contentDocument.getElementById(id);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch(e) {}
 }
 
 // ── Sidebar toggle & resize ──

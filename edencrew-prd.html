@@ -41,9 +41,14 @@
 /* embedded 모드: 브랜드 헤더·푸터·편집바 숨김 */
 body.embedded .sb-brand{display:none}
 body.embedded .sb-footer{display:none}
-body.embedded .edit-bar{display:none!important}
-body.embedded .sidebar{padding-top:20px}
-body.embedded .main{padding-top:48px}
+body.embedded .sidebar{display:none}
+body.embedded .shell{display:block}
+body.embedded .main{max-width:none;padding-top:40px}
+[data-theme="light"] .edit-bar{background:rgba(255,255,255,.96);border-bottom-color:var(--bdr2);}
+[data-theme="light"] .btn-edit-cancel{color:var(--mid);border-color:var(--bdr2);}
+[data-theme="light"] .btn-edit-cancel:hover{color:var(--wh);}
+[data-theme="light"] .btn-edit{color:var(--mid);border-color:var(--bdr2);}
+[data-theme="light"] .btn-edit:hover{border-color:var(--p-bdr);color:var(--p);}
 
 html{scroll-behavior:smooth}
 body{
