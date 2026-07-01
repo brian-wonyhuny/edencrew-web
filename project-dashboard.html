@@ -67,7 +67,61 @@ input[type="date"] { color-scheme: light; }
 html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Inter','Pretendard',-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
 body { padding:10px 10px 10px 0; }
 
-.shell { display:flex; height:100%; gap:10px; }
+.shell { display:flex; flex-direction:column; height:100%; }
+.content-area { display:flex; flex:1; overflow:hidden; gap:10px; }
+
+/* ── Top Bar ── */
+.top-bar {
+  height:46px; flex-shrink:0;
+  display:flex; align-items:center; gap:0;
+  border-bottom:1px solid var(--bd);
+  padding:0 10px 0 6px;
+}
+.tb-left { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.tb-fold {
+  width:30px; height:30px; border-radius:7px;
+  border:none; background:none; color:var(--mu);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; flex-shrink:0;
+  transition:background .1s,color .1s;
+}
+.tb-fold:hover { background:var(--s3); color:var(--wh); }
+.sidebar.sb-hidden + .main .tb-fold-ico { transform:scaleX(-1); }
+.tb-breadcrumb { display:flex; align-items:center; gap:5px; }
+.tb-proj { font-size:13px; font-weight:400; color:var(--mu); cursor:pointer; white-space:nowrap; transition:color .1s; border:none; background:none; font-family:inherit; }
+.tb-proj:hover { color:var(--wh); }
+.tb-chev { color:var(--mu2); font-size:14px; flex-shrink:0; line-height:1; }
+.tb-sub { font-size:13px; font-weight:500; color:var(--wh); white-space:nowrap; }
+.tb-status-pill { display:flex; align-items:center; gap:4px; font-size:10.5px; font-weight:600; color:var(--ok); background:rgba(22,163,74,.08); border:1px solid rgba(22,163,74,.2); border-radius:20px; padding:3px 9px; flex-shrink:0; margin-left:2px; }
+.tb-dot2 { width:5px; height:5px; border-radius:50%; background:var(--ok); animation:pulse 2.4s ease-in-out infinite; flex-shrink:0; }
+.tb-tabs { flex:1; display:flex; align-items:center; justify-content:center; gap:2px; }
+.tb-tab {
+  font-size:13px; font-weight:400; color:var(--mu);
+  background:none; border:none; cursor:pointer; font-family:inherit;
+  padding:5px 10px; border-radius:7px;
+  transition:background .1s,color .1s;
+  text-decoration:none; white-space:nowrap;
+  display:inline-flex; align-items:center; gap:5px;
+}
+.tb-tab:hover { background:var(--s3); color:var(--wh); }
+.tb-tab.active { color:var(--wh); font-weight:500; }
+.tb-tab-dis { opacity:.35; pointer-events:none; cursor:default; }
+.tb-sep { color:var(--bd2); font-size:13px; padding:0 1px; user-select:none; }
+.tb-badge { font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:1px 5px; border-radius:3px; }
+.tb-badge-ver { background:rgba(52,199,89,.12); color:#34C759; }
+.tb-badge-sched { background:var(--mu2); color:var(--mu); }
+.tb-badge-beta { background:var(--pg); color:var(--p); }
+.tb-right { display:flex; align-items:center; gap:2px; flex-shrink:0; }
+.tb-icon-btn {
+  width:30px; height:30px; border-radius:7px;
+  border:none; background:none; color:var(--mu);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:background .1s,color .1s; flex-shrink:0;
+}
+.tb-icon-btn:hover { background:var(--s3); color:var(--wh); }
+
+/* Sidebar — 완전 숨김 (인덱스와 다르게 아이콘 없음) */
+.sidebar.sb-hidden { width:0; }
 
 /* ── Strip ── */
 .strip { grid-column:1/-1; display:flex; align-items:center; background:transparent; border-bottom:none; }
@@ -615,6 +669,48 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 <body>
 <div class="shell">
 
+  <!-- TOP BAR -->
+  <div class="top-bar" id="topBar">
+    <div class="tb-left">
+      <button class="tb-fold" id="tbFoldBtn" onclick="toggleSidebar()" title="사이드바 접기">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/>
+        </svg>
+      </button>
+      <div class="tb-breadcrumb">
+        <button class="tb-proj" onclick="location.href='luum-index.html'">edencrew.com 리뉴얼</button>
+        <span class="tb-chev">›</span>
+        <span class="tb-sub" id="tbSubName">전체</span>
+        <div class="tb-status-pill"><div class="tb-dot2"></div>진행 중</div>
+      </div>
+    </div>
+    <div class="tb-tabs">
+      <button class="tb-tab active" id="tbtab-overview" onclick="switchMainTab('overview')">개요</button>
+      <span class="tb-sep">—</span>
+      <a class="tb-tab" href="edencrew-prd.html" target="_blank">PRD <span class="tb-badge tb-badge-ver">v1.0</span></a>
+      <span class="tb-sep">—</span>
+      <a class="tb-tab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="tb-badge tb-badge-ver">v1.0</span></a>
+      <span class="tb-sep">—</span>
+      <span class="tb-tab tb-tab-dis">유저플로우 <span class="tb-badge tb-badge-sched">예정</span></span>
+      <span class="tb-sep">—</span>
+      <span class="tb-tab tb-tab-dis">Ecosystem <span class="tb-badge tb-badge-beta">BETA</span></span>
+    </div>
+    <div class="tb-right">
+      <button class="tb-icon-btn" title="유저" onclick="LuumSidebar.openUserPopover(event, {userName:'Brian', userEmail:'brian@edencrew.com'})">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </button>
+      <button class="tb-icon-btn" title="코멘트">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <button class="tb-icon-btn" title="히스토리">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div class="content-area">
+
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
   <div class="sidebar-resizer" id="sidebarResizer"></div>
@@ -717,28 +813,6 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 
   <!-- MAIN -->
   <main class="main">
-
-    <!-- Tab bar -->
-    <div class="main-tabbar">
-      <div class="mtab-group">
-        <button class="mtab active" id="mtab-overview" onclick="switchMainTab('overview')">개요</button>
-        <a class="mtab" href="edencrew-prd.html" target="_blank">PRD <span class="mtab-badge" style="background:rgba(52,199,89,.12);color:#34C759;">v1.0</span></a>
-        <a class="mtab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="mtab-badge" style="background:rgba(52,199,89,.12);color:#34C759;">v1.0</span></a>
-        <span class="mtab mtab-disabled">유저플로우 <span class="mtab-badge">예정</span></span>
-      </div>
-      <div class="mtab-right">
-        <div class="s-status"><div class="s-dot"></div>진행 중</div>
-        <button class="strip-icon-btn" title="유저" onclick="LuumSidebar.openUserPopover(event, {userName:'Brian', userEmail:'brian@edencrew.com'})">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        </button>
-        <button class="strip-icon-btn" title="코멘트">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </button>
-        <button class="strip-icon-btn" title="히스토리">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
-        </button>
-      </div>
-    </div>
 
     <!-- Overview view -->
     <div class="view active" id="view-overview">
@@ -886,7 +960,9 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
     </div>
 
   </main>
-</div>
+
+  </div><!-- /content-area -->
+</div><!-- /shell -->
 
 <script src="luum-sidebar.js"></script>
 <script>
@@ -3239,13 +3315,24 @@ document.addEventListener('click', function(e) {
 });
 
 function switchMainTab(tab) {
-  document.querySelectorAll('.mtab[id^="mtab-"]').forEach(el => el.classList.remove('active'));
-  const el = document.getElementById('mtab-' + tab);
-  if (el) el.classList.add('active');
+  /* 뷰 전환 */
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const view = document.getElementById('view-' + tab);
+  if (view) view.classList.add('active');
+  /* 탑바 탭 활성 */
+  document.querySelectorAll('.tb-tab[id^="tbtab-"]').forEach(el => el.classList.remove('active'));
+  const tbtab = document.getElementById('tbtab-' + tab);
+  if (tbtab) tbtab.classList.add('active');
 }
 
 // ── Sidebar toggle & resize ──
-function toggleSidebar() { LuumSidebar.toggleFold(); }
+function toggleSidebar() {
+  var sb = document.getElementById('sidebar');
+  var btn = document.getElementById('tbFoldBtn');
+  var hidden = sb.classList.toggle('sb-hidden');
+  localStorage.setItem('ec_sidebar_hidden', hidden ? '1' : '0');
+  if (btn) btn.title = hidden ? '사이드바 열기' : '사이드바 접기';
+}
 
 // ── Mobile tab nav ──
 function mobTab(tabId, viewName) {
@@ -3259,7 +3346,16 @@ function mobTab(tabId, viewName) {
 function setTheme(mode) { LuumSidebar.applyTheme(mode); }
 
 // ── Init ──
-LuumSidebar.init('#sidebar', { foldable: false, showUser: false });
+LuumSidebar.init('#sidebar', { foldable: false, showUser: false, showHeader: false });
+/* 사이드바 열림 상태 복원 */
+(function() {
+  if (localStorage.getItem('ec_sidebar_hidden') === '1') {
+    var sb = document.getElementById('sidebar');
+    var btn = document.getElementById('tbFoldBtn');
+    if (sb) sb.classList.add('sb-hidden');
+    if (btn) btn.title = '사이드바 열기';
+  }
+})();
 initSubproj();
 buildGantt();
 renderOverview();

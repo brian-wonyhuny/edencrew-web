@@ -381,17 +381,20 @@
       document.head.appendChild(style);
     }
 
-    var foldable  = opts.foldable  !== undefined ? opts.foldable  : false;
-    var showUser  = opts.showUser  !== undefined ? opts.showUser  : false;
-    var userName  = opts.userName  || 'Brian';
-    var userEmail = opts.userEmail || '';
-    var initial   = userName.charAt(0).toUpperCase();
+    var foldable   = opts.foldable   !== undefined ? opts.foldable   : false;
+    var showUser   = opts.showUser   !== undefined ? opts.showUser   : false;
+    var showHeader = opts.showHeader !== undefined ? opts.showHeader : true;
+    var userName   = opts.userName  || 'Brian';
+    var userEmail  = opts.userEmail || '';
+    var initial    = userName.charAt(0).toUpperCase();
 
-    /* Header */
-    var ws = document.createElement('div');
-    ws.className = 'lsb-ws';
-    ws.innerHTML = LOGO + (foldable ? FOLD_BTN : '');
-    sb.insertBefore(ws, sb.firstChild);
+    /* Header (로고 + 선택적 폴드 버튼) */
+    if (showHeader) {
+      var ws = document.createElement('div');
+      ws.className = 'lsb-ws';
+      ws.innerHTML = LOGO + (foldable ? FOLD_BTN : '');
+      sb.insertBefore(ws, sb.firstChild);
+    }
 
     /* Bottom — user card only (theme is in popover) */
     if (showUser) {
