@@ -67,14 +67,15 @@ input[type="date"] { color-scheme: light; }
 html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Inter','Pretendard',-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
 body { padding:10px; }
 
-.shell { display:flex; height:100%; gap:10px; }
-.main-col { display:flex; flex-direction:column; flex:1; min-width:0; overflow:hidden; }
+.shell { display:flex; flex-direction:column; height:100%; gap:8px; }
+.content-row { display:flex; flex:1; gap:10px; overflow:hidden; min-height:0; }
 
 /* ── Top Bar ── */
 .top-bar {
   height:52px; flex-shrink:0;
-  display:flex; align-items:center; gap:0;
-  padding:0 10px 0 6px;
+  display:flex; align-items:center; gap:8px;
+  padding:0 14px;
+  background:var(--s1); border-radius:12px;
 }
 .tb-left { display:flex; align-items:center; gap:8px; flex-shrink:0; }
 .tb-fold {
@@ -93,19 +94,19 @@ body { padding:10px; }
 .tb-sub { font-size:13px; font-weight:500; color:var(--wh); white-space:nowrap; }
 .tb-status-pill { display:flex; align-items:center; gap:4px; font-size:10.5px; font-weight:600; color:var(--ok); background:rgba(22,163,74,.08); border:1px solid rgba(22,163,74,.2); border-radius:20px; padding:3px 9px; flex-shrink:0; margin-left:2px; }
 .tb-dot2 { width:5px; height:5px; border-radius:50%; background:var(--ok); animation:pulse 2.4s ease-in-out infinite; flex-shrink:0; }
-.tb-tabs { flex:1; display:flex; align-items:center; justify-content:center; gap:2px; }
+.tb-tabs { display:flex; align-items:center; gap:6px; margin-left:auto; }
 .tb-tab {
-  font-size:13px; font-weight:400; color:var(--mu);
-  background:none; border:none; cursor:pointer; font-family:inherit;
-  padding:5px 10px; border-radius:7px;
-  transition:background .1s,color .1s;
+  font-size:13px; font-weight:500; color:var(--mu);
+  background:var(--s1); border:1px solid var(--bd); cursor:pointer; font-family:inherit;
+  padding:6px 14px; border-radius:8px;
+  transition:border-color .1s,color .1s,background .1s;
   text-decoration:none; white-space:nowrap;
-  display:inline-flex; align-items:center; gap:5px;
+  display:inline-flex; align-items:center; gap:6px;
 }
-.tb-tab:hover { background:var(--s3); color:var(--wh); }
-.tb-tab.active { color:var(--wh); font-weight:500; }
+.tb-tab:hover { border-color:var(--bd2); color:var(--wh); background:var(--s2); }
+.tb-tab.active { color:var(--wh); border-color:var(--bd2); font-weight:600; }
 .tb-tab-dis { opacity:.35; pointer-events:none; cursor:default; }
-.tb-sep { color:var(--bd2); font-size:13px; padding:0 1px; user-select:none; }
+.tb-sep { display:none; }
 .tb-badge { font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:1px 5px; border-radius:3px; }
 .tb-badge-ver { background:rgba(52,199,89,.12); color:#34C759; }
 .tb-badge-sched { background:var(--mu2); color:var(--mu); }
@@ -185,8 +186,8 @@ body { padding:10px; }
 .mtab.active .mtab-badge { background:var(--pg); color:var(--p); }
 
 /* ── Sidebar ── */
-.sidebar { width:260px; background:none; border-right:none; display:flex; flex-direction:column; overflow:hidden; position:relative; transition:width .22s cubic-bezier(.4,0,.2,1); flex-shrink:0; }
-[data-theme="dark"] .sidebar { background:var(--s1); border-right:1px solid var(--bd); }
+.sidebar { width:260px; background:var(--s1); border-radius:12px; display:flex; flex-direction:column; overflow:hidden; position:relative; transition:width .22s cubic-bezier(.4,0,.2,1); flex-shrink:0; }
+[data-theme="dark"] .sidebar { border:1px solid var(--bd); }
 .sidebar.col { width:52px; }
 .sidebar-scroll { flex:1; overflow-y:auto; overflow-x:hidden; }
 .sidebar-bottom { flex-shrink:0; border-top:none; }
@@ -260,8 +261,8 @@ body { padding:10px; }
 .nav-settings { border-bottom:none; }
 
 /* ── Main ── */
-.main { flex:1; min-width:0; overflow-y:auto; padding:0; display:flex; flex-direction:column; background:var(--s1); border-radius:12px; }
-[data-theme="dark"] .main { background:var(--bg); border-radius:0; }
+.main { flex:1; min-width:0; overflow-y:auto; padding:0; display:flex; flex-direction:column; background:transparent; border-radius:0; }
+[data-theme="dark"] .main { background:transparent; }
 .main.prd-active { overflow:hidden; }
 
 /* views */
@@ -297,8 +298,7 @@ body { padding:10px; }
 .btn-prd-src { padding:8px 18px; background:var(--p); color:#fff; border:none; border-radius:7px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; align-self:flex-end; transition:opacity .1s; }
 .btn-prd-src:hover { opacity:.85; }
 /* registered doc layout */
-.prd-doc-layout { flex:1; min-height:0; display:flex; justify-content:center; overflow-y:auto; overflow-x:hidden; background:var(--bg); padding:24px 32px; border-radius:0 0 12px 12px; }
-[data-theme="dark"] .prd-doc-layout { border-radius:0; }
+.prd-doc-layout { flex:1; min-height:0; display:flex; justify-content:center; overflow-y:auto; overflow-x:hidden; padding:0 32px 24px; }
 .prd-doc-layout.hidden { display:none; }
 .prd-center-wrap { display:flex; width:100%; max-width:1120px; align-items:flex-start; gap:0; }
 .prd-anchor-nav { width:180px; flex-shrink:0; padding:4px 0; position:sticky; top:0; display:flex; flex-direction:column; gap:2px; }
@@ -713,6 +713,36 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 <body>
 <div class="shell">
 
+  <!-- TOP BAR — full width -->
+  <div class="top-bar" id="topBar">
+    <div class="tb-left">
+      <div class="tb-breadcrumb">
+        <button class="tb-proj" onclick="location.href='luum-index.html'">edencrew.com 리뉴얼</button>
+        <span class="tb-chev">›</span>
+        <span class="tb-sub" id="tbSubName">PRD</span>
+      </div>
+    </div>
+    <div class="tb-tabs">
+      <button class="tb-tab active" id="tbtab-prd" onclick="switchMainTab('prd')">PRD <span class="tb-badge tb-badge-ver">v1.0</span></button>
+      <a class="tb-tab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="tb-badge tb-badge-ver">v1.0</span></a>
+      <span class="tb-tab tb-tab-dis">유저플로우 <span class="tb-badge tb-badge-sched">예정</span></span>
+    </div>
+    <div class="tb-right">
+      <button class="tb-icon-btn" title="유저" onclick="LuumSidebar.openUserPopover(event, {userName:'Brian', userEmail:'brian@edencrew.com'})">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </button>
+      <button class="tb-icon-btn" title="코멘트">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <button class="tb-icon-btn" title="히스토리">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENT ROW — sidebar + main -->
+  <div class="content-row">
+
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
   <div class="sidebar-resizer" id="sidebarResizer"></div>
@@ -815,45 +845,6 @@ Admin <span class="nav-badge nb-wip">NEW</span>
   </div><!-- /sidebar-scroll -->
   </nav>
 
-  <!-- RIGHT COLUMN -->
-  <div class="main-col">
-
-  <!-- TOP BAR -->
-  <div class="top-bar" id="topBar">
-    <div class="tb-left">
-      <button class="tb-fold" id="tbFoldBtn" onclick="toggleSidebar()" title="사이드바 접기">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/>
-        </svg>
-      </button>
-      <div class="tb-breadcrumb">
-        <button class="tb-proj" onclick="location.href='luum-index.html'">edencrew.com 리뉴얼</button>
-        <span class="tb-chev">›</span>
-        <span class="tb-sub" id="tbSubName">전체</span>
-        <div class="tb-status-pill"><div class="tb-dot2"></div>진행 중</div>
-      </div>
-    </div>
-    <div class="tb-tabs">
-      <button class="tb-tab" id="tbtab-prd" onclick="switchMainTab('prd')">PRD <span class="tb-badge tb-badge-ver">v1.0</span></button>
-      <span class="tb-sep">—</span>
-      <a class="tb-tab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="tb-badge tb-badge-ver">v1.0</span></a>
-      <span class="tb-sep">—</span>
-      <span class="tb-tab tb-tab-dis">유저플로우 <span class="tb-badge tb-badge-sched">예정</span></span>
-      <span class="tb-sep">—</span>
-      <span class="tb-tab tb-tab-dis">Ecosystem <span class="tb-badge tb-badge-beta">BETA</span></span>
-    </div>
-    <div class="tb-right">
-      <button class="tb-icon-btn" title="유저" onclick="LuumSidebar.openUserPopover(event, {userName:'Brian', userEmail:'brian@edencrew.com'})">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </button>
-      <button class="tb-icon-btn" title="코멘트">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </button>
-      <button class="tb-icon-btn" title="히스토리">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
-      </button>
-    </div>
-  </div>
 
   <!-- Mobile bottom nav -->
   <nav class="mob-nav">
@@ -1081,7 +1072,7 @@ Admin <span class="nav-badge nb-wip">NEW</span>
 
   </main>
 
-  </div><!-- /main-col -->
+  </div><!-- /content-row -->
 </div><!-- /shell -->
 
 <script src="luum-sidebar.js"></script>
@@ -3509,10 +3500,8 @@ function prdScrollTo(id, el) {
 // ── Sidebar toggle & resize ──
 function toggleSidebar() {
   var sb = document.getElementById('sidebar');
-  var btn = document.getElementById('tbFoldBtn');
   var hidden = sb.classList.toggle('sb-hidden');
   localStorage.setItem('ec_sidebar_hidden', hidden ? '1' : '0');
-  if (btn) btn.title = hidden ? '사이드바 열기' : '사이드바 접기';
 }
 
 // ── Mobile tab nav ──
@@ -3532,11 +3521,10 @@ LuumSidebar.init('#sidebar', { foldable: false, showUser: false, showHeader: tru
 (function() {
   if (localStorage.getItem('ec_sidebar_hidden') === '1') {
     var sb = document.getElementById('sidebar');
-    var btn = document.getElementById('tbFoldBtn');
     if (sb) sb.classList.add('sb-hidden');
-    if (btn) btn.title = '사이드바 열기';
   }
 })();
+switchMainTab('prd');
 initSubproj();
 buildGantt();
 renderOverview();
