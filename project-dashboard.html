@@ -97,17 +97,29 @@ body { padding:10px 10px 10px 0; }
 [data-theme="dark"] .sb-ws .ws-wm .luum-l { fill:#F0EDE8; }
 [data-theme="dark"] .sb-ws .ws-wm .luum-m { fill:#F0EDE8; }
 .sidebar.col .sb-ws .ws-wm { display:none; }
-/* Sidebar project card */
-.sb-proj { padding:10px 10px 4px; }
-.sb-proj-card { background:var(--s1); border:1px solid var(--bd); border-radius:8px; padding:12px 14px; }
-[data-theme="dark"] .sb-proj-card { background:var(--s2); }
+/* Sidebar project area (flat, no card) */
+.sb-proj { padding:12px 14px 10px; }
 .sb-proj-header { display:flex; align-items:flex-start; justify-content:space-between; gap:6px; }
 .sb-proj-name { font-size:13px; font-weight:700; color:var(--wh); line-height:1.3; }
 .sb-proj-client { font-size:11px; color:var(--mu); margin-top:2px; }
 .sb-proj-set { width:22px; height:22px; border-radius:5px; border:none; background:none; color:var(--mu); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .12s,color .12s; flex-shrink:0; }
-.sb-proj-set:hover { background:var(--s3); color:var(--wh); }
-.sb-proj-status { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:600; color:var(--ok); margin-top:8px; }
+.sb-proj-set:hover { background:var(--mu2); color:var(--wh); }
+.sb-proj-status { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:600; color:var(--ok); margin-top:6px; }
 .sb-proj-dot { width:5px; height:5px; border-radius:50%; background:var(--ok); }
+/* Sub-project selector */
+.sb-subproj { padding:8px 14px 0; position:relative; }
+.sp-trigger { width:100%; display:flex; align-items:center; gap:7px; padding:6px 10px; background:var(--mu2); border:none; border-radius:5px; cursor:pointer; font-family:inherit; font-size:11px; font-weight:500; color:var(--wh); transition:background .12s; text-align:left; }
+.sp-trigger:hover { background:var(--bd2); }
+.sp-trigger-label { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sp-trigger-chev { color:var(--mu); flex-shrink:0; transition:transform .18s; }
+.sp-trigger.open .sp-trigger-chev { transform:rotate(180deg); }
+.sp-popover { position:absolute; top:calc(100% + 4px); left:14px; right:14px; background:var(--s1); border:1px solid var(--bd2); border-radius:7px; box-shadow:0 4px 16px rgba(0,0,0,.12); z-index:200; overflow:hidden; display:none; }
+[data-theme="dark"] .sp-popover { box-shadow:0 4px 20px rgba(0,0,0,.5); }
+.sp-popover.open { display:block; }
+.sp-item { display:flex; align-items:center; gap:8px; padding:8px 12px; font-size:12px; font-weight:500; color:var(--wh); cursor:pointer; transition:background .1s; }
+.sp-item:hover { background:var(--s2); }
+.sp-item.active { color:var(--p); }
+.sp-item-check { width:14px; flex-shrink:0; color:var(--p); }
 /* Main tab bar */
 .main-tabbar { display:flex; align-items:flex-end; gap:0; padding:0 20px; border-bottom:1px solid var(--bd); flex-shrink:0; }
 .mtab-group { display:flex; align-items:flex-end; gap:0; flex:1; }
@@ -622,21 +634,31 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 
   <div class="sidebar-scroll">
 
-    <!-- 프로젝트 개요 카드 -->
+    <!-- 프로젝트 개요 -->
     <div class="sb-proj">
-      <div class="sb-proj-card">
-        <div class="sb-proj-header">
-          <div>
-            <div class="sb-proj-name">edencrew.com 리뉴얼</div>
-            <div class="sb-proj-client">Edencrew Inc.</div>
-          </div>
-          <button class="sb-proj-set" onclick="showView('settings-project')" title="프로젝트 설정">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
+      <div class="sb-proj-header">
+        <div>
+          <div class="sb-proj-name">edencrew.com 리뉴얼</div>
+          <div class="sb-proj-client">Edencrew Inc.</div>
         </div>
-        <div class="sb-proj-status"><div class="sb-proj-dot"></div>진행 중</div>
+        <button class="sb-proj-set" onclick="showView('settings-project')" title="프로젝트 설정">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
       </div>
+      <div class="sb-proj-status"><div class="sb-proj-dot"></div>진행 중</div>
     </div>
+
+    <!-- 서브 프로젝트 선택기 (서브 프로젝트가 있을 때만 렌더링) -->
+    <div class="sb-subproj" id="sbSubproj" style="display:none;">
+      <button class="sp-trigger" id="spTrigger" onclick="toggleSubprojPopover()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <span class="sp-trigger-label" id="spTriggerLabel">서브 프로젝트 선택</span>
+        <svg class="sp-trigger-chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="sp-popover" id="spPopover"></div>
+    </div>
+
+    <div style="height:1px; background:var(--bd); margin:10px 0 0;"></div>
 
     <!-- Milestone card -->
     <div class="ms-card open" id="msCard">
@@ -691,7 +713,6 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
   <div class="sidebar-bottom">
     <!-- Bottom bar: copyright + theme + fold -->
     <div class="sb-bot-bar">
-      <span class="sb-copy">© 2026 Edencrew Inc.</span>
       <div class="th-seg">
         <button class="th-btn" data-th="light" onclick="setTheme('light')" title="라이트">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -3189,6 +3210,63 @@ function flashMsg(id) {
   setTimeout(() => el.classList.remove('show'), 2400);
 }
 
+// ── Sub-project selector ──
+const SUB_PROJECTS = [
+  { id: 'edencrew', name: 'edencrew.com 리뉴얼' },
+  { id: 'teamcloud', name: 'TeamCloud' },
+  { id: 'admin', name: 'Admin Portal' },
+];
+let currentSubProj = SUB_PROJECTS[0].id;
+
+function initSubproj() {
+  if (!SUB_PROJECTS || SUB_PROJECTS.length <= 1) return;
+  const wrap = document.getElementById('sbSubproj');
+  if (wrap) wrap.style.display = '';
+  renderSubprojPopover();
+  updateSubprojTrigger();
+}
+
+function renderSubprojPopover() {
+  const pop = document.getElementById('spPopover');
+  if (!pop) return;
+  pop.innerHTML = SUB_PROJECTS.map(p => `
+    <div class="sp-item${p.id === currentSubProj ? ' active' : ''}" onclick="selectSubproj('${p.id}')">
+      <span class="sp-item-check">${p.id === currentSubProj ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}</span>
+      ${p.name}
+    </div>`).join('');
+}
+
+function updateSubprojTrigger() {
+  const sp = SUB_PROJECTS.find(p => p.id === currentSubProj);
+  const lbl = document.getElementById('spTriggerLabel');
+  if (lbl && sp) lbl.textContent = sp.name;
+}
+
+function selectSubproj(id) {
+  currentSubProj = id;
+  updateSubprojTrigger();
+  renderSubprojPopover();
+  closeSubprojPopover();
+}
+
+function toggleSubprojPopover() {
+  const pop = document.getElementById('spPopover');
+  const btn = document.getElementById('spTrigger');
+  if (!pop) return;
+  const isOpen = pop.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+}
+
+function closeSubprojPopover() {
+  document.getElementById('spPopover')?.classList.remove('open');
+  document.getElementById('spTrigger')?.classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('sbSubproj');
+  if (wrap && !wrap.contains(e.target)) closeSubprojPopover();
+});
+
 function switchMainTab(tab) {
   document.querySelectorAll('.mtab[id^="mtab-"]').forEach(el => el.classList.remove('active'));
   const el = document.getElementById('mtab-' + tab);
@@ -3236,6 +3314,7 @@ function updateThemeBtn(mode) {
 })();
 
 // ── Init ──
+initSubproj();
 buildGantt();
 renderOverview();
 populatePeriodForm();
