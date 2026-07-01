@@ -38,7 +38,7 @@
 }
 .lsb-tog:hover { background: var(--nav-ho-bg, var(--s2, #F3F4F6)); color: var(--tx, var(--wh, #111827)); }
 .lsb-bot {
-  flex-shrink: 0; padding: 8px;
+  flex-shrink: 0; padding: 8px 8px 16px;
   display: flex; flex-direction: column; gap: 3px;
 }
 .lsb-user {
