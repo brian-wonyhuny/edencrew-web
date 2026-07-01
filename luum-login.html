@@ -1,96 +1,145 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luum — 로그인</title>
+<title>Luum — Sign In</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var s = localStorage.getItem('luum-theme');
+  var t = (s === 'dark' || s === 'light') ? s : 'light';
+  if (t === 'dark') document.documentElement.setAttribute('data-theme','dark');
+})();
+</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body { height: 100%; }
-body {
-  background: #EBEBEB;
+:root {
+  --bg:  #F5F5F5;
+  --sur: #FFFFFF;
+  --bdr: #E9E8E8;
+  --bdr2: #D1D5DB;
+  --tx:  #111827;
+  --sub: #6B7280;
+  --mu:  #9CA3AF;
+  --acc: #8361FF;
+}
+[data-theme="dark"] {
+  --bg:  #09090D;
+  --sur: #111118;
+  --bdr: rgba(255,255,255,0.08);
+  --bdr2: rgba(255,255,255,0.14);
+  --tx:  #F0EDE8;
+  --sub: rgba(240,237,232,0.55);
+  --mu:  rgba(240,237,232,0.32);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
   font-family: 'Inter', 'Pretendard', -apple-system, sans-serif;
   font-size: 14px;
+  color: var(--tx);
+  transition: background .2s, color .2s;
+}
+body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100%;
+  gap: 20px;
 }
 
 .card {
   width: 100%;
   max-width: 400px;
-  background: #FFFFFF;
-  border-radius: 12px;
+  background: var(--sur);
+  border-radius: 14px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.06);
   padding: 44px 40px 36px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
 }
+[data-theme="dark"] .card { box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 4px 24px rgba(0,0,0,.3); }
 
-/* Luum wordmark */
-.logo-wrap {
-  margin-bottom: 20px;
-}
+.logo-wrap { margin-bottom: 24px; }
+[data-theme="dark"] .luum-l { fill: #F0EDE8; }
+[data-theme="dark"] .luum-m { fill: #F0EDE8; }
 
-/* Heading */
 .card-title {
   font-size: 22px;
   font-weight: 600;
-  color: #111827;
+  color: var(--tx);
   letter-spacing: -.02em;
-  margin-bottom: 28px;
+  margin-bottom: 6px;
   font-family: 'Outfit', 'Pretendard', sans-serif;
 }
+.card-sub {
+  font-size: 13px;
+  color: var(--mu);
+  margin-bottom: 28px;
+  text-align: center;
+}
 
-/* Google button */
-.btn-google {
+/* OAuth buttons */
+.btn-oauth {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   height: 44px;
-  background: #FFFFFF;
-  border: 1px solid #E9E8E8;
+  background: var(--sur);
+  border: 1px solid var(--bdr);
   border-radius: 8px;
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--tx);
   cursor: pointer;
   transition: background .12s, border-color .12s;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
-.btn-google:hover { background: #F9FAFB; border-color: #D1D5DB; }
+.btn-oauth:last-of-type { margin-bottom: 0; }
+.btn-oauth:hover { background: var(--bg); border-color: var(--bdr2); }
 
-/* Google G SVG */
-.g-icon { flex-shrink: 0; }
+.btn-wrap { width: 100%; margin-bottom: 20px; }
 
-/* Bottom links */
-.card-links {
+/* divider */
+.or-row {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-top: 4px;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--mu);
+  font-size: 12px;
 }
-.card-links a {
-  font-size: 13px;
-  color: #8361FF;
+.or-line { flex: 1; height: 1px; background: var(--bdr); }
+
+/* Privacy notice */
+.card-notice {
+  font-size: 11.5px;
+  color: var(--mu);
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+.card-notice a {
+  color: var(--acc);
   text-decoration: none;
-  font-weight: 400;
-  transition: opacity .12s;
 }
-.card-links a:hover { opacity: .75; }
-.card-links .sep {
-  width: 1px;
-  height: 12px;
-  background: #E9E8E8;
+.card-notice a:hover { text-decoration: underline; }
+
+/* Footer */
+.page-footer {
+  font-size: 11.5px;
+  color: var(--mu);
+  text-align: center;
 }
 </style>
 </head>
@@ -98,37 +147,44 @@ body {
 
 <div class="card">
 
-  <!-- Luum wordmark -->
   <div class="logo-wrap">
     <svg width="80" height="14" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#111827" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
+      <path class="luum-l" fill="#111827" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
       <path fill="#8361FF" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
       <path fill="#8361FF" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
-      <path fill="#111827" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
+      <path class="luum-m" fill="#111827" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
     </svg>
   </div>
 
-  <h1 class="card-title">로그인</h1>
+  <h1 class="card-title">Sign in to Luum</h1>
+  <p class="card-sub">Use your account to continue</p>
 
-  <!-- Google OAuth -->
-  <button class="btn-google">
-    <svg class="g-icon" width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.85l6.08-6.08C34.56 3.19 29.6 1 24 1 14.72 1 6.86 6.58 3.24 14.44l7.07 5.49C12.08 13.45 17.56 9.5 24 9.5z"/>
-      <path fill="#4285F4" d="M46.64 24.5c0-1.7-.15-3.35-.44-4.95H24v9.36h12.73c-.55 2.96-2.2 5.46-4.68 7.13l7.18 5.57C43.17 37.73 46.64 31.6 46.64 24.5z"/>
-      <path fill="#FBBC05" d="M10.31 28.07A14.6 14.6 0 0 1 9.5 24c0-1.41.2-2.78.54-4.07l-7.07-5.49A22.94 22.94 0 0 0 1 24c0 3.77.9 7.34 2.5 10.5l7.81-6.43z"/>
-      <path fill="#34A853" d="M24 47c6.48 0 11.93-2.14 15.9-5.83l-7.18-5.57c-2.01 1.35-4.59 2.14-8.72 2.14-6.44 0-11.92-3.95-13.69-9.43l-7.81 6.43C6.86 41.42 14.72 47 24 47z"/>
-    </svg>
-    Google로 계속하기
-  </button>
-
-  <!-- Links -->
-  <div class="card-links">
-    <a href="#">회원가입</a>
-    <div class="sep"></div>
-    <a href="#">비밀번호 찾기</a>
+  <div class="btn-wrap">
+    <button class="btn-oauth" onclick="location.href='luum-index.html'">
+      <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.85l6.08-6.08C34.56 3.19 29.6 1 24 1 14.72 1 6.86 6.58 3.24 14.44l7.07 5.49C12.08 13.45 17.56 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.64 24.5c0-1.7-.15-3.35-.44-4.95H24v9.36h12.73c-.55 2.96-2.2 5.46-4.68 7.13l7.18 5.57C43.17 37.73 46.64 31.6 46.64 24.5z"/>
+        <path fill="#FBBC05" d="M10.31 28.07A14.6 14.6 0 0 1 9.5 24c0-1.41.2-2.78.54-4.07l-7.07-5.49A22.94 22.94 0 0 0 1 24c0 3.77.9 7.34 2.5 10.5l7.81-6.43z"/>
+        <path fill="#34A853" d="M24 47c6.48 0 11.93-2.14 15.9-5.83l-7.18-5.57c-2.01 1.35-4.59 2.14-8.72 2.14-6.44 0-11.92-3.95-13.69-9.43l-7.81 6.43C6.86 41.42 14.72 47 24 47z"/>
+      </svg>
+      Continue with Google
+    </button>
+    <button class="btn-oauth" onclick="location.href='luum-index.html'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.54 4zm-3.1-17.5c.06 2.3-1.73 4.18-3.93 4-..3-2.2 1.84-4 3.93-4z"/>
+      </svg>
+      Continue with Apple
+    </button>
   </div>
+
+  <p class="card-notice">
+    By continuing, you agree to Luum's<br>
+    <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+  </p>
 
 </div>
+
+<p class="page-footer">© 2026 Edencrew Inc.</p>
 
 </body>
 </html>
