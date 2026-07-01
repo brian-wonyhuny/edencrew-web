@@ -75,32 +75,32 @@ body {
 
 /* workspace header */
 .sb-ws {
-  height: 52px;
+  height: 56px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 12px;
+  justify-content: space-between;
+  padding: 0 14px 0 16px;
   border-bottom: 1px solid var(--bdr);
-  cursor: pointer;
-  user-select: none;
   overflow: hidden;
   white-space: nowrap;
-  transition: background .12s;
 }
-.sb-ws:hover { background: var(--nav-ho-bg); }
-.ws-icon {
-  width: 26px; height: 26px;
-  border-radius: 6px;
-  background: linear-gradient(135deg,#8361FF,#5B3FD4);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.ws-wm { display: block; }
-[data-theme="dark"] .ws-wm path[fill="#111827"] { fill: #F0EDE8; }
-.sidebar.col .ws-wm { display: none; }
+.sb-greeting { display: flex; flex-direction: column; gap: 1px; overflow: hidden; }
+.sb-greeting-hi { font-size: 11px; color: var(--mu); font-weight: 400; }
+.sb-greeting-name { font-size: 14px; font-weight: 600; color: var(--tx); letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; }
+.sidebar.col .sb-greeting { display: none; }
 .sidebar.col .sb-ws { justify-content: center; }
-.sb-ws { cursor: pointer; }
+
+.sb-profile-btn {
+  width: 30px; height: 30px; flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--bdr);
+  background: var(--fa);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: border-color .12s, background .12s;
+}
+.sb-profile-btn:hover { border-color: var(--acc); background: var(--acc-f); }
+.sb-profile-btn svg { color: var(--sub); }
 
 /* nav */
 .sb-nav { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; display: flex; flex-direction: column; gap: 1px; }
@@ -336,13 +336,17 @@ body {
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar" id="sb">
 
-  <div class="sb-ws" onclick="location.href='luum-index.html'">
-    <svg class="ws-wm" width="68" height="12" viewBox="0 0 51 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#111827" d="M0 8.544V0H2.4V8.544H0ZM1.956 8.544V6.504H5.952V8.544H1.956Z"/>
-      <path fill="#8361FF" d="M15.922 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284C12.334 6.404 12.178 5.78 12.178 5.076V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
-      <path fill="#8361FF" d="M30.249 8.688c-.752 0-1.408-.152-1.968-.456-.56-.312-.996-.74-1.308-1.284-.312-.544-.468-1.168-.468-1.872V0h2.4v5.292c0 .272.06.504.18.696.12.192.28.34.48.444.208.096.436.144.684.144.256 0 .48-.048.672-.144.2-.096.356-.24.468-.424.112-.192.168-.424.168-.692V0h2.412v5.088c0 .704-.156 1.328-.468 1.872-.304.536-.736.96-1.296 1.272-.552.304-1.204.456-1.956.456Z"/>
-      <path fill="#111827" d="M40.987 8.544V0h1.74l3.18 4.656h-.756L48.319 0h1.74v8.544H47.683V3.936l.348.096-1.74 2.496h-1.536L43.027 4.032l.336-.096v4.608H40.987Z"/>
-    </svg>
+  <div class="sb-ws">
+    <div class="sb-greeting">
+      <span class="sb-greeting-hi">Hi there,</span>
+      <span class="sb-greeting-name">Brian</span>
+    </div>
+    <button class="sb-profile-btn" title="Profile settings">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    </button>
   </div>
 
   <nav class="sb-nav">
@@ -406,16 +410,6 @@ body {
 
 <!-- ══ MAIN ══ -->
 <main class="main">
-
-  <div class="pg-topbar">
-    <span class="pg-greeting">Hi, <strong>Brian</strong> 👋</span>
-    <button class="pg-profile-btn" title="Profile settings" onclick="alert('프로필 설정')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="8" r="4"/>
-        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-      </svg>
-    </button>
-  </div>
 
   <div class="pg-head">
     <h1 class="pg-title">All Projects</h1>
