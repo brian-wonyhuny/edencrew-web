@@ -67,8 +67,8 @@ input[type="date"] { color-scheme: light; }
 html,body { height:100%; background:var(--bg); color:var(--wh); font-family:'Inter','Pretendard',-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.5; overflow:hidden; }
 body { padding:10px; }
 
-.shell { display:flex; flex-direction:column; height:100%; gap:8px; }
-.content-row { display:flex; flex:1; gap:10px; overflow:hidden; min-height:0; }
+.shell { display:flex; height:100%; gap:10px; }
+.content-row { display:flex; flex-direction:column; flex:1; min-width:0; overflow:hidden; gap:8px; }
 
 /* ── Top Bar ── */
 .top-bar {
@@ -713,37 +713,7 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 <body>
 <div class="shell">
 
-  <!-- TOP BAR — full width -->
-  <div class="top-bar" id="topBar">
-    <div class="tb-left">
-      <div class="tb-breadcrumb">
-        <button class="tb-proj" onclick="location.href='luum-index.html'">edencrew.com 리뉴얼</button>
-        <span class="tb-chev">›</span>
-        <span class="tb-sub" id="tbSubName">PRD</span>
-      </div>
-    </div>
-    <div class="tb-tabs">
-      <button class="tb-tab active" id="tbtab-prd" onclick="switchMainTab('prd')">PRD <span class="tb-badge tb-badge-ver">v1.0</span></button>
-      <a class="tb-tab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="tb-badge tb-badge-ver">v1.0</span></a>
-      <span class="tb-tab tb-tab-dis">유저플로우 <span class="tb-badge tb-badge-sched">예정</span></span>
-    </div>
-    <div class="tb-right">
-      <button class="tb-icon-btn" title="유저" onclick="LuumSidebar.openUserPopover(event, {userName:'Brian', userEmail:'brian@edencrew.com'})">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </button>
-      <button class="tb-icon-btn" title="코멘트">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </button>
-      <button class="tb-icon-btn" title="히스토리">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- CONTENT ROW — sidebar + main -->
-  <div class="content-row">
-
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR — 좌측 독립 카드 -->
   <nav class="sidebar" id="sidebar">
   <div class="sidebar-resizer" id="sidebarResizer"></div>
 
@@ -845,6 +815,35 @@ Admin <span class="nav-badge nb-wip">NEW</span>
   </div><!-- /sidebar-scroll -->
   </nav>
 
+  <!-- RIGHT COLUMN — 탑바 + 콘텐츠 -->
+  <div class="content-row">
+
+  <!-- TOP BAR — 우측 컬럼 전용 -->
+  <div class="top-bar" id="topBar">
+    <div class="tb-left">
+      <div class="tb-breadcrumb">
+        <button class="tb-proj" onclick="location.href='luum-index.html'">edencrew.com 리뉴얼</button>
+        <span class="tb-chev">›</span>
+        <span class="tb-sub" id="tbSubName">PRD</span>
+      </div>
+    </div>
+    <div class="tb-tabs">
+      <button class="tb-tab active" id="tbtab-prd" onclick="switchMainTab('prd')">PRD <span class="tb-badge tb-badge-ver">v1.0</span></button>
+      <a class="tb-tab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="tb-badge tb-badge-ver">v1.0</span></a>
+      <span class="tb-tab tb-tab-dis">유저플로우 <span class="tb-badge tb-badge-sched">예정</span></span>
+    </div>
+    <div class="tb-right">
+      <button class="tb-icon-btn" title="유저" onclick="LuumSidebar.openUserPopover(event, {userName:'Brian', userEmail:'brian@edencrew.com'})">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </button>
+      <button class="tb-icon-btn" title="코멘트">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <button class="tb-icon-btn" title="히스토리">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+      </button>
+    </div>
+  </div>
 
   <!-- Mobile bottom nav -->
   <nav class="mob-nav">
