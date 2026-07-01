@@ -3444,7 +3444,8 @@ function switchMainTab(tab) {
 
 // ── PRD View ──
 function initPrdView() {
-  var reg = localStorage.getItem('ec_prd_registered') === '1';
+  /* 명시적으로 '0'이 아닌 한 등록된 상태로 취급 */
+  var reg = localStorage.getItem('ec_prd_registered') !== '0';
   document.getElementById('prdEmpty').classList.toggle('hidden', reg);
   document.getElementById('prdDocLayout').classList.toggle('hidden', !reg);
 }
