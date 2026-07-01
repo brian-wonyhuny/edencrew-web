@@ -72,9 +72,8 @@ body { padding:10px; }
 
 /* ── Top Bar ── */
 .top-bar {
-  height:46px; flex-shrink:0;
+  height:52px; flex-shrink:0;
   display:flex; align-items:center; gap:0;
-  border-bottom:1px solid var(--bd);
   padding:0 10px 0 6px;
 }
 .tb-left { display:flex; align-items:center; gap:8px; flex-shrink:0; }
@@ -88,7 +87,7 @@ body { padding:10px; }
 .tb-fold:hover { background:var(--s3); color:var(--wh); }
 .sidebar.sb-hidden + .main .tb-fold-ico { transform:scaleX(-1); }
 .tb-breadcrumb { display:flex; align-items:center; gap:5px; }
-.tb-proj { font-size:13px; font-weight:400; color:var(--mu); cursor:pointer; white-space:nowrap; transition:color .1s; border:none; background:none; font-family:inherit; }
+.tb-proj { font-size:18px; font-weight:700; color:var(--wh); cursor:pointer; white-space:nowrap; transition:color .1s; border:none; background:none; font-family:inherit; }
 .tb-proj:hover { color:var(--wh); }
 .tb-chev { color:var(--mu2); font-size:14px; flex-shrink:0; line-height:1; }
 .tb-sub { font-size:13px; font-weight:500; color:var(--wh); white-space:nowrap; }
@@ -154,7 +153,7 @@ body { padding:10px; }
 /* Sidebar project area (flat, no card) */
 .sb-proj { padding:12px 14px 10px; }
 .sb-proj-header { display:flex; align-items:flex-start; justify-content:space-between; gap:6px; }
-.sb-proj-name { font-size:18px; font-weight:700; color:var(--wh); line-height:1.3; }
+.sb-proj-name { font-size:13px; font-weight:600; color:var(--wh); line-height:1.3; }
 .sb-proj-client { font-size:11px; color:var(--mu); margin-top:2px; }
 .sb-proj-set { width:22px; height:22px; border-radius:5px; border:none; background:none; color:var(--mu); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .12s,color .12s; flex-shrink:0; }
 .sb-proj-set:hover { background:var(--mu2); color:var(--wh); }
