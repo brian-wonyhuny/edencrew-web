@@ -83,10 +83,32 @@ body { padding:10px 10px 10px 0; }
 .strip-phase { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--p); background:var(--pg); padding:3px 8px; border-radius:2px; }
 .strip-right { margin-left:auto; display:flex; align-items:center; gap:14px; }
 .strip-date { font-size:11px; color:var(--mu); font-variant-numeric:tabular-nums; }
-.s-alive { display:flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--ok); }
-.s-dot { width:6px; height:6px; border-radius:50%; background:var(--ok); animation:pulse 2.4s ease-in-out infinite; }
+.s-status { display:flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--ok); background:rgba(22,163,74,.08); border:1px solid rgba(22,163,74,.2); border-radius:20px; padding:4px 10px; }
+.s-dot { width:6px; height:6px; border-radius:50%; background:var(--ok); animation:pulse 2.4s ease-in-out infinite; flex-shrink:0; }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 @media(prefers-reduced-motion:reduce){.s-dot{animation:none}}
+/* Strip icon buttons */
+.strip-icon-btn { width:30px; height:30px; border-radius:6px; border:none; background:none; color:var(--mu); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .12s,color .12s; flex-shrink:0; }
+.strip-icon-btn:hover { background:var(--mu2); color:var(--wh); }
+/* Sidebar project card */
+.sb-proj { padding:10px 10px 4px; }
+.sb-proj-card { background:var(--s1); border:1px solid var(--bd); border-radius:8px; padding:12px 14px; }
+[data-theme="dark"] .sb-proj-card { background:var(--s2); }
+.sb-proj-header { display:flex; align-items:flex-start; justify-content:space-between; gap:6px; }
+.sb-proj-name { font-size:13px; font-weight:700; color:var(--wh); line-height:1.3; }
+.sb-proj-client { font-size:11px; color:var(--mu); margin-top:2px; }
+.sb-proj-set { width:22px; height:22px; border-radius:5px; border:none; background:none; color:var(--mu); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .12s,color .12s; flex-shrink:0; }
+.sb-proj-set:hover { background:var(--s3); color:var(--wh); }
+.sb-proj-status { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:600; color:var(--ok); margin-top:8px; }
+.sb-proj-dot { width:5px; height:5px; border-radius:50%; background:var(--ok); }
+/* Main tab bar */
+.main-tabbar { display:flex; align-items:flex-end; gap:0; padding:0 20px; border-bottom:1px solid var(--bd); flex-shrink:0; }
+.mtab { display:flex; align-items:center; gap:5px; padding:10px 14px; font-size:12px; font-weight:500; color:var(--mu); border:none; background:none; cursor:pointer; font-family:inherit; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .12s; text-decoration:none; white-space:nowrap; }
+.mtab:hover { color:var(--wh); }
+.mtab.active { color:var(--wh); font-weight:600; border-bottom-color:var(--p); }
+.mtab.mtab-disabled { opacity:.4; pointer-events:none; cursor:default; }
+.mtab-badge { font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; background:var(--mu2); color:var(--mu); }
+.mtab.active .mtab-badge { background:var(--pg); color:var(--p); }
 
 /* ── Sidebar ── */
 .sidebar { width:260px; background:none; border-right:none; display:flex; flex-direction:column; overflow:hidden; position:relative; transition:width .22s cubic-bezier(.4,0,.2,1); flex-shrink:0; }
@@ -586,8 +608,16 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
       <span class="strip-slash">/</span>
       <span class="strip-phase" id="stripPhase">로딩 중</span>
       <div class="strip-right">
-        <span class="strip-date" id="stripDate"></span>
-        <div class="s-alive"><div class="s-dot"></div>진행 중</div>
+        <div class="s-status"><div class="s-dot"></div>진행 중</div>
+        <button class="strip-icon-btn" title="유저">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </button>
+        <button class="strip-icon-btn" title="코멘트">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="strip-icon-btn" title="히스토리">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+        </button>
       </div>
     </div>
   </header>
@@ -597,18 +627,19 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
   <div class="sidebar-resizer" id="sidebarResizer"></div>
   <div class="sidebar-scroll">
 
-    <!-- 프로젝트 개요 -->
-    <div class="nav-sec open" id="secOverview">
-      <div class="nav-sec-head" onclick="toggleSec('secOverview')">
-        <span class="nsh-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 17h6"/><path d="M9 13h6"/></svg></span>
-        <span class="nsh-title">프로젝트 개요</span>
-        <span class="nsh-chev">▲</span>
-      </div>
-      <div class="nav-items">
-        <a class="nav-item" href="edencrew-prd.html" target="_blank">PRD <span class="nav-badge" style="background:rgba(52,199,89,.12);color:#34C759;border:1px solid rgba(52,199,89,.22);">v1.0</span></a>
-        <a class="nav-item" href="edencrew-feature-spec.html" target="_blank">기능명세 <span class="nav-badge" style="background:rgba(52,199,89,.12);color:#34C759;border:1px solid rgba(52,199,89,.22);">v1.0</span></a>
-        <a class="nav-item disabled">유저 플로우 <span class="nav-badge nb-todo">예정</span></a>
-        <a class="nav-item disabled">와이어프레임 <span class="nav-badge nb-todo">예정</span></a>
+    <!-- 프로젝트 개요 카드 -->
+    <div class="sb-proj">
+      <div class="sb-proj-card">
+        <div class="sb-proj-header">
+          <div>
+            <div class="sb-proj-name">edencrew.com 리뉴얼</div>
+            <div class="sb-proj-client">Edencrew Inc.</div>
+          </div>
+          <button class="sb-proj-set" onclick="showView('settings-project')" title="프로젝트 설정">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="sb-proj-status"><div class="sb-proj-dot"></div>진행 중</div>
       </div>
     </div>
 
@@ -663,25 +694,6 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 
   </div><!-- /sidebar-scroll -->
   <div class="sidebar-bottom">
-    <!-- 설정 -->
-    <div class="nav-sec nav-settings open" id="secSettings">
-      <div class="nav-sec-head" onclick="toggleSec('secSettings')">
-        <span class="nsh-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg></span>
-        <span class="nsh-title">설정</span>
-        <span class="nsh-chev">▲</span>
-      </div>
-      <div class="nav-items">
-        <a class="nav-item" onclick="showView('settings-project')">
-          프로젝트 설정
-        </a>
-        <a class="nav-item" onclick="showView('settings-team')">
-          팀 구성
-        </a>
-        <a class="nav-item" onclick="showView('settings-wbs')">
-          프로젝트 스케줄(WBS)
-        </a>
-      </div>
-    </div>
     <!-- Bottom bar: copyright + theme + fold -->
     <div class="sb-bot-bar">
       <span class="sb-copy">© 2026 Edencrew Inc.</span>
@@ -722,6 +734,14 @@ input[type="color"] { background:var(--bg); border:1px solid var(--bd2); padding
 
   <!-- MAIN -->
   <main class="main">
+
+    <!-- Tab bar -->
+    <div class="main-tabbar">
+      <button class="mtab active" id="mtab-overview" onclick="switchMainTab('overview')">개요</button>
+      <a class="mtab" href="edencrew-prd.html" target="_blank">PRD <span class="mtab-badge" style="background:rgba(52,199,89,.12);color:#34C759;">v1.0</span></a>
+      <a class="mtab" href="edencrew-feature-spec.html" target="_blank">기능명세서 <span class="mtab-badge" style="background:rgba(52,199,89,.12);color:#34C759;">v1.0</span></a>
+      <span class="mtab mtab-disabled">유저플로우 <span class="mtab-badge">예정</span></span>
+    </div>
 
     <!-- Overview view -->
     <div class="view active" id="view-overview">
@@ -3163,10 +3183,10 @@ function flashMsg(id) {
   setTimeout(() => el.classList.remove('show'), 2400);
 }
 
-function setDate() {
-  const d = new Date();
-  document.getElementById('stripDate').textContent =
-    `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+function switchMainTab(tab) {
+  document.querySelectorAll('.mtab[id^="mtab-"]').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('mtab-' + tab);
+  if (el) el.classList.add('active');
 }
 
 // ── Sidebar toggle & resize ──
@@ -3210,7 +3230,6 @@ function updateThemeBtn(mode) {
 })();
 
 // ── Init ──
-setDate();
 buildGantt();
 renderOverview();
 populatePeriodForm();
