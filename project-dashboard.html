@@ -262,6 +262,7 @@ body { padding:10px; }
 /* ── Main ── */
 .main { flex:1; min-width:0; overflow-y:auto; padding:0; display:flex; flex-direction:column; background:var(--s1); border-radius:12px; }
 [data-theme="dark"] .main { background:var(--bg); border-radius:0; }
+.main.prd-active { overflow:hidden; }
 
 /* views */
 .view { display:none; flex:1; flex-direction:column; gap:20px; padding:24px 28px; }
@@ -296,7 +297,8 @@ body { padding:10px; }
 .btn-prd-src { padding:8px 18px; background:var(--p); color:#fff; border:none; border-radius:7px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; align-self:flex-end; transition:opacity .1s; }
 .btn-prd-src:hover { opacity:.85; }
 /* registered doc layout */
-.prd-doc-layout { flex:1; min-height:0; display:flex; justify-content:center; overflow:auto; background:var(--bg); padding:24px 32px; }
+.prd-doc-layout { flex:1; min-height:0; display:flex; justify-content:center; overflow-y:auto; overflow-x:hidden; background:var(--bg); padding:24px 32px; border-radius:0 0 12px 12px; }
+[data-theme="dark"] .prd-doc-layout { border-radius:0; }
 .prd-doc-layout.hidden { display:none; }
 .prd-center-wrap { display:flex; width:100%; max-width:1120px; align-items:flex-start; gap:0; }
 .prd-anchor-nav { width:180px; flex-shrink:0; padding:4px 0; position:sticky; top:0; display:flex; flex-direction:column; gap:2px; }
@@ -305,8 +307,8 @@ body { padding:10px; }
 .prd-anchor-link:hover { background:var(--s3); color:var(--wh); }
 .prd-anchor-link.active { color:var(--p); background:var(--pg); }
 .prd-anchor-num { font-size:10px; font-weight:700; color:var(--p); min-width:16px; }
-.prd-frame-area { flex:1; min-width:0; display:flex; overflow:hidden; border-radius:0; }
-.prd-frame { flex:1; border:none; width:100%; }
+.prd-frame-area { flex:1; min-width:0; }
+.prd-frame { border:none; width:100%; display:block; }
 
 /* Summary */
 .summary-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
@@ -3439,6 +3441,7 @@ function switchMainTab(tab) {
   document.querySelectorAll('.tb-tab[id^="tbtab-"]').forEach(el => el.classList.remove('active'));
   const tbtab = document.getElementById('tbtab-' + tab);
   if (tbtab) tbtab.classList.add('active');
+  document.querySelector('.main').classList.toggle('prd-active', tab === 'prd');
   if (tab === 'prd') initPrdView();
 }
 
@@ -3448,6 +3451,7 @@ function initPrdView() {
   var reg = localStorage.getItem('ec_prd_registered') !== '0';
   document.getElementById('prdEmpty').classList.toggle('hidden', reg);
   document.getElementById('prdDocLayout').classList.toggle('hidden', !reg);
+  if (reg) resizePrdFrame();
 }
 function togglePrdSrcPanel() {
   document.getElementById('prdSrcPanel').classList.toggle('show');
@@ -3465,13 +3469,40 @@ function registerPrd(method) {
   localStorage.setItem('ec_prd_registered', '1');
   initPrdView();
 }
+
+/* iframe 로드 시 높이를 콘텐츠 전체 높이로 확장 */
+(function() {
+  var frame = document.getElementById('prdFrame');
+  if (frame) {
+    frame.addEventListener('load', resizePrdFrame);
+  }
+})();
+function resizePrdFrame() {
+  var frame = document.getElementById('prdFrame');
+  if (!frame) return;
+  try {
+    var h = frame.contentDocument.documentElement.scrollHeight;
+    frame.style.height = h + 'px';
+  } catch(e) {}
+}
+
 function prdScrollTo(id, el) {
   document.querySelectorAll('.prd-anchor-link').forEach(l => l.classList.remove('active'));
   el.classList.add('active');
   try {
     var frame = document.getElementById('prdFrame');
     var target = frame.contentDocument.getElementById(id);
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!target) return;
+    var layout = document.getElementById('prdDocLayout');
+    /* target의 iframe 내부 offsetTop + iframe의 layout 내부 offsetTop */
+    var targetTop = 0;
+    var node = target;
+    while (node && node !== frame.contentDocument.body) {
+      targetTop += node.offsetTop;
+      node = node.offsetParent;
+    }
+    var iframeOffsetTop = frame.offsetTop + (frame.offsetParent ? frame.offsetParent.offsetTop : 0);
+    layout.scrollTo({ top: iframeOffsetTop + targetTop - 24, behavior: 'smooth' });
   } catch(e) {}
 }
 
