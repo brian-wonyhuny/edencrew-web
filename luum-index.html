@@ -237,13 +237,14 @@ body {
 
 /* project card */
 .pc {
-  background: var(--sur);
+  background: #FFFFFF;
   border: 1px solid var(--bdr);
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   transition: border-color .15s, box-shadow .15s, transform .12s;
 }
+[data-theme="dark"] .pc { background: var(--sur); }
 .pc:hover {
   border-color: rgba(131,97,255,.3);
   box-shadow: 0 4px 20px rgba(0,0,0,.07), 0 1px 6px rgba(0,0,0,.04);
