@@ -152,6 +152,7 @@ body {
 .sidebar.col .sb-upd-link { display: none; }
 
 /* user row */
+.sb-user-wrap { position: relative; }
 .sb-user {
   display: flex; align-items: center; gap: 8px;
   padding: 5px 4px; border-radius: 7px;
@@ -168,6 +169,57 @@ body {
 .u-name { font-size: 13px; font-weight: 500; color: var(--tx); }
 .sidebar.col .sb-user { justify-content: center; }
 .sidebar.col .u-name { display: none; }
+
+/* user popover */
+.u-pop {
+  position: absolute; bottom: calc(100% + 8px); left: 0; right: 0;
+  background: var(--sur); border: 1px solid var(--bdr);
+  border-radius: 12px; padding: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.10);
+  display: none; flex-direction: column;
+  z-index: 200; min-width: 200px;
+}
+[data-theme="dark"] .u-pop { box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+.u-pop.open { display: flex; }
+.u-pop-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 8px 10px; border-bottom: 1px solid var(--bdr);
+  margin-bottom: 4px;
+}
+.u-pop-av {
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg,#8361FF,#5B3FD4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+.u-pop-info { flex: 1; overflow: hidden; }
+.u-pop-name { font-size: 13px; font-weight: 600; color: var(--tx); }
+.u-pop-email { font-size: 11.5px; color: var(--mu); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.u-pop-gear {
+  width: 28px; height: 28px; border-radius: 6px; border: none;
+  background: none; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--mu); transition: background .12s, color .12s; flex-shrink: 0;
+}
+.u-pop-gear:hover { background: var(--nav-ho-bg); color: var(--tx); }
+.u-pop-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 8px; border-radius: 7px;
+  font-size: 13px; color: var(--tx);
+  cursor: pointer; transition: background .1s;
+  gap: 10px;
+}
+.u-pop-item:hover { background: var(--nav-ho-bg); }
+.u-pop-item-l { display: flex; align-items: center; gap: 9px; }
+.u-pop-item svg { color: var(--sub); flex-shrink: 0; }
+.u-pop-chev { color: var(--mu); }
+.u-pop-div { height: 1px; background: var(--bdr); margin: 4px 0; }
+.u-pop-logout {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 8px; border-radius: 7px;
+  font-size: 13px; font-weight: 500; color: var(--sub);
+  cursor: pointer; transition: background .1s, color .1s;
+}
+.u-pop-logout:hover { background: var(--nav-ho-bg); color: var(--tx); }
 
 /* theme row */
 .sb-tf { display: flex; align-items: center; padding: 4px 4px 10px; }
@@ -379,9 +431,60 @@ body {
         <div class="upd-sub">Check out new features</div>
       </div>
     </div>
-    <div class="sb-user">
-      <div class="u-av">B</div>
-      <span class="u-name">Brian</span>
+    <div class="sb-user-wrap">
+      <div class="sb-user" onclick="toggleUserPop(event)">
+        <div class="u-av">B</div>
+        <span class="u-name">Brian</span>
+      </div>
+      <div class="u-pop" id="userPop">
+        <div class="u-pop-head">
+          <div class="u-pop-av">B</div>
+          <div class="u-pop-info">
+            <div class="u-pop-name">Brian</div>
+            <div class="u-pop-email">brian@edencrew.com</div>
+          </div>
+          <button class="u-pop-gear" title="계정 설정">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+        <div class="u-pop-item">
+          <div class="u-pop-item-l">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            테마
+          </div>
+          <svg class="u-pop-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="u-pop-item">
+          <div class="u-pop-item-l">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            언어
+          </div>
+          <svg class="u-pop-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="u-pop-item">
+          <div class="u-pop-item-l">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            가이드
+          </div>
+        </div>
+        <div class="u-pop-item">
+          <div class="u-pop-item-l">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            홈페이지
+          </div>
+        </div>
+        <div class="u-pop-item">
+          <div class="u-pop-item-l">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            공식 포럼
+          </div>
+        </div>
+        <div class="u-pop-div"></div>
+        <div class="u-pop-logout">
+          로그아웃
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
     </div>
     <div class="sb-tf">
       <div class="th-row">
@@ -495,6 +598,17 @@ function toggleSB() {
 
 function goToProject() { location.href = 'project-dashboard.html'; }
 function goToPage(p) {}
+
+function toggleUserPop(e) {
+  e.stopPropagation();
+  document.getElementById('userPop').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var pop = document.getElementById('userPop');
+  if (pop && pop.classList.contains('open') && !pop.closest('.sb-user-wrap').contains(e.target)) {
+    pop.classList.remove('open');
+  }
+});
 
 function setFilter(el, s) {
   document.querySelectorAll('.ft').forEach(function(b){ b.classList.remove('on'); });
