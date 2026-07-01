@@ -296,15 +296,16 @@ body { padding:10px; }
 .btn-prd-src { padding:8px 18px; background:var(--p); color:#fff; border:none; border-radius:7px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; align-self:flex-end; transition:opacity .1s; }
 .btn-prd-src:hover { opacity:.85; }
 /* registered doc layout */
-.prd-doc-layout { flex:1; min-height:0; display:flex; }
+.prd-doc-layout { flex:1; min-height:0; display:flex; justify-content:center; overflow:auto; background:var(--bg); padding:24px 32px; }
 .prd-doc-layout.hidden { display:none; }
-.prd-anchor-nav { width:190px; flex-shrink:0; border-right:1px solid var(--bd); overflow-y:auto; padding:20px 0; display:flex; flex-direction:column; }
-.prd-anchor-lbl { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mu); padding:0 14px; margin-bottom:6px; }
-.prd-anchor-link { display:flex; align-items:center; gap:8px; padding:6px 14px; font-size:12.5px; color:var(--mu); cursor:pointer; border-radius:6px; margin:0 6px; transition:background .1s,color .1s; }
+.prd-center-wrap { display:flex; width:100%; max-width:1120px; align-items:flex-start; gap:0; }
+.prd-anchor-nav { width:180px; flex-shrink:0; padding:4px 0; position:sticky; top:0; display:flex; flex-direction:column; gap:2px; }
+.prd-anchor-lbl { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mu); padding:0 10px; margin-bottom:8px; }
+.prd-anchor-link { display:flex; align-items:center; gap:8px; padding:6px 10px; font-size:12.5px; color:var(--mu); cursor:pointer; border-radius:6px; transition:background .1s,color .1s; }
 .prd-anchor-link:hover { background:var(--s3); color:var(--wh); }
 .prd-anchor-link.active { color:var(--p); background:var(--pg); }
 .prd-anchor-num { font-size:10px; font-weight:700; color:var(--p); min-width:16px; }
-.prd-frame-area { flex:1; display:flex; overflow:hidden; }
+.prd-frame-area { flex:1; min-width:0; display:flex; overflow:hidden; border-radius:0; }
 .prd-frame { flex:1; border:none; width:100%; }
 
 /* Summary */
@@ -912,6 +913,7 @@ Admin <span class="nav-badge nb-wip">NEW</span>
 
       <!-- 등록된 상태 -->
       <div class="prd-doc-layout hidden" id="prdDocLayout">
+        <div class="prd-center-wrap">
         <nav class="prd-anchor-nav">
           <span class="prd-anchor-lbl">목차</span>
           <a class="prd-anchor-link active" onclick="prdScrollTo('overview',this)"><span class="prd-anchor-num">01</span>사이트 목적 & 타깃</a>
@@ -926,6 +928,7 @@ Admin <span class="nav-badge nb-wip">NEW</span>
         <div class="prd-frame-area">
           <iframe class="prd-frame" id="prdFrame" src="edencrew-prd.html?embedded=true" title="PRD"></iframe>
         </div>
+        </div><!-- /prd-center-wrap -->
       </div>
 
     </div>
