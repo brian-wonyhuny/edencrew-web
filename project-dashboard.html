@@ -906,8 +906,7 @@ Admin <span class="nav-badge nb-wip">NEW</span>
       <!-- 등록된 상태 -->
       <div class="prd-doc-layout hidden" id="prdDocLayout">
         <div class="prd-center-wrap">
-        <nav class="prd-anchor-nav">
-          <span class="prd-anchor-lbl">목차</span>
+        <nav class="prd-anchor-nav" id="prdAnchorNav">
           <a class="prd-anchor-link active" onclick="prdScrollTo('overview',this)"><span class="prd-anchor-num">01</span>사이트 목적 & 타깃</a>
           <a class="prd-anchor-link" onclick="prdScrollTo('sitemap',this)"><span class="prd-anchor-num">02</span>사이트맵 & 구조</a>
           <a class="prd-anchor-link" onclick="prdScrollTo('pages',this)"><span class="prd-anchor-num">03</span>페이지별 요구사항</a>
@@ -3473,6 +3472,11 @@ function resizePrdFrame() {
   try {
     var h = frame.contentDocument.documentElement.scrollHeight;
     frame.style.height = h + 'px';
+    var firstSection = frame.contentDocument.querySelector('.prd-section');
+    var nav = document.getElementById('prdAnchorNav');
+    if (firstSection && nav) {
+      nav.style.paddingTop = firstSection.offsetTop + 'px';
+    }
   } catch(e) {}
 }
 
