@@ -1,527 +1,986 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Edencrew 홈페이지 — 기능명세 맵</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0D0F14;--bg2:#111318;--bg3:#181B22;
-  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.14);
-  --p:#8361FF;--p-lt:rgba(131,97,255,.15);--p-bdr:rgba(131,97,255,.4);
-  --wh:#F0EDE8;--mid:rgba(240,237,232,.5);--dim:rgba(240,237,232,.22);
-  --green:#34C759;--blue:#0A84FF;--orange:#FF9F0A;--pink:#FF375F;
+  --bg:#F5F5F5;--bg2:#FFFFFF;--bg3:#F3F4F6;
+  --bdr:#E9E8E8;--bdr2:#D1D5DB;
+  --p:#8361FF;--pg:rgba(131,97,255,.08);
+  --wh:#111827;--mid:#6B7280;--dim:rgba(107,114,128,.55);
+}
+[data-theme="dark"]{
+  --bg:#09090D;--bg2:#111118;--bg3:#1C1B26;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);
+  --pg:rgba(131,97,255,.12);
+  --wh:#F0EDE8;--mid:rgba(240,237,232,.55);--dim:rgba(240,237,232,.32);
 }
 html,body{width:100%;height:100%;overflow:hidden}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--wh);-webkit-font-smoothing:antialiased}
+body{font-family:'Inter','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--wh);-webkit-font-smoothing:antialiased}
 
-/* TOPBAR */
 .topbar{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  height:50px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
+  position:fixed;top:0;left:0;right:0;z-index:100;height:50px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 20px;
   background:color-mix(in srgb,var(--bg) 90%,transparent);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--bdr);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);
 }
 .tb-left{display:flex;align-items:center;gap:14px}
 .tb-logo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--wh)}
-.tb-logo-dot{width:7px;height:7px;background:var(--p);border-radius:50%}
+.tb-dot{width:7px;height:7px;background:var(--p);border-radius:50%}
 .tb-sep{width:1px;height:16px;background:var(--bdr2)}
-.tb-tabs{display:flex;gap:2px}
-.tb-tab{
-  font-size:12.5px;font-weight:500;color:var(--mid);
-  padding:6px 14px;border-radius:6px;cursor:pointer;
-  transition:background .1s,color .1s;
-}
-.tb-tab:hover{color:var(--wh);background:rgba(255,255,255,.05)}
-.tb-tab.on{color:var(--wh);background:rgba(255,255,255,.07)}
-.tb-right{display:flex;gap:8px;align-items:center}
+.tb-tab{font-size:12.5px;font-weight:500;color:var(--mid);padding:6px 14px;border-radius:6px;cursor:default}
+.tb-tab.on{color:var(--wh);background:rgba(0,0,0,.06)}
+.tb-right{display:flex;align-items:center;gap:10px}
 .tb-hint{font-size:11px;color:var(--dim)}
-
-/* CANVAS AREA */
-#canvas-wrap{
-  position:fixed;top:50px;left:0;right:0;bottom:0;
-  overflow:hidden;cursor:grab;
+.tb-ds-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--mid);
+  padding:5px 12px;border-radius:7px;border:1px solid var(--bdr);
+  background:var(--bg2);cursor:pointer;transition:border-color .15s,color .15s;
 }
-#canvas-wrap.dragging{cursor:grabbing}
+.tb-ds-btn:hover,.tb-ds-btn.on{border-color:var(--p);color:var(--p)}
+
+#wrap{position:fixed;top:50px;left:0;right:0;bottom:0;overflow:hidden;cursor:grab}
+#wrap.drag{cursor:grabbing}
 canvas{display:block}
 
-/* LEGEND */
+/* ── PANEL ── */
+.panel{
+  position:fixed;top:50px;right:0;bottom:0;width:300px;
+  background:var(--bg2);border-left:1px solid var(--bdr);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .22s cubic-bezier(.4,0,.2,1);
+  z-index:95;
+}
+.panel.open{transform:translateX(0)}
+.panel-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px;border-bottom:1px solid var(--bdr);flex-shrink:0;
+}
+.panel-hd-title{font-size:13px;font-weight:700;color:var(--wh)}
+.panel-x,.panel-hx{
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  border:none;background:none;cursor:pointer;color:var(--mid);border-radius:5px;font-size:15px;
+  transition:background .1s,color .1s,opacity .1s;
+}
+.panel-x:hover,.panel-hx:hover{background:var(--bg3);color:var(--wh)}
+.panel-hx:disabled{opacity:.28;cursor:default}
+.panel-hx:disabled:hover{background:none;color:var(--mid)}
+
+.panel-bd{flex:1;overflow-y:auto;padding:10px 0 6px}
+.panel-bd::-webkit-scrollbar{width:4px}
+.panel-bd::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
+
+.panel-ft{border-top:1px solid var(--bdr);padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+
+/* Import */
+.btn-import{
+  flex:1;padding:7px 10px;border-radius:7px;border:1px dashed var(--bdr2);
+  background:transparent;cursor:pointer;font-size:11.5px;color:var(--mid);
+  text-align:center;transition:border-color .1s,color .1s;display:block;
+}
+.btn-import:hover{border-color:var(--p);color:var(--p)}
+.import-hint{font-size:10px;color:var(--dim);line-height:1.55}
+
+/* Section label */
+.psec-lbl{
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--dim);padding:0 18px 7px;
+}
+
+/* Menu row */
+.pm-menu{margin:0 10px 2px}
+.pm-menu-hd{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 8px;border-radius:8px;cursor:pointer;
+  background:transparent;transition:background .1s;
+  user-select:none;
+}
+.pm-menu-hd:hover{background:var(--bg3)}
+.pm-arrow{font-size:9px;color:var(--dim);width:12px;transition:transform .15s;flex-shrink:0;line-height:1}
+.pm-arrow.open{transform:rotate(90deg)}
+.pm-mid{font-size:9.5px;font-weight:700;color:var(--dim);flex-shrink:0;min-width:30px;font-variant-numeric:tabular-nums}
+.pm-color{
+  width:9px;height:9px;border-radius:50%;flex-shrink:0;cursor:pointer;
+  box-shadow:0 0 0 2px transparent;transition:box-shadow .1s;
+}
+.pm-color:hover{box-shadow:0 0 0 2px var(--bdr2)}
+.pm-label{
+  flex:1;font-size:12.5px;font-weight:600;color:var(--wh);
+  border:none;background:transparent;outline:none;min-width:0;cursor:text;
+}
+.pm-status{
+  font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:4px;
+  cursor:pointer;flex-shrink:0;border:none;white-space:nowrap;
+}
+.pm-del{
+  width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+  border:none;background:none;color:var(--dim);cursor:pointer;border-radius:4px;
+  font-size:13px;flex-shrink:0;opacity:0;transition:opacity .1s;
+}
+.pm-menu-hd:hover .pm-del{opacity:1}
+.pm-del:hover{background:rgba(255,59,48,.1);color:#ff3b30}
+
+/* Screens */
+.pm-screens{padding-left:22px;margin-bottom:2px}
+.pm-screen{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 8px;border-radius:6px;transition:background .1s;
+}
+.pm-screen:hover{background:var(--bg3)}
+.pm-sid{font-size:9px;font-weight:700;color:var(--dim);flex-shrink:0;min-width:46px;font-variant-numeric:tabular-nums}
+.pm-sc-label{
+  flex:1;font-size:11.5px;color:rgba(0,0,0,.75);
+  border:none;background:transparent;outline:none;min-width:0;
+}
+.pm-sc-url{
+  width:80px;font-size:10px;color:var(--dim);
+  border:none;background:transparent;outline:none;text-align:right;
+}
+.pm-sc-del{
+  width:18px;height:18px;display:flex;align-items:center;justify-content:center;
+  border:none;background:none;color:var(--dim);cursor:pointer;border-radius:3px;
+  font-size:12px;flex-shrink:0;opacity:0;transition:opacity .1s;
+}
+.pm-screen:hover .pm-sc-del{opacity:1}
+.pm-sc-del:hover{background:rgba(255,59,48,.1);color:#ff3b30}
+
+.pm-add-screen{
+  display:flex;align-items:center;gap:4px;width:100%;
+  padding:5px 8px;border-radius:6px;font-size:11px;
+  color:var(--dim);cursor:pointer;border:none;background:transparent;
+  transition:color .1s;text-align:left;
+}
+.pm-add-screen:hover{color:var(--p)}
+
+.pm-add-menu{
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  margin:6px 10px 0;padding:7px;border-radius:8px;font-size:11.5px;
+  color:var(--dim);cursor:pointer;border:1px dashed var(--bdr2);background:transparent;
+  transition:color .1s,border-color .1s;width:calc(100% - 20px);
+}
+.pm-add-menu:hover{color:var(--p);border-color:var(--p)}
+
+/* Apply */
+.btn-apply{
+  width:100%;padding:9px;border-radius:8px;border:none;
+  background:var(--p);color:#fff;font-size:13px;font-weight:700;
+  cursor:pointer;transition:opacity .1s;
+}
+.btn-apply:hover{opacity:.88}
+.btn-apply:active{opacity:.75}
+
+/* Grip & drag */
+.pm-grip,.pm-sc-grip{
+  display:flex;align-items:center;justify-content:center;
+  color:var(--dim);cursor:grab;flex-shrink:0;opacity:0;transition:opacity .1s;
+}
+.pm-grip{width:14px;height:20px;}
+.pm-sc-grip{width:12px;height:16px;}
+.pm-menu-hd:hover .pm-grip,.pm-screen:hover .pm-sc-grip{opacity:1}
+.pm-grip:active,.pm-sc-grip:active{cursor:grabbing}
+.pm-menu.dragging,.pm-screen.dragging{opacity:.35;pointer-events:none}
+.pm-menu.drop-before{box-shadow:0 -2px 0 var(--p)}
+.pm-menu.drop-after{box-shadow:0 2px 0 var(--p)}
+.pm-screen.drop-before{box-shadow:0 -2px 0 var(--p)}
+.pm-screen.drop-after{box-shadow:0 2px 0 var(--p)}
+
+/* Empty state */
+.panel-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;height:100%;padding:32px 24px;text-align:center;
+}
+.panel-empty-icon{
+  width:48px;height:48px;border-radius:14px;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;color:var(--dim);
+  margin-bottom:4px;
+}
+.panel-empty-title{font-size:13px;font-weight:700;color:var(--wh)}
+.panel-empty-desc{font-size:12px;color:var(--mid);line-height:1.6}
+.panel-empty-actions{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:8px}
+.btn-empty-csv{
+  width:100%;padding:9px;border-radius:8px;border:1px solid var(--bdr2);
+  background:transparent;font-size:12.5px;font-weight:600;color:var(--wh);
+  cursor:pointer;transition:border-color .1s,background .1s;
+}
+.btn-empty-csv:hover{border-color:var(--p);background:rgba(131,97,255,.06);color:var(--p)}
+.btn-empty-create{
+  width:100%;padding:9px;border-radius:8px;border:none;
+  background:var(--p);font-size:12.5px;font-weight:700;color:#fff;
+  cursor:pointer;transition:opacity .1s;
+}
+.btn-empty-create:hover{opacity:.88}
+
 .legend{
   position:fixed;bottom:24px;left:24px;
   background:var(--bg2);border:1px solid var(--bdr);
   border-radius:10px;padding:14px 16px;
-  display:flex;flex-direction:column;gap:8px;
-  font-size:11.5px;
+  display:flex;flex-direction:column;gap:7px;
 }
-.legend-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
-.leg-row{display:flex;align-items:center;gap:8px;color:var(--mid)}
+.leg-ttl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--mid)}
 .leg-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
 
-/* CONTROLS */
-.controls{
-  position:fixed;bottom:24px;right:24px;
-  display:flex;flex-direction:column;gap:6px;
-}
-.ctrl-btn{
-  width:34px;height:34px;
-  background:var(--bg2);border:1px solid var(--bdr);
+.ctrls{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:6px;transition:right .22s cubic-bezier(.4,0,.2,1)}
+.ctrls.shifted{right:320px}
+.cb{
+  width:34px;height:34px;background:var(--bg2);border:1px solid var(--bdr);
   border-radius:8px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:16px;color:var(--mid);
-  transition:border-color .1s,color .1s;
+  cursor:pointer;color:var(--mid);transition:border-color .1s,color .1s;
 }
-.ctrl-btn:hover{border-color:var(--bdr2);color:var(--wh)}
+.cb:hover{border-color:var(--bdr2);color:var(--wh)}
 </style>
-</head>
-<body>
 
 <div class="topbar">
   <div class="tb-left">
-    <div class="tb-logo"><div class="tb-logo-dot"></div>Edencrew 홈페이지</div>
+    <div class="tb-logo"><div class="tb-dot"></div>Edencrew 홈페이지</div>
     <div class="tb-sep"></div>
-    <div class="tb-tabs">
-      <div class="tb-tab">PRD</div>
-      <div class="tb-tab on">기능명세</div>
-      <div class="tb-tab">사이트맵</div>
-    </div>
+    <div class="tb-tab">PRD</div>
+    <div class="tb-tab on">기능명세</div>
+    <div class="tb-tab">사이트맵</div>
   </div>
   <div class="tb-right">
-    <span class="tb-hint">스크롤로 확대/축소 · 드래그로 이동</span>
+    <span class="tb-hint">스크롤 확대/축소 · 드래그 이동</span>
+    <button class="tb-ds-btn" id="panel-toggle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/>
+      </svg>
+      데이터 소스
+    </button>
   </div>
 </div>
 
-<div id="canvas-wrap">
-  <canvas id="c"></canvas>
+<div id="wrap"><canvas id="c"></canvas></div>
+
+<!-- PANEL -->
+<div id="panel" class="panel">
+  <div class="panel-hd">
+    <span class="panel-hd-title">데이터 소스</span>
+    <div style="display:flex;align-items:center;gap:4px">
+      <button class="panel-hx" id="undo-btn" title="실행 취소 (Ctrl+Z)" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 0 8h-1"/></svg>
+      </button>
+      <button class="panel-hx" id="redo-btn" title="다시 실행 (Ctrl+Shift+Z)" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l4-4-4-4"/><path d="M19 10h-11a4 4 0 0 0 0 8h1"/></svg>
+      </button>
+      <div style="width:1px;height:14px;background:var(--bdr);margin:0 2px"></div>
+      <button class="panel-x" id="panel-x">✕</button>
+    </div>
+  </div>
+  <div class="panel-bd" id="panel-bd"></div>
+  <div class="panel-ft" id="panel-ft">
+    <label class="btn-import">
+      <input type="file" accept=".csv,.tsv" id="csv-file" style="display:none">
+      CSV 업로드
+    </label>
+    <div class="import-hint">메뉴ID, 메뉴명, 색상, 상태, 화면ID, 화면명, URL 컬럼 순서</div>
+    <button class="btn-apply" id="apply-btn">맵에 적용</button>
+  </div>
 </div>
 
 <div class="legend">
-  <div class="legend-title">페이지 구분</div>
+  <div class="leg-ttl">구분</div>
   <div class="leg-row"><div class="leg-dot" style="background:#8361FF"></div>Root</div>
-  <div class="leg-row"><div class="leg-dot" style="background:#34C759"></div>완성 페이지</div>
-  <div class="leg-row"><div class="leg-dot" style="background:#0A84FF"></div>미제작 페이지</div>
-  <div class="leg-row"><div class="leg-dot" style="background:#FF9F0A"></div>공통 컴포넌트</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#34C759"></div>완성 메뉴</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#0A84FF"></div>미제작 메뉴</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#FF9F0A"></div>공통 화면</div>
+  <div style="margin-top:6px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08);font-size:11px;color:rgba(0,0,0,.35);line-height:1.6">
+    메뉴 노드 → <b style="color:rgba(0,0,0,.55)">M-ID</b><br>
+    화면 노드 → <b style="color:rgba(0,0,0,.55)">S-ID</b>
+  </div>
 </div>
 
-<div class="controls">
-  <div class="ctrl-btn" id="btn-in">+</div>
-  <div class="ctrl-btn" id="btn-out">−</div>
-  <div class="ctrl-btn" id="btn-reset" title="초기화">⌂</div>
+<div class="ctrls" id="ctrls">
+  <div class="cb" id="zi" title="확대">
+    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/>
+      <line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/>
+    </svg>
+  </div>
+  <div class="cb" id="zo" title="축소">
+    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/>
+      <line x1="7" y1="10" x2="13" y2="10"/>
+    </svg>
+  </div>
+  <div class="cb" id="zr" title="전체 보기">
+    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 8v-2a2 2 0 0 1 2 -2h2"/>
+      <path d="M4 16v2a2 2 0 0 0 2 2h2"/>
+      <path d="M16 4h2a2 2 0 0 1 2 2v2"/>
+      <path d="M16 20h2a2 2 0 0 0 2 -2v-2"/>
+    </svg>
+  </div>
 </div>
 
 <script>
-const canvas = document.getElementById('c');
-const ctx = canvas.getContext('2d');
-const wrap = document.getElementById('canvas-wrap');
+/* ── DATA ── */
+let editPages = [
+  {
+    id:'home', label:'Home', mid:'M-01', url:'/', color:'#34C759', tag:'완성',
+    children:[
+      {id:'h1', label:'홈', sid:'S-01-01', url:'/'},
+    ]
+  },
+  {
+    id:'lucy', label:'Lucy Studio', mid:'M-02', url:'/lucy-studio', color:'#34C759', tag:'완성',
+    children:[
+      {id:'l1', label:'Lucy Studio', sid:'S-02-01', url:'/lucy-studio'},
+      {id:'l2', label:'Changelog', sid:'S-02-02', url:'/lucy-studio/changelog'},
+    ]
+  },
+  {
+    id:'platform', label:'Lucy Platform', mid:'M-03', url:'/platform', color:'#0A84FF', tag:'미제작',
+    children:[
+      {id:'p1', label:'Platform 소개', sid:'S-03-01', url:'/platform'},
+      {id:'p2', label:'Lucy SDK', sid:'S-03-02', url:'/platform/sdk'},
+      {id:'p3', label:'TeamCloud', sid:'S-03-03', url:'/platform/teamcloud'},
+      {id:'p4', label:'Lucy Deploy', sid:'S-03-04', url:'/platform/deploy'},
+      {id:'p5', label:'Lucy LAMP', sid:'S-03-05', url:'/platform/lamp'},
+    ]
+  },
+  {
+    id:'resources', label:'Resources', mid:'M-04', url:'/resources', color:'#0A84FF', tag:'미제작',
+    children:[
+      {id:'r1', label:'Docs', sid:'S-04-01', url:'/docs'},
+      {id:'r2', label:'Academy', sid:'S-04-02', url:'/academy'},
+      {id:'r3', label:'Blog', sid:'S-04-03', url:'/blog'},
+      {id:'r4', label:'Changelog', sid:'S-04-04', url:'/changelog'},
+      {id:'r5', label:'SDK Reference', sid:'S-04-05', url:'/docs/sdk'},
+      {id:'r6', label:'LAMP Docs', sid:'S-04-06', url:'/docs/lamp'},
+      {id:'r7', label:'API Reference', sid:'S-04-07', url:'/docs/api'},
+      {id:'r8', label:'Community', sid:'S-04-08', url:'/community'},
+      {id:'r9', label:'Forum', sid:'S-04-09', url:'/community/forum'},
+      {id:'r10', label:'Case Studies', sid:'S-04-10', url:'/cases'},
+      {id:'r11', label:'Events', sid:'S-04-11', url:'/events'},
+    ]
+  },
+  {
+    id:'pricing', label:'Pricing', mid:'M-05', url:'/pricing', color:'#0A84FF', tag:'미제작',
+    children:[
+      {id:'pr1', label:'Pricing', sid:'S-05-01', url:'/pricing'},
+    ]
+  },
+  {
+    id:'common', label:'공통 화면', mid:'M-00', url:'', color:'#FF9F0A', tag:'',
+    children:[
+      {id:'c1', label:'로그인', sid:'S-00-01', url:'auth.edencrew.com/login'},
+      {id:'c2', label:'회원가입', sid:'S-00-02', url:'auth.edencrew.com/register'},
+      {id:'c3', label:'Contact', sid:'S-00-03', url:'/contact'},
+      {id:'c4', label:'Download', sid:'S-00-04', url:'/download'},
+    ]
+  },
+];
 
-const TREE = {
-  id:'root', label:'Edencrew\n홈페이지', color:'#8361FF', textColor:'#fff',
-  children:[
-    {
-      id:'home', label:'Home', sub:'/', color:'#34C759', tag:'✅ 완성',
-      children:[
-        {id:'h1', label:'Hero', sub:'메인 헤드라인 + CTA 2개'},
-        {id:'h2', label:'Product Overview', sub:'Lucy Studio 가치 카드'},
-        {id:'h3', label:'Social Proof', sub:'수치 지표 · 로고 배너'},
-        {id:'h4', label:'Platform Teaser', sub:'플랫폼 생태계 한 줄 소개'},
-        {id:'h5', label:'Bottom CTA', sub:'베타 신청 풀-블리드 배너'},
-      ]
-    },
-    {
-      id:'lucy', label:'Lucy Studio', sub:'/lucy-studio', color:'#34C759', tag:'✅ 완성',
-      children:[
-        {id:'l1', label:'Hero', sub:'Visual Flutter Builder 소개'},
-        {id:'l2', label:'AI Copilot', sub:'AI 자동 컴포넌트 생성'},
-        {id:'l3', label:'Component Library', sub:'사전 빌드 UI 컴포넌트'},
-        {id:'l4', label:'Deploy', sub:'원클릭 앱 배포'},
-        {id:'l5', label:'Team 협업', sub:'멀티 유저 편집'},
-        {id:'l6', label:'Analytics', sub:'앱 사용 통계 연동'},
-        {id:'l7', label:'Integrations', sub:'외부 API · DB 연결'},
-        {id:'l8', label:'Templates', sub:'앱 템플릿 갤러리'},
-        {id:'l9', label:'Pricing Link', sub:'요금제 연결 CTA'},
-      ]
-    },
-    {
-      id:'platform', label:'Platform', sub:'/platform', color:'#0A84FF', tag:'🔲 미제작',
-      children:[
-        {id:'p1', label:'Hero', sub:'플랫폼 선언 섹션'},
-        {id:'p2', label:'생태계 맵', sub:'제품 연결 구조 시각화'},
-        {id:'p3', label:'API & SDK', sub:'개발자 연동 · Waitlist CTA'},
-        {id:'p4', label:'팀 & 엔터프라이즈', sub:'SSO · 권한 관리 · 전용 지원'},
-        {id:'p5', label:'파트너십 CTA', sub:'파트너 프로그램 문의'},
-      ]
-    },
-    {
-      id:'pricing', label:'Pricing', sub:'/pricing', color:'#0A84FF', tag:'🔲 미제작',
-      children:[
-        {id:'pr1', label:'플랜 카드', sub:'Free · Starter · Pro · Enterprise'},
-        {id:'pr2', label:'월간/연간 토글', sub:'가격 애니메이션 · 절감 배지'},
-        {id:'pr3', label:'기능 비교 테이블', sub:'플랜별 전체 기능 매트릭스'},
-        {id:'pr4', label:'FAQ 아코디언', sub:'결제 · 환불 · 플랜 변경'},
-        {id:'pr5', label:'베타 배너', sub:'무료 신청 · 출시 후 제거 가능'},
-      ]
-    },
-    {
-      id:'resources', label:'Resources', sub:'/resources', color:'#0A84FF', tag:'🔲 미제작',
-      children:[
-        {id:'r1', label:'카테고리 필터', sub:'블로그 · 릴리스 노트 · 튜토리얼'},
-        {id:'r2', label:'뉴스레터 구독', sub:'Resend · Notion DB 연동'},
-        {id:'r3', label:'템플릿 갤러리', sub:'앱 썸네일 그리드 · 다운로드'},
-        {id:'r4', label:'커뮤니티 링크', sub:'Discord · YouTube · GitHub'},
-      ]
-    },
-    {
-      id:'common', label:'공통\n컴포넌트', color:'#FF9F0A', tag:'',
-      children:[
-        {id:'c1', label:'GNB', sub:'sticky · blur · 54px · 모바일 햄버거'},
-        {id:'c2', label:'Footer', sub:'4컬럼 · 소셜 · 정책 링크'},
-        {id:'c3', label:'베타 신청 폼', sub:'/beta/thanks 리디렉션'},
-        {id:'c4', label:'디자인 토큰', sub:'#080808 · #F0EDE8 · #8361FF'},
-      ]
-    },
-  ]
-};
+/* ── LAYOUT CONSTANTS ── */
+const ROOT_W=190, ROOT_H=60;
+const PAGE_W=172, PAGE_H=56;
+const CHILD_W=172, CHILD_H=50;
+const COL_GAP=28;
+const CHILD_V_GAP=12;
+const ROOT_Y=72;
+const PAGE_Y=210;
+const CHILD_START_Y=348;
 
-const COL0_X = 140;
-const COL1_X = 340;
-const COL2_X = 600;
-const NODE_H = 52;
-const LEAF_GAP = 10;
-const PAGE_GAP = 28;
+/* ── DYNAMIC LAYOUT ── */
+let totalW, totalH, colCenters, ROOT_X;
+let allNodes=[], nodeMap={};
 
-function calcLayout(tree) {
-  let nodes = [];
-  let edges = [];
+function buildLayout(){
+  totalW = editPages.length*CHILD_W + (editPages.length-1)*COL_GAP;
+  colCenters = editPages.map((_,i)=>i*(CHILD_W+COL_GAP)+CHILD_W/2);
+  let maxCh = Math.max(...editPages.map(p=>p.children.length),1);
+  totalH = CHILD_START_Y + maxCh*(CHILD_H+CHILD_V_GAP)+60;
+  ROOT_X = totalW/2;
 
-  function processNode(node, depth, parentId) {
-    let entry = {
-      id: node.id,
-      label: node.label,
-      sub: node.sub || '',
-      color: node.color || '#555',
-      tag: node.tag || '',
-      depth,
-      parentId,
-      x: 0, y: 0,
-      children: node.children ? node.children.map(c=>c.id) : []
-    };
-    nodes.push(entry);
-    if(node.children) {
-      node.children.forEach(c => processNode(c, depth+1, node.id));
-    }
-  }
-  processNode(tree, 0, null);
-
-  let map = {};
-  nodes.forEach(n => map[n.id] = n);
-
-  nodes.forEach(n => {
-    if(n.depth===0) n.x = COL0_X;
-    else if(n.depth===1) n.x = COL1_X;
-    else n.x = COL2_X;
-  });
-
-  function assignY(id, startY) {
-    let node = map[id];
-    if(!node.children.length) {
-      node.y = startY;
-      return startY + NODE_H + LEAF_GAP;
-    }
-    let curY = startY;
-    node.children.forEach(cid => {
-      curY = assignY(cid, curY);
+  allNodes=[];
+  allNodes.push({id:'root',label:'Edencrew\n홈페이지',x:ROOT_X,y:ROOT_Y,w:ROOT_W,h:ROOT_H,type:'root',color:'#8361FF',parentId:null});
+  editPages.forEach((p,pi)=>{
+    let cx=colCenters[pi];
+    allNodes.push({id:p.id,label:p.label,sub:p.url,mid:p.mid,x:cx,y:PAGE_Y,w:PAGE_W,h:PAGE_H,type:'page',color:p.color,tag:p.tag,parentId:'root'});
+    p.children.forEach((c,ci)=>{
+      let cy=CHILD_START_Y+ci*(CHILD_H+CHILD_V_GAP);
+      allNodes.push({id:c.id,label:c.label,sub:c.url,sid:c.sid,x:cx,y:cy,w:CHILD_W,h:CHILD_H,type:'child',color:p.color,parentId:p.id});
     });
-    let firstChild = map[node.children[0]];
-    let lastChild = map[node.children[node.children.length-1]];
-    node.y = (firstChild.y + lastChild.y) / 2;
-    return curY + PAGE_GAP;
-  }
-
-  let curY = 60;
-  map['root'].children.forEach(cid => {
-    curY = assignY(cid, curY);
-    curY += PAGE_GAP;
   });
-  let l1 = map['root'].children.map(id=>map[id]);
-  map['root'].y = (l1[0].y + l1[l1.length-1].y)/2;
-
-  nodes.forEach(n => {
-    if(n.parentId) edges.push({from: n.parentId, to: n.id});
-  });
-
-  return {nodes, edges, map};
+  nodeMap={};
+  allNodes.forEach(n=>nodeMap[n.id]=n);
 }
 
-let layout = calcLayout(TREE);
-let {nodes, edges, map} = layout;
+/* ── VIEWPORT ── */
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+const wrap=document.getElementById('wrap');
+let vp={x:0,y:0,scale:1};
+let dragging=false,dragStart={x:0,y:0},vpStart={x:0,y:0};
+let hovered=null;
 
-let allY = nodes.map(n=>n.y);
-let minY = Math.min(...allY), maxY = Math.max(...allY);
-let totalH = maxY - minY + NODE_H*2;
-let totalW = COL2_X + 260;
-
-let vp = {x:0, y:0, scale:1};
-let dragging = false, dragStart = {x:0,y:0}, vpStart = {x:0,y:0};
-let hovered = null;
-
-function resize() {
-  canvas.width = wrap.clientWidth;
-  canvas.height = wrap.clientHeight;
-  vp.x = canvas.width/2 - totalW/2;
-  vp.y = canvas.height/2 - totalH/2;
+function resize(){
+  canvas.width=wrap.clientWidth;
+  canvas.height=wrap.clientHeight;
+  fitView();
+}
+function fitView(){
+  let pad=60;
+  let sx=(canvas.width-pad*2)/totalW;
+  let sy=(canvas.height-pad*2)/totalH;
+  vp.scale=Math.min(sx,sy,1);
+  vp.x=canvas.width/2-ROOT_X*vp.scale;
+  vp.y=pad;
   draw();
 }
+function toS(wx,wy){return{x:wx*vp.scale+vp.x,y:wy*vp.scale+vp.y}}
 
-const BG_CARD = '#111318';
-const BG_LEAF = '#0E1017';
-
-function toScreen(wx, wy) {
-  return { x: wx * vp.scale + vp.x, y: wy * vp.scale + vp.y };
-}
-
-function drawRoundRect(x,y,w,h,r){
+/* ── DRAW ── */
+function rr(x,y,w,h,r){
   ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
   ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
   ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
   ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
   ctx.closePath();
 }
-
-function drawNode(node, isHovered) {
-  let s = toScreen(node.x, node.y);
-  let sc = vp.scale;
-  let isRoot = node.depth===0;
-  let isPage = node.depth===1;
-
-  let w, h;
-  if(isRoot){ w=120*sc; h=52*sc; }
-  else if(isPage){ w=140*sc; h=44*sc; }
-  else { w=200*sc; h=42*sc; }
-
-  let x = s.x - w/2;
-  let y = s.y - h/2;
-
+function drawEdge(fId,tId){
+  let f=nodeMap[fId],t=nodeMap[tId];if(!f||!t)return;
+  let fs=toS(f.x,f.y),ts=toS(t.x,t.y),sc=vp.scale;
+  let isH=(hovered===fId||hovered===tId);
+  let x1=fs.x,y1=fs.y+f.h/2*sc,x2=ts.x,y2=ts.y-t.h/2*sc,cy=(y1+y2)/2;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.bezierCurveTo(x1,cy,x2,cy,x2,y2);
+  ctx.strokeStyle=isH?f.color+'99':tc().edge;
+  ctx.lineWidth=isH?1.5*sc:1*sc;ctx.stroke();
+}
+function drawNode(n){
+  let s=toS(n.x,n.y),sc=vp.scale;
+  let x=s.x-n.w/2*sc,y=s.y-n.h/2*sc,w=n.w*sc,h=n.h*sc;
+  let isH=(hovered===n.id),r=8*sc;
   ctx.save();
-
-  if(isRoot) {
-    drawRoundRect(x,y,w,h,10*sc);
-    ctx.fillStyle = node.color;
-    ctx.fill();
-    ctx.shadowColor = node.color;
-    ctx.shadowBlur = 20*sc;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  } else if(isPage) {
-    drawRoundRect(x,y,w,h,8*sc);
-    ctx.fillStyle = isHovered ? '#1a1e28' : BG_CARD;
-    ctx.fill();
-    ctx.fillStyle = node.color;
-    drawRoundRect(x, y+h*0.2, 3*sc, h*0.6, 2*sc);
-    ctx.fill();
-    ctx.strokeStyle = isHovered ? node.color : 'rgba(255,255,255,0.1)';
-    ctx.lineWidth = isHovered ? 1.5*sc : 1*sc;
-    drawRoundRect(x,y,w,h,8*sc);
-    ctx.stroke();
-  } else {
-    drawRoundRect(x,y,w,h,7*sc);
-    ctx.fillStyle = isHovered ? '#14171f' : BG_LEAF;
-    ctx.fill();
-    ctx.strokeStyle = isHovered ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.06)';
-    ctx.lineWidth = 1*sc;
-    drawRoundRect(x,y,w,h,7*sc);
-    ctx.stroke();
-  }
-
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-
-  if(isRoot) {
-    let lines = node.label.split('\n');
-    let lh = 14*sc;
-    let totalTH = lines.length*lh;
-    lines.forEach((ln,i) => {
-      ctx.font = `700 ${Math.max(10,12*sc)}px Inter,-apple-system,sans-serif`;
-      ctx.fillStyle = '#fff';
-      ctx.fillText(ln, s.x, s.y - totalTH/2 + lh*i + lh/2);
-    });
-  } else if(isPage) {
-    ctx.font = `600 ${Math.max(9,11*sc)}px Inter,-apple-system,sans-serif`;
-    ctx.fillStyle = '#F0EDE8';
-    ctx.textAlign = 'left';
-    ctx.fillText(node.label, x + 12*sc, s.y - 6*sc);
-    ctx.font = `400 ${Math.max(8,9.5*sc)}px Inter,-apple-system,sans-serif`;
-    ctx.fillStyle = 'rgba(240,237,232,0.38)';
-    ctx.fillText(node.sub || '', x + 12*sc, s.y + 7*sc);
-    if(node.tag && sc > 0.5) {
-      ctx.font = `500 ${Math.max(7,8.5*sc)}px Inter,-apple-system,sans-serif`;
-      ctx.fillStyle = node.color;
-      ctx.textAlign = 'right';
-      ctx.fillText(node.tag, x+w-8*sc, s.y);
+  if(n.type==='root'){
+    rr(x,y,w,h,r);ctx.fillStyle=n.color;ctx.fill();
+    ctx.shadowColor=n.color;ctx.shadowBlur=18*sc;ctx.fill();ctx.shadowBlur=0;
+    let lines=n.label.split('\n'),fs=Math.max(12,14*sc),lh=fs*1.35;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font=`700 ${fs}px Inter,-apple-system,sans-serif`;ctx.fillStyle='#fff';
+    lines.forEach((ln,i)=>ctx.fillText(ln,s.x,s.y-lh*(lines.length-1)/2+lh*i));
+  } else if(n.type==='page'){
+    const C=tc();
+    rr(x,y,w,h,r);ctx.fillStyle=isH?C.s3:C.s1;ctx.fill();
+    rr(x+w*0.15,y,w*0.7,3*sc,1.5*sc);ctx.fillStyle=n.color;ctx.fill();
+    ctx.strokeStyle=isH?n.color:C.bd;ctx.lineWidth=isH?1.5*sc:1*sc;
+    rr(x,y,w,h,r);ctx.stroke();
+    if(n.mid&&sc>0.4){
+      let idFs=Math.max(8,9*sc);
+      ctx.font=`700 ${idFs}px Inter,Pretendard,-apple-system,sans-serif`;
+      ctx.fillStyle=n.color;ctx.textAlign='left';ctx.textBaseline='top';
+      ctx.fillText(n.mid,x+9*sc,y+7*sc);
+    }
+    let fs=Math.max(11,13*sc);
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font=`600 ${fs}px Inter,Pretendard,-apple-system,sans-serif`;ctx.fillStyle=C.txt;
+    ctx.fillText(n.label,s.x,s.y-(n.sub?4*sc:0));
+    if(n.sub&&sc>0.4){
+      ctx.font=`400 ${Math.max(8,9*sc)}px Inter,Pretendard,-apple-system,sans-serif`;
+      ctx.fillStyle=C.txt2;ctx.fillText(n.sub,s.x,s.y+8*sc);
+    }
+    if(n.tag&&sc>0.45){
+      const tagClr=n.tag==='완성'?'#16A34A':n.tag==='신규'?'#e65c00':'#6366f1';
+      ctx.font=`600 ${Math.max(8,9*sc)}px Inter,Pretendard,-apple-system,sans-serif`;
+      ctx.fillStyle=tagClr;ctx.textAlign='right';ctx.textBaseline='top';
+      ctx.fillText(n.tag,x+w-9*sc,y+7*sc);
     }
   } else {
-    ctx.font = `500 ${Math.max(8,10.5*sc)}px Inter,-apple-system,sans-serif`;
-    ctx.fillStyle = 'rgba(240,237,232,0.85)';
-    ctx.textAlign = 'left';
-    ctx.fillText(node.label, x+10*sc, s.y - 5.5*sc);
-    ctx.font = `400 ${Math.max(7,9*sc)}px Inter,-apple-system,sans-serif`;
-    ctx.fillStyle = 'rgba(240,237,232,0.33)';
-    ctx.fillText(node.sub, x+10*sc, s.y+6*sc);
+    const C=tc();
+    rr(x,y,w,h,7*sc);ctx.fillStyle=isH?C.s3:C.bg;ctx.fill();
+    ctx.strokeStyle=isH?n.color:C.bd;ctx.lineWidth=isH?1.5*sc:1*sc;
+    rr(x,y,w,h,7*sc);ctx.stroke();
+    if(n.sid&&sc>0.4){
+      let idFs=Math.max(8,9*sc);
+      ctx.font=`700 ${idFs}px Inter,Pretendard,-apple-system,sans-serif`;
+      ctx.fillStyle=n.color;ctx.textAlign='left';ctx.textBaseline='top';
+      ctx.fillText(n.sid,x+9*sc,y+6*sc);
+    }
+    let fs=Math.max(10,12*sc);
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font=`500 ${fs}px Inter,Pretendard,-apple-system,sans-serif`;ctx.fillStyle=C.txt;
+    ctx.fillText(n.label,s.x,s.y-(n.sub&&sc>0.4?4*sc:0));
+    if(n.sub&&sc>0.4){
+      ctx.font=`400 ${Math.max(8,9*sc)}px Inter,Pretendard,-apple-system,sans-serif`;
+      ctx.fillStyle=C.txt2;ctx.fillText(n.sub,s.x,s.y+7*sc);
+    }
   }
-
   ctx.restore();
 }
-
-function getNodeBounds(node) {
-  let s = toScreen(node.x, node.y);
-  let sc = vp.scale;
-  let isRoot = node.depth===0;
-  let isPage = node.depth===1;
-  let w = isRoot ? 120*sc : isPage ? 140*sc : 200*sc;
-  let h = isRoot ? 52*sc : isPage ? 44*sc : 42*sc;
-  return {x:s.x-w/2, y:s.y-h/2, w, h};
-}
-
-function drawEdge(fromNode, toNode) {
-  let f = toScreen(fromNode.x, fromNode.y);
-  let t = toScreen(toNode.x, toNode.y);
-  let sc = vp.scale;
-
-  let fromW = fromNode.depth===0 ? 60*sc : fromNode.depth===1 ? 70*sc : 100*sc;
-  let toW = toNode.depth===1 ? 70*sc : 100*sc;
-
-  let x1 = f.x + fromW;
-  let y1 = f.y;
-  let x2 = t.x - toW;
-  let y2 = t.y;
-  let cx = (x1+x2)/2;
-
-  let isHov = (hovered === fromNode.id || hovered === toNode.id);
-
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.bezierCurveTo(cx, y1, cx, y2, x2, y2);
-  ctx.strokeStyle = isHov
-    ? (fromNode.color || toNode.color || '#8361FF') + '88'
-    : 'rgba(255,255,255,0.1)';
-  ctx.lineWidth = isHov ? 1.5*sc : 1*sc;
-  ctx.stroke();
-}
-
-function draw() {
+function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  ctx.save();
-  ctx.strokeStyle = 'rgba(255,255,255,0.025)';
-  ctx.lineWidth = 1;
-  let gs = 40*vp.scale;
-  let ox = vp.x % gs, oy = vp.y % gs;
-  for(let x=ox; x<canvas.width; x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
-  for(let y=oy; y<canvas.height; y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
-  ctx.restore();
-
-  edges.forEach(e => {
-    let fn = map[e.from], tn = map[e.to];
-    if(fn && tn) drawEdge(fn, tn);
-  });
-
-  nodes.forEach(n => {
-    drawNode(n, hovered===n.id);
-  });
+  allNodes.forEach(n=>{if(n.parentId)drawEdge(n.parentId,n.id);});
+  allNodes.filter(n=>n.type!=='root').forEach(n=>drawNode(n));
+  drawNode(nodeMap['root']);
 }
 
-function getHovered(mx, my) {
-  for(let i=nodes.length-1;i>=0;i--){
-    let n = nodes[i];
-    let b = getNodeBounds(n);
-    if(mx>=b.x && mx<=b.x+b.w && my>=b.y && my<=b.y+b.h) return n.id;
+/* ── HIT TEST ── */
+function getHit(mx,my){
+  for(let i=allNodes.length-1;i>=0;i--){
+    let n=allNodes[i],s=toS(n.x,n.y),sc=vp.scale;
+    let x=s.x-n.w/2*sc,y=s.y-n.h/2*sc,w=n.w*sc,h=n.h*sc;
+    if(mx>=x&&mx<=x+w&&my>=y&&my<=y+h)return n.id;
   }
   return null;
 }
 
-canvas.addEventListener('mousemove', e => {
-  let r = canvas.getBoundingClientRect();
-  let mx = e.clientX-r.left, my = e.clientY-r.top;
-  if(dragging) {
-    vp.x = vpStart.x + (e.clientX - dragStart.x);
-    vp.y = vpStart.y + (e.clientY - dragStart.y);
-    draw();
-    return;
-  }
-  let h = getHovered(mx,my);
-  if(h !== hovered) { hovered=h; canvas.style.cursor=h?'pointer':'grab'; draw(); }
+/* ── CANVAS EVENTS ── */
+canvas.addEventListener('mousemove',e=>{
+  let r=canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  if(dragging){vp.x=vpStart.x+(e.clientX-dragStart.x);vp.y=vpStart.y+(e.clientY-dragStart.y);draw();return;}
+  let h=getHit(mx,my);
+  if(h!==hovered){hovered=h;canvas.style.cursor=h?'pointer':'grab';draw();}
 });
-
-canvas.addEventListener('mousedown', e => {
-  dragging=true; dragStart={x:e.clientX,y:e.clientY}; vpStart={x:vp.x,y:vp.y};
-  wrap.classList.add('dragging');
-});
-window.addEventListener('mouseup', () => { dragging=false; wrap.classList.remove('dragging'); });
-
-canvas.addEventListener('wheel', e => {
+canvas.addEventListener('mousedown',e=>{dragging=true;dragStart={x:e.clientX,y:e.clientY};vpStart={x:vp.x,y:vp.y};wrap.classList.add('drag');});
+window.addEventListener('mouseup',()=>{dragging=false;wrap.classList.remove('drag');});
+canvas.addEventListener('wheel',e=>{
   e.preventDefault();
-  let r = canvas.getBoundingClientRect();
-  let mx = e.clientX-r.left, my = e.clientY-r.top;
-  let delta = e.deltaY > 0 ? 0.88 : 1.14;
-  let newScale = Math.min(2.5, Math.max(0.25, vp.scale*delta));
-  let ratio = newScale/vp.scale;
-  vp.x = mx - (mx-vp.x)*ratio;
-  vp.y = my - (my-vp.y)*ratio;
-  vp.scale = newScale;
-  draw();
-}, {passive:false});
-
-document.getElementById('btn-in').onclick = () => {
-  let cx=canvas.width/2,cy=canvas.height/2;
-  let ns=Math.min(2.5,vp.scale*1.2);
-  let r=ns/vp.scale; vp.x=cx-(cx-vp.x)*r; vp.y=cy-(cy-vp.y)*r; vp.scale=ns; draw();
-};
-document.getElementById('btn-out').onclick = () => {
-  let cx=canvas.width/2,cy=canvas.height/2;
-  let ns=Math.max(0.25,vp.scale*0.83);
-  let r=ns/vp.scale; vp.x=cx-(cx-vp.x)*r; vp.y=cy-(cy-vp.y)*r; vp.scale=ns; draw();
-};
-document.getElementById('btn-reset').onclick = () => {
-  vp.scale=1;
-  vp.x=canvas.width/2-totalW/2;
-  vp.y=canvas.height/2-totalH/2;
-  draw();
-};
-
-let lastDist=0;
-canvas.addEventListener('touchstart', e => {
-  if(e.touches.length===1){dragging=true;dragStart={x:e.touches[0].clientX,y:e.touches[0].clientY};vpStart={x:vp.x,y:vp.y};}
-  if(e.touches.length===2){lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}
-},{passive:true});
-canvas.addEventListener('touchmove', e => {
-  e.preventDefault();
-  if(e.touches.length===1&&dragging){vp.x=vpStart.x+(e.touches[0].clientX-dragStart.x);vp.y=vpStart.y+(e.touches[0].clientY-dragStart.y);draw();}
-  if(e.touches.length===2){
-    let d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-    let r=d/lastDist; lastDist=d;
-    let cx=(e.touches[0].clientX+e.touches[1].clientX)/2;
-    let cy=(e.touches[0].clientY+e.touches[1].clientY)/2;
-    let ns=Math.min(2.5,Math.max(0.25,vp.scale*r));
-    let ratio=ns/vp.scale; vp.x=cx-(cx-vp.x)*ratio; vp.y=cy-(cy-vp.y)*ratio; vp.scale=ns; draw();
-  }
+  let r=canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  let d=e.deltaY>0?0.88:1.14,ns=Math.min(3,Math.max(0.2,vp.scale*d)),ratio=ns/vp.scale;
+  vp.x=mx-(mx-vp.x)*ratio;vp.y=my-(my-vp.y)*ratio;vp.scale=ns;draw();
 },{passive:false});
+document.getElementById('zi').onclick=()=>{let c=canvas.width/2,cy=canvas.height/2,ns=Math.min(3,vp.scale*1.2),r=ns/vp.scale;vp.x=c-(c-vp.x)*r;vp.y=cy-(cy-vp.y)*r;vp.scale=ns;draw();};
+document.getElementById('zo').onclick=()=>{let c=canvas.width/2,cy=canvas.height/2,ns=Math.max(0.2,vp.scale*0.83),r=ns/vp.scale;vp.x=c-(c-vp.x)*r;vp.y=cy-(cy-vp.y)*r;vp.scale=ns;draw();};
+document.getElementById('zr').onclick=fitView;
+canvas.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;dragStart={x:e.touches[0].clientX,y:e.touches[0].clientY};vpStart={x:vp.x,y:vp.y};}},{passive:true});
+canvas.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&dragging){vp.x=vpStart.x+(e.touches[0].clientX-dragStart.x);vp.y=vpStart.y+(e.touches[0].clientY-dragStart.y);draw();}},{passive:false});
 canvas.addEventListener('touchend',()=>{dragging=false;});
 
-window.addEventListener('resize', resize);
-resize();
-
-setTimeout(()=>{
-  let padding=60;
-  let scaleX=(canvas.width-padding*2)/totalW;
-  let scaleY=(canvas.height-padding*2)/totalH;
-  vp.scale=Math.min(scaleX,scaleY,1);
-  vp.x=canvas.width/2-(totalW/2)*vp.scale;
-  vp.y = canvas.height/2 - ((minY+totalH/2)*vp.scale);
+/* ── THEME ── */
+function isDark(){return document.documentElement.getAttribute('data-theme')==='dark';}
+function tc(){
+  const d=isDark();
+  return{
+    bg:   d?'#09090D':'#F5F5F5',
+    s1:   d?'#111118':'#FFFFFF',
+    s2:   d?'#15151D':'#F9FAFB',
+    s3:   d?'#1C1B26':'#F3F4F6',
+    bd:   d?'rgba(255,255,255,.07)':'#E9E8E8',
+    bd2:  d?'rgba(255,255,255,.13)':'#D1D5DB',
+    wh:   d?'#F0EDE8':'#111827',
+    mu:   d?'rgba(240,237,232,.55)':'#6B7280',
+    dim:  d?'rgba(240,237,232,.32)':'rgba(107,114,128,.55)',
+    txt:  d?'rgba(240,237,232,.88)':'rgba(17,24,39,.85)',
+    txt2: d?'rgba(240,237,232,.55)':'rgba(107,114,128,1)',
+    edge: d?'rgba(255,255,255,.09)':'rgba(0,0,0,.1)',
+  };
+}
+function syncTheme(){
+  try{
+    const t=window.parent.document.documentElement.getAttribute('data-theme');
+    if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
+    else document.documentElement.removeAttribute('data-theme');
+  }catch(e){
+    const s=localStorage.getItem('luum-theme');
+    if(s==='dark') document.documentElement.setAttribute('data-theme','dark');
+    else document.documentElement.removeAttribute('data-theme');
+  }
   draw();
-},50);
-</script>
+}
+(function initThemeSync(){
+  syncTheme();
+  try{
+    const obs=new MutationObserver(syncTheme);
+    obs.observe(window.parent.document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  }catch(e){
+    window.addEventListener('storage',e=>{if(e.key==='luum-theme')syncTheme();});
+  }
+})();
 
-</body>
-</html>
+/* ── HISTORY ── */
+const MAX_HIST=50;
+let hist=[],histIdx=-1;
+
+function pushHistory(){
+  hist=hist.slice(0,histIdx+1);
+  hist.push(JSON.parse(JSON.stringify(editPages)));
+  if(hist.length>MAX_HIST)hist.shift();
+  histIdx=hist.length-1;
+  updateHistUI();
+}
+function undo(){
+  if(histIdx<=0)return;
+  histIdx--;
+  editPages=JSON.parse(JSON.stringify(hist[histIdx]));
+  renderPanel();buildLayout();draw();updateHistUI();
+}
+function redo(){
+  if(histIdx>=hist.length-1)return;
+  histIdx++;
+  editPages=JSON.parse(JSON.stringify(hist[histIdx]));
+  renderPanel();buildLayout();draw();updateHistUI();
+}
+function updateHistUI(){
+  const u=document.getElementById('undo-btn'),r=document.getElementById('redo-btn');
+  if(u)u.disabled=histIdx<=0;
+  if(r)r.disabled=histIdx>=hist.length-1;
+}
+document.addEventListener('keydown',e=>{
+  if(!(e.ctrlKey||e.metaKey))return;
+  if(e.key==='z'&&!e.shiftKey){e.preventDefault();undo();}
+  else if(e.key==='z'&&e.shiftKey){e.preventDefault();redo();}
+  else if(e.key==='y'){e.preventDefault();redo();}
+});
+
+/* ── PANEL ── */
+const COLORS=['#34C759','#0A84FF','#FF9F0A','#8361FF','#FF3B30','#5856D6'];
+const STATUS_CYCLE=['완성','미제작','신규',''];
+let expanded={};
+let dragMenuIdx=null;
+let dragScreenInfo=null;
+
+function togglePanel(open){
+  const panel=document.getElementById('panel');
+  const btn=document.getElementById('panel-toggle');
+  const ctrls=document.getElementById('ctrls');
+  const isOpen=panel.classList.contains('open');
+  const newOpen=open!==undefined?open:!isOpen;
+  panel.classList.toggle('open',newOpen);
+  btn.classList.toggle('on',newOpen);
+  ctrls.classList.toggle('shifted',newOpen);
+  if(newOpen)renderPanel();
+}
+document.getElementById('panel-toggle').onclick=()=>togglePanel();
+document.getElementById('panel-x').onclick=()=>togglePanel(false);
+document.getElementById('undo-btn').onclick=undo;
+document.getElementById('redo-btn').onclick=redo;
+
+function statusStyle(s){
+  if(s==='완성')return 'background:#e6f8ec;color:#1a9e3f';
+  if(s==='미제작')return 'background:#e8f0ff;color:#0066cc';
+  if(s==='신규')return 'background:#fff3e0;color:#e65c00';
+  return 'background:var(--bg3);color:var(--dim)';
+}
+
+function renderPanel(){
+  const bd=document.getElementById('panel-bd');
+  const ft=document.getElementById('panel-ft');
+  bd.innerHTML='';
+
+  /* ── Empty state ── */
+  if(editPages.length===0){
+    ft.style.display='none';
+    const es=document.createElement('div');
+    es.className='panel-empty';
+    es.innerHTML=`
+      <div class="panel-empty-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="9" y1="3" x2="9" y2="21"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+        </svg>
+      </div>
+      <div class="panel-empty-title">데이터가 없어요</div>
+      <div class="panel-empty-desc">CSV를 업로드하거나<br>직접 메뉴 구조를 만들어보세요</div>
+      <div class="panel-empty-actions">
+        <label class="btn-empty-csv">
+          <input type="file" accept=".csv,.tsv" style="display:none" onchange="handleEmptyCSV(this)">
+          CSV 업로드
+        </label>
+        <button class="btn-empty-create" onclick="startFromScratch()">직접 만들기</button>
+      </div>
+    `;
+    bd.appendChild(es);
+    return;
+  }
+  ft.style.display='flex';
+
+  const lbl=document.createElement('div');
+  lbl.className='psec-lbl';lbl.textContent='메뉴 구조';
+  bd.appendChild(lbl);
+
+  editPages.forEach((page,pi)=>{
+    const isExp=expanded[page.id]!==false;
+    const wrap=document.createElement('div');
+    wrap.className='pm-menu';
+
+    /* Menu header */
+    const hd=document.createElement('div');
+    hd.className='pm-menu-hd';
+
+    const grip=document.createElement('span');
+    grip.className='pm-grip';grip.title='드래그하여 순서 변경';
+    grip.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="5" r="1.8"/><circle cx="15" cy="5" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="19" r="1.8"/><circle cx="15" cy="19" r="1.8"/></svg>`;
+
+    const arrow=document.createElement('span');
+    arrow.className='pm-arrow'+(isExp?' open':'');arrow.textContent='▶';
+
+    const mid=document.createElement('span');
+    mid.className='pm-mid';mid.textContent=page.mid;
+
+    const colorDot=document.createElement('span');
+    colorDot.className='pm-color';colorDot.style.background=page.color;colorDot.title='색상 변경';
+
+    const labelInp=document.createElement('input');
+    labelInp.className='pm-label';labelInp.value=page.label;labelInp.placeholder='메뉴명';
+
+    const statusBtn=document.createElement('button');
+    statusBtn.className='pm-status';statusBtn.style.cssText=statusStyle(page.tag);
+    statusBtn.textContent=page.tag||'—';
+
+    const delBtn=document.createElement('button');
+    delBtn.className='pm-del';delBtn.title='삭제';delBtn.textContent='×';
+
+    hd.append(grip,arrow,mid,colorDot,labelInp,statusBtn,delBtn);
+
+    hd.addEventListener('click',e=>{
+      if([grip,colorDot,labelInp,statusBtn,delBtn].includes(e.target))return;
+      expanded[page.id]=!isExp;renderPanel();
+    });
+    colorDot.onclick=e=>{
+      e.stopPropagation();
+      pushHistory();
+      const idx=COLORS.indexOf(page.color);
+      page.color=COLORS[(idx+1)%COLORS.length];
+      colorDot.style.background=page.color;
+    };
+    labelInp.onfocus=()=>pushHistory();
+    labelInp.oninput=()=>{page.label=labelInp.value;};
+    labelInp.onclick=e=>e.stopPropagation();
+    statusBtn.onclick=e=>{
+      e.stopPropagation();
+      pushHistory();
+      const idx=STATUS_CYCLE.indexOf(page.tag);
+      page.tag=STATUS_CYCLE[(idx+1)%STATUS_CYCLE.length];
+      statusBtn.textContent=page.tag||'—';
+      statusBtn.style.cssText=statusStyle(page.tag);
+    };
+    delBtn.onclick=e=>{e.stopPropagation();pushHistory();editPages.splice(pi,1);renderPanel();};
+
+    /* Menu drag */
+    grip.addEventListener('mousedown',()=>{ wrap.draggable=true; });
+    wrap.addEventListener('dragstart',e=>{
+      dragMenuIdx=pi;
+      e.dataTransfer.effectAllowed='move';
+      setTimeout(()=>wrap.classList.add('dragging'),0);
+    });
+    wrap.addEventListener('dragend',()=>{
+      wrap.draggable=false;
+      wrap.classList.remove('dragging');
+      document.querySelectorAll('.pm-menu').forEach(el=>el.classList.remove('drop-before','drop-after'));
+      dragMenuIdx=null;
+    });
+    wrap.addEventListener('dragover',e=>{
+      e.preventDefault();
+      if(dragMenuIdx===null||dragMenuIdx===pi)return;
+      const r=wrap.getBoundingClientRect();
+      document.querySelectorAll('.pm-menu').forEach(el=>el.classList.remove('drop-before','drop-after'));
+      wrap.classList.add(e.clientY<r.top+r.height/2?'drop-before':'drop-after');
+    });
+    wrap.addEventListener('drop',e=>{
+      e.preventDefault();
+      if(dragMenuIdx===null||dragMenuIdx===pi)return;
+      const r=wrap.getBoundingClientRect();
+      const before=e.clientY<r.top+r.height/2;
+      pushHistory();
+      const item=editPages.splice(dragMenuIdx,1)[0];
+      let ti=pi; if(dragMenuIdx<pi)ti--;
+      editPages.splice(before?ti:ti+1,0,item);
+      dragMenuIdx=null;
+      renderPanel();
+    });
+
+    wrap.appendChild(hd);
+
+    /* Screens */
+    if(isExp){
+      const screensDiv=document.createElement('div');
+      screensDiv.className='pm-screens';
+
+      page.children.forEach((sc,si)=>{
+        const row=document.createElement('div');
+        row.className='pm-screen';
+
+        const scGrip=document.createElement('span');
+        scGrip.className='pm-sc-grip';scGrip.title='드래그하여 순서 변경';
+        scGrip.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="5" r="1.8"/><circle cx="15" cy="5" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="19" r="1.8"/><circle cx="15" cy="19" r="1.8"/></svg>`;
+
+        const sid=document.createElement('span');
+        sid.className='pm-sid';sid.textContent=sc.sid;
+
+        const scLabel=document.createElement('input');
+        scLabel.className='pm-sc-label';scLabel.value=sc.label;scLabel.placeholder='화면명';
+
+        const scUrl=document.createElement('input');
+        scUrl.className='pm-sc-url';scUrl.value=sc.url;scUrl.placeholder='/url';
+
+        const scDel=document.createElement('button');
+        scDel.className='pm-sc-del';scDel.title='삭제';scDel.textContent='×';
+
+        row.append(scGrip,sid,scLabel,scUrl,scDel);
+        scLabel.onfocus=()=>pushHistory();
+        scLabel.oninput=()=>{sc.label=scLabel.value;};
+        scUrl.onfocus=()=>pushHistory();
+        scUrl.oninput=()=>{sc.url=scUrl.value;};
+        scDel.onclick=()=>{pushHistory();page.children.splice(si,1);renderPanel();};
+
+        /* Screen drag */
+        scGrip.addEventListener('mousedown',()=>{ row.draggable=true; });
+        row.addEventListener('dragstart',e=>{
+          dragScreenInfo={pi,si};
+          e.dataTransfer.effectAllowed='move';
+          setTimeout(()=>row.classList.add('dragging'),0);
+        });
+        row.addEventListener('dragend',()=>{
+          row.draggable=false;
+          row.classList.remove('dragging');
+          screensDiv.querySelectorAll('.pm-screen').forEach(el=>el.classList.remove('drop-before','drop-after'));
+          dragScreenInfo=null;
+        });
+        row.addEventListener('dragover',e=>{
+          e.preventDefault();
+          if(!dragScreenInfo||dragScreenInfo.pi!==pi||dragScreenInfo.si===si)return;
+          const r=row.getBoundingClientRect();
+          screensDiv.querySelectorAll('.pm-screen').forEach(el=>el.classList.remove('drop-before','drop-after'));
+          row.classList.add(e.clientY<r.top+r.height/2?'drop-before':'drop-after');
+        });
+        row.addEventListener('drop',e=>{
+          e.preventDefault();
+          if(!dragScreenInfo||dragScreenInfo.pi!==pi||dragScreenInfo.si===si)return;
+          const r=row.getBoundingClientRect();
+          const before=e.clientY<r.top+r.height/2;
+          pushHistory();
+          const {si:fromSi}=dragScreenInfo;
+          const item=page.children.splice(fromSi,1)[0];
+          let ti=si; if(fromSi<si)ti--;
+          page.children.splice(before?ti:ti+1,0,item);
+          dragScreenInfo=null;
+          renderPanel();
+        });
+
+        screensDiv.appendChild(row);
+      });
+
+      const addSc=document.createElement('button');
+      addSc.className='pm-add-screen';addSc.textContent='＋ 화면 추가';
+      addSc.onclick=()=>{
+        pushHistory();
+        const mNum=page.mid.replace('M-','');
+        const sNum=String(page.children.length+1).padStart(2,'0');
+        page.children.push({
+          id:'sc_'+Date.now(),
+          label:'새 화면',
+          sid:`S-${mNum.padStart(2,'0')}-${sNum}`,
+          url:''
+        });
+        renderPanel();
+      };
+      screensDiv.appendChild(addSc);
+      wrap.appendChild(screensDiv);
+    }
+    bd.appendChild(wrap);
+  });
+
+  /* Add menu */
+  const addMenu=document.createElement('button');
+  addMenu.className='pm-add-menu';addMenu.textContent='＋ 메뉴 추가';
+  addMenu.onclick=()=>{
+    pushHistory();
+    const idx=editPages.length+1;
+    editPages.push({
+      id:'menu_'+Date.now(),
+      label:'새 메뉴',
+      mid:`M-${String(idx).padStart(2,'0')}`,
+      url:'',color:'#0A84FF',tag:'미제작',children:[]
+    });
+    renderPanel();
+  };
+  bd.appendChild(addMenu);
+}
+
+/* ── Empty state handlers ── */
+function handleEmptyCSV(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{parseCSV(ev.target.result);input.value='';};
+  reader.readAsText(file,'utf-8');
+}
+function startFromScratch(){
+  editPages=[{
+    id:'menu_'+Date.now(),label:'새 메뉴',mid:'M-01',
+    url:'',color:'#0A84FF',tag:'미제작',children:[]
+  }];
+  expanded={};
+  renderPanel();buildLayout();fitView();
+}
+
+/* ── CSV IMPORT ── */
+document.getElementById('csv-file').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{parseCSV(ev.target.result);e.target.value='';};
+  reader.readAsText(file,'utf-8');
+});
+
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/).map(l=>l.trim()).filter(l=>l&&!l.startsWith('#'));
+  if(lines.length<2)return;
+  const sep=lines[0].includes('\t')?'\t':',';
+  const headers=lines[0].split(sep).map(h=>h.trim());
+
+  /* column alias map */
+  const ALIASES={
+    mid:['메뉴ID','mid','MenuID'],
+    label:['메뉴명','label','MenuName'],
+    color:['색상','color','Color'],
+    status:['상태','status','Status'],
+    sid:['화면ID','sid','ScreenID'],
+    slabel:['화면명','ScreenName','screen_label'],
+    url:['URL','url','Path'],
+  };
+  const col=k=>{
+    for(const a of (ALIASES[k]||[])){
+      const i=headers.findIndex(h=>h===a);
+      if(i>=0)return i;
+    }
+    return -1;
+  };
+  const ci={
+    mid:col('mid'),label:col('label'),color:col('color'),status:col('status'),
+    sid:col('sid'),slabel:col('slabel'),url:col('url')
+  };
+
+  const COLOR_MAP={green:'#34C759',blue:'#0A84FF',orange:'#FF9F0A',purple:'#8361FF',red:'#FF3B30'};
+  const menuMap={},menuOrder=[];
+  lines.slice(1).forEach(line=>{
+    const vals=line.split(sep).map(v=>v.trim());
+    const mid=ci.mid>=0?vals[ci.mid]:'';
+    if(!mid)return;
+    if(!menuMap[mid]){
+      const rawColor=ci.color>=0?vals[ci.color]:'#0A84FF';
+      menuMap[mid]={
+        id:'csv_'+mid.replace(/\W/g,'_'),
+        label:ci.label>=0?vals[ci.label]:mid,
+        mid,url:'',
+        color:COLOR_MAP[rawColor]||rawColor,
+        tag:ci.status>=0?vals[ci.status]:'',
+        children:[]
+      };
+      menuOrder.push(mid);
+    }
+    const sid=ci.sid>=0?vals[ci.sid]:'';
+    if(sid){
+      menuMap[mid].children.push({
+        id:'csv_'+sid.replace(/\W/g,'_'),
+        label:ci.slabel>=0?vals[ci.slabel]:sid,
+        sid,
+        url:ci.url>=0?vals[ci.url]:''
+      });
+    }
+  });
+
+  if(menuOrder.length>0){
+    editPages=menuOrder.map(m=>menuMap[m]);
+    renderPanel();buildLayout();fitView();
+  }
+}
+
+/* ── APPLY ── */
+document.getElementById('apply-btn').onclick=()=>{buildLayout();fitView();};
+
+window.addEventListener('resize',resize);
+buildLayout();
+resize();
+pushHistory();
+</script>
