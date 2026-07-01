@@ -81,14 +81,9 @@ body {
   align-items: center;
   gap: 8px;
   padding: 0 12px;
-  border-bottom: 1px solid var(--bdr);
-  cursor: pointer;
-  user-select: none;
   overflow: hidden;
   white-space: nowrap;
-  transition: background .12s;
 }
-.sb-ws:hover { background: var(--nav-ho-bg); }
 .ws-wm { display: block; }
 [data-theme="dark"] .ws-wm path[fill="#111827"] { fill: #F0EDE8; }
 .sidebar.col .ws-wm { display: none; }
@@ -352,7 +347,7 @@ body {
   </nav>
 
   <div class="sb-bot">
-    <div class="sb-user">
+    <div class="sb-user" onclick="location.href='luum-login.html'">
       <div class="u-av">B</div>
       <div class="u-info">
         <div class="u-name">Brian</div>
