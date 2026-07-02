@@ -1,326 +1,146 @@
 ﻿<title>Edencrew Ecosystem Overview</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg:   #0B0D12;
-    --bg2:  #111318;
-    --bg3:  #161921;
-    --bg4:  #1C1F2A;
-    --p:    #8361FF;
-    --p2:   #A78BFA;
-    --wh:   #fff;
-    --mid:  rgba(255,255,255,.42);
-    --dim:  rgba(255,255,255,.18);
-    --dim2: rgba(255,255,255,.07);
-    --cta:  #FF6B35;
-    --green:#34D399;
-    --blue: #60A5FA;
-    --yellow:#FCD34D;
-    --red:  #F87171;
+    --bg:#F5F5F5;--bg2:#FFFFFF;--bg3:#F3F4F6;--bg4:#EAEBEE;
+    --bdr:#E9E8E8;--bdr2:#D1D5DB;
+    --p:#8361FF;--p2:#6D48F5;--pg:rgba(131,97,255,.08);
+    --wh:#111827;--mid:#6B7280;--dim:rgba(107,114,128,.55);--dim2:rgba(107,114,128,.12);
+    --cta:#FF6B35;--green:#16A34A;--yellow:#D97706;--red:#DC2626;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--wh);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    padding: 48px 32px 80px;
-    line-height: 1.4;
+  [data-theme="dark"] {
+    --bg:#09090D;--bg2:#111118;--bg3:#1C1B26;--bg4:#232232;
+    --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);
+    --p:#8361FF;--p2:#A78BFA;--pg:rgba(131,97,255,.12);
+    --wh:#F0EDE8;--mid:rgba(240,237,232,.55);--dim:rgba(240,237,232,.32);--dim2:rgba(255,255,255,.07);
+    --cta:#FF6B35;--green:#34D399;--yellow:#FCD34D;--red:#F87171;
   }
-
-  .page-header {
-    text-align: center;
-    margin-bottom: 56px;
-  }
-  .eyebrow {
-    font-size: 11px; font-weight: 600;
-    letter-spacing: .12em; text-transform: uppercase;
-    color: var(--p2); margin-bottom: 10px;
-  }
-  .page-header h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900; font-size: clamp(20px,3vw,30px);
-    color: var(--wh); letter-spacing: -.02em;
-  }
-  .page-header .sub {
-    font-size: 12px; color: var(--mid); margin-top: 8px;
-  }
-
-  .eco-wrap {
-    max-width: 1160px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .journey-section {
-    margin-bottom: 40px;
-  }
-  .journey-label {
-    font-size: 10px; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 14px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .journey-label::after {
-    content: ''; flex: 1; height: 1px;
-    background: var(--dim2);
-  }
-
-  .site-row {
-    display: grid;
-    grid-template-columns: 1fr 80px 1fr 80px 1fr 80px 1fr;
-    align-items: stretch;
-    gap: 0;
-    margin-bottom: 32px;
-  }
-
-  .site-node {
-    border-radius: 12px;
-    border: 1px solid var(--dim);
-    background: var(--bg2);
-    overflow: hidden;
-  }
-  .site-node-header {
-    padding: 12px 16px 10px;
-    border-bottom: 1px solid var(--dim2);
-  }
-  .site-node-eyebrow {
-    font-size: 9px; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase;
-    color: var(--dim); margin-bottom: 5px;
-  }
-  .site-node-name {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900; font-size: 14px;
-    color: var(--wh); letter-spacing: -.01em;
-  }
-  .site-node-domain {
-    font-size: 10px; font-family: monospace;
-    margin-top: 4px;
-  }
-  .site-node-body {
-    padding: 12px 16px;
-    display: flex; flex-direction: column; gap: 5px;
-  }
-  .site-tag {
-    font-size: 10px; color: var(--mid);
-    background: var(--dim2);
-    border-radius: 4px; padding: 3px 7px;
-    display: inline-flex; align-items: center; gap: 5px;
-  }
-  .site-tag .dot {
-    width: 5px; height: 5px; border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .node-home   { border-color: rgba(131,97,255,.4); }
-  .node-home .site-node-header { background: rgba(131,97,255,.08); }
-  .node-home .site-node-name   { color: var(--p2); }
-  .node-home .site-node-domain { color: var(--p); }
-
-  .node-auth   { border-color: rgba(255,107,53,.35); }
-  .node-auth .site-node-header { background: rgba(255,107,53,.07); }
-  .node-auth .site-node-name   { color: #FF9A6C; }
-  .node-auth .site-node-domain { color: var(--cta); }
-
-  .node-tc     { border-color: rgba(52,211,153,.35); }
-  .node-tc .site-node-header   { background: rgba(52,211,153,.07); }
-  .node-tc .site-node-name     { color: var(--green); }
-  .node-tc .site-node-domain   { color: var(--green); }
-
-  .node-admin  { border-color: rgba(252,211,77,.3); border-style: dashed; }
-  .node-admin .site-node-header { background: rgba(252,211,77,.05); }
-  .node-admin .site-node-name   { color: var(--yellow); }
-  .node-admin .site-node-domain { color: var(--yellow); opacity:.7; }
-
-  .arrow-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 0 4px;
-  }
-  .arrow-line {
-    display: flex; align-items: center;
-    gap: 0; width: 100%;
-  }
-  .arrow-shaft {
-    flex: 1; height: 1px;
-    background: var(--dim);
-  }
-  .arrow-head {
-    font-size: 10px; color: var(--dim);
-    line-height: 1;
-  }
-  .arrow-label {
-    font-size: 9px; color: var(--mid);
-    text-align: center; line-height: 1.3;
-    white-space: nowrap;
-  }
-
-  .flows {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .flow {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--dim2);
-  }
-  .flow-trigger {
-    width: 180px; flex-shrink: 0;
-    background: var(--bg3);
-    border-right: 1px solid var(--dim2);
-    padding: 11px 14px;
-    display: flex; flex-direction: column;
-    justify-content: center; gap: 3px;
-  }
-  .flow-trigger .ft-label {
-    font-size: 9px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase;
-    color: var(--dim); margin-bottom: 2px;
-  }
-  .flow-trigger .ft-action {
-    font-size: 11px; font-weight: 600; color: var(--wh);
-  }
-  .flow-trigger .ft-from {
-    font-size: 10px; font-family: monospace; color: var(--mid);
-    margin-top: 1px;
-  }
-
-  .flow-steps {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    padding: 0 6px;
-    gap: 0;
-    overflow-x: auto;
-  }
-  .flow-step {
-    display: flex; align-items: center;
-    flex-shrink: 0;
-  }
-  .step-box {
-    background: var(--bg4);
-    border-radius: 7px; padding: 7px 11px;
-    font-size: 11px; color: var(--mid);
-    text-align: center; white-space: nowrap;
-    border: 1px solid transparent;
-  }
-  .step-box .step-url {
-    display: block; font-size: 9px;
-    font-family: monospace; margin-top: 2px;
-  }
-  .step-arrow {
-    padding: 0 5px;
-    font-size: 11px; color: var(--dim);
-    flex-shrink: 0;
-  }
-  .step-box.home-step   { border-color: rgba(131,97,255,.3); color: var(--p2); }
-  .step-box.auth-step   { border-color: rgba(255,107,53,.3); color: #FF9A6C; }
-  .step-box.tc-step     { border-color: rgba(52,211,153,.3); color: var(--green); }
-  .step-box.admin-step  { border-color: rgba(252,211,77,.3); color: var(--yellow); }
-  .step-box.final       { font-weight: 700; }
-
-  .section-divider {
-    border: none; border-top: 1px solid var(--dim2);
-    margin: 40px 0;
-  }
-
-  .admin-teaser {
-    background: rgba(252,211,77,.04);
-    border: 1px dashed rgba(252,211,77,.25);
-    border-radius: 12px;
-    padding: 20px 24px;
-  }
-  .admin-teaser-header {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 14px;
-  }
-  .admin-teaser-title {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900; font-size: 14px; color: var(--yellow);
-  }
-  .admin-teaser-domain {
-    font-size: 11px; font-family: monospace;
-    color: rgba(252,211,77,.5);
-  }
-  .admin-tag {
-    margin-left: auto;
-    font-size: 9px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase;
-    background: rgba(252,211,77,.12); color: var(--yellow);
-    border: 1px solid rgba(252,211,77,.25);
-    border-radius: 4px; padding: 3px 8px;
-  }
-  .admin-modules {
-    display: flex; gap: 10px; flex-wrap: wrap;
-  }
-  .admin-module {
-    background: rgba(252,211,77,.06);
-    border: 1px solid rgba(252,211,77,.2);
-    border-radius: 7px; padding: 8px 12px;
-    font-size: 11px; color: rgba(252,211,77,.7);
-  }
-  .admin-module .mod-title {
-    font-weight: 600; color: var(--yellow);
-    margin-bottom: 2px;
-  }
-  .admin-module .mod-desc {
-    font-size: 10px; color: rgba(252,211,77,.5);
-  }
-
-  .note {
-    max-width: 1160px; margin: 32px auto 0;
-    background: rgba(131,97,255,.06);
-    border: 1px solid rgba(131,97,255,.2);
-    border-radius: 10px; padding: 16px 20px;
-    font-size: 12px; color: var(--mid); line-height: 1.7;
-  }
-  .note strong { color: var(--p2); }
+  body { background:var(--bg);color:var(--wh);font-family:'Inter','Pretendard',-apple-system,'Segoe UI',sans-serif;min-height:100vh;padding:48px 32px 80px;line-height:1.4;transition:background .2s,color .2s; }
+  .page-header { text-align:center;margin-bottom:56px; }
+  .eyebrow { font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--p);margin-bottom:10px; }
+  .page-header h1 { font-weight:700;font-size:clamp(20px,3vw,28px);color:var(--wh);letter-spacing:-.02em; }
+  .page-header .sub { font-size:12px;color:var(--mid);margin-top:8px; }
+  .eco-wrap { max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:0; }
+  .journey-label { font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:16px;display:flex;align-items:center;gap:10px; }
+  .journey-label::after { content:'';flex:1;height:1px;background:var(--bdr); }
+  .site-row { display:grid;grid-template-columns:1fr 80px 1fr 80px 1fr 80px 1fr;align-items:stretch;gap:0;margin-bottom:32px; }
+  .site-node { border-radius:12px;border:1px solid var(--bdr);background:var(--bg2);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06); }
+  .site-node-header { padding:12px 16px 10px;border-bottom:1px solid var(--bdr); }
+  .site-node-eyebrow { font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:5px; }
+  .site-node-name { font-weight:700;font-size:15px;color:var(--wh);letter-spacing:-.01em; }
+  .site-node-domain { font-size:11px;font-family:monospace;margin-top:4px; }
+  .site-node-body { padding:12px 16px;display:flex;flex-direction:column;gap:5px; }
+  .site-tag { font-size:11px;color:var(--mid);background:var(--bg3);border:1px solid var(--bdr);border-radius:5px;padding:4px 8px;display:inline-flex;align-items:center;gap:6px; }
+  .site-tag .dot { width:5px;height:5px;border-radius:50%;flex-shrink:0; }
+  .node-home { border-color:rgba(131,97,255,.3); }
+  .node-home .site-node-header { background:rgba(131,97,255,.06); }
+  .node-home .site-node-name { color:var(--p); }
+  .node-home .site-node-domain { color:var(--p); }
+  .node-auth { border-color:rgba(255,107,53,.3); }
+  .node-auth .site-node-header { background:rgba(255,107,53,.06); }
+  .node-auth .site-node-name { color:#E05A28; }
+  .node-auth .site-node-domain { color:var(--cta); }
+  .node-tc { border-color:rgba(22,163,74,.3); }
+  .node-tc .site-node-header { background:rgba(22,163,74,.06); }
+  .node-tc .site-node-name { color:var(--green); }
+  .node-tc .site-node-domain { color:var(--green); }
+  .node-admin { border-color:rgba(217,119,6,.3);border-style:dashed; }
+  .node-admin .site-node-header { background:rgba(217,119,6,.05); }
+  .node-admin .site-node-name { color:var(--yellow); }
+  .node-admin .site-node-domain { color:var(--yellow);opacity:.8; }
+  [data-theme="dark"] .node-home { border-color:rgba(131,97,255,.4); }
+  [data-theme="dark"] .node-home .site-node-header { background:rgba(131,97,255,.08); }
+  [data-theme="dark"] .node-home .site-node-name { color:var(--p2); }
+  [data-theme="dark"] .node-auth { border-color:rgba(255,107,53,.35); }
+  [data-theme="dark"] .node-auth .site-node-header { background:rgba(255,107,53,.07); }
+  [data-theme="dark"] .node-auth .site-node-name { color:#FF9A6C; }
+  [data-theme="dark"] .node-tc { border-color:rgba(52,211,153,.35); }
+  [data-theme="dark"] .node-tc .site-node-header { background:rgba(52,211,153,.07); }
+  [data-theme="dark"] .node-admin { border-color:rgba(252,211,77,.3); }
+  [data-theme="dark"] .node-admin .site-node-header { background:rgba(252,211,77,.05); }
+  [data-theme="dark"] .node-admin .site-node-name { color:#FCD34D; }
+  .arrow-col { display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px; }
+  .arrow-line { display:flex;align-items:center;gap:0;width:100%; }
+  .arrow-shaft { flex:1;height:1px;background:var(--bdr2); }
+  .arrow-head { font-size:11px;color:var(--mid);line-height:1; }
+  .arrow-label { font-size:10px;color:var(--mid);text-align:center;line-height:1.4;white-space:nowrap; }
+  .flows { display:flex;flex-direction:column;gap:8px; }
+  .flow { display:flex;align-items:stretch;gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--bdr);background:var(--bg2);box-shadow:0 1px 2px rgba(0,0,0,.04); }
+  .flow-trigger { width:180px;flex-shrink:0;background:var(--bg3);border-right:1px solid var(--bdr);padding:11px 14px;display:flex;flex-direction:column;justify-content:center;gap:3px; }
+  .flow-trigger .ft-label { font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:2px; }
+  .flow-trigger .ft-action { font-size:12px;font-weight:600;color:var(--wh); }
+  .flow-trigger .ft-from { font-size:10px;font-family:monospace;color:var(--mid);margin-top:1px; }
+  .flow-steps { flex:1;display:flex;align-items:center;padding:0 6px;gap:0;overflow-x:auto; }
+  .flow-step { display:flex;align-items:center;flex-shrink:0; }
+  .step-box { background:var(--bg3);border-radius:7px;padding:7px 11px;font-size:11px;color:var(--mid);text-align:center;white-space:nowrap;border:1px solid var(--bdr); }
+  .step-box .step-url { display:block;font-size:10px;font-family:monospace;margin-top:2px;color:var(--dim); }
+  .step-arrow { padding:0 5px;font-size:12px;color:var(--dim);flex-shrink:0; }
+  .step-box.home-step { border-color:rgba(131,97,255,.25);color:var(--p); }
+  .step-box.auth-step { border-color:rgba(255,107,53,.25);color:#E05A28; }
+  .step-box.tc-step { border-color:rgba(22,163,74,.25);color:var(--green); }
+  .step-box.admin-step { border-color:rgba(217,119,6,.25);color:var(--yellow); }
+  .step-box.final { font-weight:700; }
+  [data-theme="dark"] .step-box.home-step { color:var(--p2); }
+  [data-theme="dark"] .step-box.auth-step { color:#FF9A6C; }
+  [data-theme="dark"] .step-box.tc-step { color:#34D399; }
+  [data-theme="dark"] .step-box.admin-step { color:#FCD34D; }
+  .section-divider { border:none;border-top:1px solid var(--bdr);margin:40px 0; }
+  .admin-teaser { background:rgba(217,119,6,.04);border:1px dashed rgba(217,119,6,.3);border-radius:12px;padding:20px 24px; }
+  [data-theme="dark"] .admin-teaser { background:rgba(252,211,77,.04);border-color:rgba(252,211,77,.25); }
+  .admin-teaser-header { display:flex;align-items:center;gap:12px;margin-bottom:14px; }
+  .admin-teaser-title { font-weight:700;font-size:14px;color:var(--yellow); }
+  .admin-teaser-domain { font-size:11px;font-family:monospace;color:var(--yellow);opacity:.6; }
+  .admin-tag { margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(217,119,6,.1);color:var(--yellow);border:1px solid rgba(217,119,6,.25);border-radius:4px;padding:3px 8px; }
+  [data-theme="dark"] .admin-tag { background:rgba(252,211,77,.12);border-color:rgba(252,211,77,.25); }
+  .admin-modules { display:flex;gap:10px;flex-wrap:wrap; }
+  .admin-module { background:rgba(217,119,6,.05);border:1px solid rgba(217,119,6,.2);border-radius:8px;padding:9px 13px;font-size:12px;color:var(--yellow); }
+  [data-theme="dark"] .admin-module { background:rgba(252,211,77,.06);border-color:rgba(252,211,77,.2); }
+  .admin-module .mod-title { font-weight:600;margin-bottom:3px; }
+  .admin-module .mod-desc { font-size:11px;opacity:.65; }
+  .note { max-width:1160px;margin:32px auto 0;background:var(--pg);border:1px solid rgba(131,97,255,.2);border-radius:10px;padding:16px 20px;font-size:13px;color:var(--mid);line-height:1.7; }
+  .note strong { color:var(--p); }
 </style>
 
+<script>
+(function(){
+  function sync(){
+    try{
+      var t=window.parent.document.documentElement.getAttribute('data-theme');
+      if(t==='dark') document.documentElement.setAttribute('data-theme','dark');
+      else document.documentElement.removeAttribute('data-theme');
+    }catch(e){
+      var s=localStorage.getItem('luum-theme');
+      if(s==='dark') document.documentElement.setAttribute('data-theme','dark');
+      else document.documentElement.removeAttribute('data-theme');
+    }
+  }
+  sync();
+  try{
+    new MutationObserver(sync).observe(window.parent.document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  }catch(e){}
+})();
+</script>
+
 <nav style="max-width:1160px;margin:0 auto 36px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-  <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-right:4px">사이트맵 →</span>
-  <a href="project-dashboard.html"
-     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);text-decoration:none;">
-    ← 대시보드
-  </a>
-  <a href="sitemap-edencrew.html"
-     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(131,97,255,.4);background:rgba(131,97,255,.1);color:var(--p2);text-decoration:none;">
-    edencrew.com
-  </a>
-  <a href="sitemap-teamcloud.html"
-     style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);color:var(--green);text-decoration:none;">
-    TeamCloud
-  </a>
-  <a href="sitemap-admin.html" style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(252,211,77,.35);background:rgba(252,211,77,.08);color:#FCD34D;text-decoration:none">Admin</a>
-  <span style="margin-left:auto;font-size:10px;padding:5px 10px;border-radius:5px;background:rgba(131,97,255,.15);color:var(--p2);border:1px solid rgba(131,97,255,.3)">● Ecosystem Overview</span>
+  <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-right:4px">사이트맵 →</span>
+  <a href="project-dashboard.html" style="font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid var(--bdr2);background:var(--bg3);color:var(--mid);text-decoration:none;">← 대시보드</a>
+  <a href="sitemap-edencrew.html" style="font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(131,97,255,.35);background:rgba(131,97,255,.08);color:var(--p);text-decoration:none;">edencrew.com</a>
+  <a href="sitemap-teamcloud.html" style="font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(22,163,74,.3);background:rgba(22,163,74,.07);color:var(--green);text-decoration:none;">TeamCloud</a>
+  <a href="sitemap-admin.html" style="font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(217,119,6,.3);background:rgba(217,119,6,.07);color:var(--yellow);text-decoration:none;">Admin</a>
+  <span style="margin-left:auto;font-size:11px;padding:5px 12px;border-radius:5px;background:var(--pg);color:var(--p);border:1px solid rgba(131,97,255,.25)">● Ecosystem Overview</span>
 </nav>
 
 <div class="page-header">
   <div class="eyebrow">Edencrew · Ecosystem Overview</div>
-  <h1>서비스 전체 구조 & 연결</h1>
+  <h1>서비스 전체 구조 &amp; 연결</h1>
   <p class="sub">edencrew.com · auth · TeamCloud · Admin | 2026-06-29</p>
 </div>
 
 <div class="eco-wrap">
-
   <div class="journey-label">서비스 도메인 구조</div>
 
   <div class="site-row">
-
     <div class="site-node node-home">
       <div class="site-node-header">
         <div class="site-node-eyebrow">마케팅 · 홈페이지</div>
@@ -355,7 +175,7 @@
         <div class="site-tag"><div class="dot" style="background:var(--cta)"></div>Google OAuth2</div>
         <div class="site-tag"><div class="dot" style="background:var(--cta)"></div>PKCE code 발급</div>
         <div class="site-tag"><div class="dot" style="background:var(--cta)"></div>비밀번호 재설정</div>
-        <div class="site-tag"><div class="dot" style="background:var(--cta); opacity:.4"></div>JWT · API Key</div>
+        <div class="site-tag"><div class="dot" style="background:var(--cta);opacity:.4"></div>JWT · API Key</div>
       </div>
     </div>
 
@@ -375,8 +195,8 @@
         <div class="site-tag"><div class="dot" style="background:var(--green)"></div>Projects · Git 연동</div>
         <div class="site-tag"><div class="dot" style="background:var(--green)"></div>Members · RBAC</div>
         <div class="site-tag"><div class="dot" style="background:var(--green)"></div>Billing (Open Beta+)</div>
-        <div class="site-tag"><div class="dot" style="background:var(--green); opacity:.4"></div>Deploy (Post-Beta)</div>
-        <div class="site-tag"><div class="dot" style="background:var(--green); opacity:.4"></div>Community · Learn</div>
+        <div class="site-tag"><div class="dot" style="background:var(--green);opacity:.4"></div>Deploy (Post-Beta)</div>
+        <div class="site-tag"><div class="dot" style="background:var(--green);opacity:.4"></div>Community · Learn</div>
       </div>
     </div>
 
@@ -392,23 +212,20 @@
         <div class="site-node-domain">admin.edencrew.com</div>
       </div>
       <div class="site-node-body">
-        <div class="site-tag" style="opacity:.6"><div class="dot" style="background:var(--yellow)"></div>User 전체 관리</div>
-        <div class="site-tag" style="opacity:.6"><div class="dot" style="background:var(--yellow)"></div>Organization 관리</div>
-        <div class="site-tag" style="opacity:.6"><div class="dot" style="background:var(--yellow)"></div>License 발급·관리</div>
-        <div class="site-tag" style="opacity:.6"><div class="dot" style="background:var(--yellow)"></div>Analytics · 모니터링</div>
-        <div class="site-tag" style="opacity:.6"><div class="dot" style="background:var(--yellow)"></div>On-prem 배포 관리</div>
-        <div class="site-tag" style="opacity:.4; font-style:italic"><div class="dot" style="background:var(--yellow); opacity:.3"></div>추후 설계 예정</div>
+        <div class="site-tag" style="opacity:.7"><div class="dot" style="background:var(--yellow)"></div>User 전체 관리</div>
+        <div class="site-tag" style="opacity:.7"><div class="dot" style="background:var(--yellow)"></div>Organization 관리</div>
+        <div class="site-tag" style="opacity:.7"><div class="dot" style="background:var(--yellow)"></div>License 발급·관리</div>
+        <div class="site-tag" style="opacity:.7"><div class="dot" style="background:var(--yellow)"></div>Analytics · 모니터링</div>
+        <div class="site-tag" style="opacity:.7"><div class="dot" style="background:var(--yellow)"></div>On-prem 배포 관리</div>
+        <div class="site-tag" style="opacity:.45;font-style:italic"><div class="dot" style="background:var(--yellow);opacity:.3"></div>추후 설계 예정</div>
       </div>
     </div>
-
   </div>
 
   <hr class="section-divider">
-
   <div class="journey-label">User Journey 흐름</div>
 
   <div class="flows">
-
     <div class="flow">
       <div class="flow-trigger">
         <div class="ft-label">Journey 1</div>
@@ -473,15 +290,15 @@
       <div class="flow-steps">
         <div class="flow-step"><div class="step-box home-step">[Contact Sales]<span class="step-url">edencrew.com</span></div><div class="step-arrow">→</div></div>
         <div class="flow-step"><div class="step-box home-step">문의 유형 선택<span class="step-url">/contact (팝업)</span></div><div class="step-arrow">→</div></div>
-        <div class="flow-step"><div class="step-box home-step final" style="border-color:rgba(255,107,53,.3);color:#FF9A6C">영업팀 연결<span class="step-url">contact@edencrew.com</span></div></div>
+        <div class="flow-step"><div class="step-box final" style="border-color:rgba(255,107,53,.25);color:#E05A28">영업팀 연결<span class="step-url">contact@edencrew.com</span></div></div>
       </div>
     </div>
 
-    <div class="flow" style="border-color:rgba(252,211,77,.15);opacity:.75">
-      <div class="flow-trigger" style="background:rgba(252,211,77,.04)">
+    <div class="flow" style="border-color:rgba(217,119,6,.2);opacity:.8">
+      <div class="flow-trigger" style="background:rgba(217,119,6,.04)">
         <div class="ft-label">Journey 6</div>
         <div class="ft-action" style="color:var(--yellow)">내부 운영 관리</div>
-        <div class="ft-from" style="color:rgba(252,211,77,.5)">Admin (추후)</div>
+        <div class="ft-from" style="color:var(--yellow);opacity:.6">Admin (추후)</div>
       </div>
       <div class="flow-steps">
         <div class="flow-step"><div class="step-box auth-step">내부 로그인<span class="step-url">auth.edencrew.com</span></div><div class="step-arrow">→</div></div>
@@ -490,7 +307,6 @@
         <div class="flow-step"><div class="step-box tc-step final">TeamCloud 연동<span class="step-url">app.edencrew.com</span></div></div>
       </div>
     </div>
-
   </div>
 
   <hr class="section-divider">
@@ -512,7 +328,6 @@
       <div class="admin-module"><div class="mod-title">📦 On-prem Deploy</div><div class="mod-desc">고객사 배포 패키지 관리</div></div>
     </div>
   </div>
-
 </div>
 
 <div class="note">
