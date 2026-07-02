@@ -509,6 +509,7 @@ function drawNode(n){
   ctx.restore();
 }
 function draw(){
+  if(!nodeMap['root'])return;
   ctx.clearRect(0,0,canvas.width,canvas.height);
   allNodes.forEach(n=>{if(n.parentId)drawEdge(n.parentId,n.id);});
   allNodes.filter(n=>n.type!=='root').forEach(n=>drawNode(n));
@@ -626,9 +627,9 @@ document.addEventListener('keydown',e=>{
 /* ── PANEL ── */
 const COLORS=['#34C759','#0A84FF','#FF9F0A','#8361FF','#FF3B30','#5856D6'];
 const STATUS_CYCLE=['완성','미제작','신규',''];
-let expanded={};
-let dragMenuIdx=null;
-let dragScreenInfo=null;
+var expanded={};
+var dragMenuIdx=null;
+var dragScreenInfo=null;
 
 function togglePanel(open){
   const panel=document.getElementById('panel');
