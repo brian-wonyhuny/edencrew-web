@@ -1,326 +1,573 @@
-<title>Admin Sitemap — Edencrew</title>
+﻿<title>Admin 백오피스 사이트맵 — admin.edencrew.com</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg:   #0B0D12; --bg2: #111318; --bg3: #161921; --bg4: #1C1F2A;
-    --p:    #8361FF; --p2:  #A78BFA;
-    --wh:   #fff;
-    --mid:  rgba(255,255,255,.42); --dim: rgba(255,255,255,.18); --dim2: rgba(255,255,255,.07);
-    --y:    #FCD34D; --y2:  #FDE68A; --y3: rgba(252,211,77,.12);
-    --green:#34D399; --blue:#60A5FA; --red:#F87171; --orange:#FB923C;
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#F5F5F5;--bg2:#FFFFFF;--bg3:#F3F4F6;--bg4:#EAEBEE;
+    --bdr:#E9E8E8;--bdr2:#D1D5DB;
+    --p:#8361FF;--pg:rgba(131,97,255,.08);
+    --wh:#111827;--mid:#6B7280;--dim:rgba(107,114,128,.55);
+    --cta:#FF6B35;--green:#16A34A;--yellow:#D97706;--red:#DC2626;--blue:#2563EB;
   }
-  body { background:var(--bg); color:var(--wh); font-family:'Inter',sans-serif; min-height:100vh; padding:48px 32px 80px; line-height:1.4; }
-
-  /* NAV */
-  .topnav { max-width:1200px; margin:0 auto 36px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .topnav-label { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin-right:4px; }
-  .topnav a { font-size:11px; font-weight:600; padding:6px 14px; border-radius:6px; text-decoration:none; }
-  .topnav .tn-dash { border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.07); color:rgba(255,255,255,.6); }
-  .topnav .tn-home { border:1px solid rgba(131,97,255,.4); background:rgba(131,97,255,.1); color:var(--p2); }
-  .topnav .tn-tc   { border:1px solid rgba(52,211,153,.35); background:rgba(52,211,153,.08); color:var(--green); }
-  .topnav .tn-eco  { border:1px solid rgba(131,97,255,.25); background:rgba(131,97,255,.07); color:var(--p2); }
-  .topnav .tn-cur  { margin-left:auto; font-size:10px; padding:5px 10px; border-radius:5px; background:rgba(252,211,77,.15); color:var(--y); border:1px solid rgba(252,211,77,.35); }
-
-  /* HEADER */
-  .page-header { text-align:center; margin-bottom:56px; }
-  .eyebrow { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--y2); margin-bottom:10px; }
-  .page-header h1 { font-family:'Montserrat',sans-serif; font-weight:900; font-size:clamp(22px,3vw,32px); color:var(--wh); letter-spacing:-.02em; }
-  .page-header .sub { font-size:12px; color:var(--mid); margin-top:8px; }
-
-  /* LAYOUT */
-  .wrap { max-width:1200px; margin:0 auto; }
-  .section-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
-  .section-label::after { content:''; flex:1; height:1px; background:var(--dim2); }
-  hr.divider { border:none; border-top:1px solid var(--dim2); margin:44px 0; }
-
-  /* ROOT NODE */
-  .root-row { display:flex; justify-content:center; margin-bottom:32px; }
-  .root-node { background:linear-gradient(135deg,rgba(252,211,77,.2),rgba(252,211,77,.08)); border:1px solid rgba(252,211,77,.5); border-radius:12px; padding:14px 36px; text-align:center; }
-  .root-node .rn-eye { font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(252,211,77,.6); margin-bottom:4px; }
-  .root-node .rn-name { font-family:'Montserrat',sans-serif; font-weight:900; font-size:18px; color:var(--y); }
-  .root-node .rn-domain { font-size:11px; font-family:monospace; color:rgba(252,211,77,.55); margin-top:3px; }
-
-  /* GNB COLUMNS */
-  .gnb-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
-  .gnb-col { display:flex; flex-direction:column; gap:8px; }
-  .gnb-head { border:1px solid rgba(252,211,77,.4); border-radius:8px; padding:10px 12px; background:rgba(252,211,77,.07); text-align:center; }
-  .gnb-head .gh-icon { font-size:16px; margin-bottom:4px; }
-  .gnb-head .gh-name { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; color:var(--y); }
-  .gnb-head .gh-url  { font-size:10px; font-family:monospace; color:rgba(252,211,77,.45); margin-top:2px; }
-  .sub-node { background:var(--bg3); border:1px solid var(--dim2); border-radius:6px; padding:7px 10px; font-size:11px; color:var(--mid); transition:border-color .15s,color .15s; cursor:default; }
-  .sub-node:hover { border-color:rgba(252,211,77,.4); color:var(--y2); }
-  .sub-node .sn-url { display:block; font-size:9px; font-family:monospace; color:rgba(255,255,255,.2); margin-top:2px; }
-  .sub-node .badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:1px 5px; border-radius:3px; margin-left:4px; vertical-align:middle; }
-  .bd-wip    { background:rgba(251,146,60,.2); color:var(--orange); }
-  .bd-new    { background:rgba(131,97,255,.2); color:var(--p2); }
-  .bd-key    { background:rgba(252,211,77,.18); color:var(--y); }
-  .bd-sys    { background:rgba(248,113,113,.15); color:var(--red); }
-  .sub-divider { height:1px; background:var(--dim2); margin:2px 0; }
-
-  /* LEGEND */
-  .legend { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:36px; justify-content:center; }
-  .legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--mid); }
-  .legend-dot { width:9px; height:9px; border-radius:2px; flex-shrink:0; }
-
-  /* ACCESS CONTROL TABLE */
-  .access-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .access-table th { text-align:left; padding:8px 12px; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); border-bottom:1px solid var(--dim2); }
-  .access-table td { padding:9px 12px; border-bottom:1px solid var(--dim2); color:var(--mid); vertical-align:middle; }
-  .access-table tr:last-child td { border-bottom:none; }
-  .access-table td:first-child { color:var(--wh); font-weight:600; }
-  .role-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:20px; font-size:10px; font-weight:600; margin:2px; }
-  .rp-super { background:rgba(252,211,77,.15); color:var(--y); border:1px solid rgba(252,211,77,.3); }
-  .rp-ops   { background:rgba(96,165,250,.12); color:var(--blue); border:1px solid rgba(96,165,250,.25); }
-  .rp-fin   { background:rgba(52,211,153,.1); color:var(--green); border:1px solid rgba(52,211,153,.2); }
-  .rp-cs    { background:rgba(251,146,60,.1); color:var(--orange); border:1px solid rgba(251,146,60,.2); }
-
-  /* DATA FLOW */
-  .flow-list { display:flex; flex-direction:column; gap:10px; }
-  .flow { display:flex; align-items:center; gap:0; border:1px solid var(--dim2); border-radius:9px; overflow:hidden; }
-  .flow-label { width:160px; flex-shrink:0; background:var(--bg3); border-right:1px solid var(--dim2); padding:10px 14px; font-size:11px; font-weight:600; color:var(--y2); }
-  .flow-label .fl-sub { font-size:10px; font-weight:400; color:var(--dim); margin-top:2px; }
-  .flow-steps { flex:1; display:flex; align-items:center; padding:0 6px; gap:0; overflow-x:auto; }
-  .fs { display:flex; align-items:center; flex-shrink:0; }
-  .fb { background:var(--bg4); border-radius:6px; padding:6px 10px; font-size:11px; color:var(--mid); white-space:nowrap; border:1px solid transparent; }
-  .fb.y { border-color:rgba(252,211,77,.3); color:var(--y2); }
-  .fb.g { border-color:rgba(52,211,153,.25); color:var(--green); }
-  .fb.b { border-color:rgba(96,165,250,.25); color:var(--blue); }
-  .fa { padding:0 5px; font-size:11px; color:var(--dim); }
-
-  @media(max-width:900px){
-    .gnb-grid{grid-template-columns:repeat(3,1fr);}
+  [data-theme="dark"]{
+    --bg:#09090D;--bg2:#111118;--bg3:#1C1B26;--bg4:#232232;
+    --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);
+    --p:#8361FF;--pg:rgba(131,97,255,.12);
+    --wh:#F0EDE8;--mid:rgba(240,237,232,.55);--dim:rgba(240,237,232,.32);
+    --cta:#FF6B35;--green:#34D399;--yellow:#FCD34D;--red:#F87171;--blue:#60A5FA;
   }
-  @media(max-width:600px){
-    .gnb-grid{grid-template-columns:repeat(2,1fr);}
-    .flow-label{width:120px;}
-  }
+  body{background:var(--bg);color:var(--wh);font-family:'Inter','Pretendard',-apple-system,'Segoe UI',sans-serif;min-height:100vh;padding:48px 32px 80px;line-height:1.4;transition:background .2s,color .2s;}
+
+  /* ── Nav ── */
+  nav{max-width:1200px;margin:0 auto 36px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  nav a{font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;text-decoration:none;transition:opacity .15s;}
+  nav a:hover{opacity:.8;}
+
+  /* ── Header ── */
+  .page-header{text-align:center;margin-bottom:56px;}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--p);margin-bottom:10px;}
+  .page-header h1{font-weight:700;font-size:clamp(20px,3vw,28px);color:var(--wh);letter-spacing:-.02em;}
+  .page-header .sub{font-size:12px;color:var(--mid);margin-top:8px;}
+
+  /* ── Wrap ── */
+  .wrap{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:40px;}
+
+  /* ── Section label ── */
+  .sec-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .sec-label::after{content:'';flex:1;height:1px;background:var(--bdr);}
+
+  /* ── Module grid ── */
+  .module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+
+  /* ── Module card ── */
+  .module{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+  .module-head{padding:14px 16px 12px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;}
+  .module-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .module-meta{}
+  .module-id{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);margin-bottom:2px;}
+  .module-name{font-weight:700;font-size:14px;color:var(--wh);letter-spacing:-.01em;}
+  .module-url{font-size:10px;font-family:monospace;color:var(--mid);margin-top:2px;}
+  .module-body{padding:10px 16px 12px;display:flex;flex-direction:column;gap:4px;}
+  .screen{display:flex;align-items:center;gap:8px;padding:4px 0;}
+  .screen-id{font-size:10px;font-weight:700;color:var(--mid);min-width:56px;flex-shrink:0;}
+  .screen-name{font-size:12px;color:var(--wh);}
+  .screen-note{font-size:10px;color:var(--mid);margin-left:auto;flex-shrink:0;}
+  .badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;letter-spacing:.04em;text-transform:uppercase;}
+  .badge-wip{background:rgba(37,99,235,.1);color:var(--blue);border:1px solid rgba(37,99,235,.2);}
+  .badge-later{background:rgba(107,114,128,.1);color:var(--mid);border:1px solid rgba(107,114,128,.2);}
+  .badge-ok{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.2);}
+  .badge-hot{background:rgba(220,38,38,.1);color:var(--red);border:1px solid rgba(220,38,38,.2);}
+
+  /* color accent per module type */
+  .mod-users .module-head{background:rgba(131,97,255,.05);}
+  .mod-users .module-icon{background:rgba(131,97,255,.1);}
+  .mod-org .module-head{background:rgba(37,99,235,.05);}
+  .mod-org .module-icon{background:rgba(37,99,235,.1);}
+  .mod-project .module-head{background:rgba(22,163,74,.05);}
+  .mod-project .module-icon{background:rgba(22,163,74,.1);}
+  .mod-billing .module-head{background:rgba(255,107,53,.05);}
+  .mod-billing .module-icon{background:rgba(255,107,53,.1);}
+  .mod-b2b .module-head{background:rgba(217,119,6,.05);}
+  .mod-b2b .module-icon{background:rgba(217,119,6,.1);}
+  .mod-analytics .module-head{background:rgba(220,38,38,.05);}
+  .mod-analytics .module-icon{background:rgba(220,38,38,.1);}
+  .mod-cms .module-head{background:rgba(16,185,129,.05);}
+  .mod-cms .module-icon{background:rgba(16,185,129,.1);}
+  .mod-system .module-head{background:rgba(107,114,128,.06);}
+  .mod-system .module-icon{background:rgba(107,114,128,.12);}
+
+  .divider{border:none;border-top:1px solid var(--bdr);margin:0;}
+
+  /* ── Role table ── */
+  .role-table-wrap{overflow-x:auto;}
+  .role-table{width:100%;border-collapse:collapse;font-size:12px;background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;}
+  .role-table th{background:var(--bg3);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);padding:10px 14px;text-align:left;border-bottom:1px solid var(--bdr);}
+  .role-table td{padding:10px 14px;border-bottom:1px solid var(--bdr);color:var(--wh);vertical-align:top;}
+  .role-table tr:last-child td{border-bottom:none;}
+  .role-table .check{color:var(--green);font-weight:700;}
+  .role-table .cross{color:var(--dim);}
+  .role-table .partial{color:var(--yellow);}
+
+  /* ── Note ── */
+  .note{background:var(--pg);border:1px solid rgba(131,97,255,.2);border-radius:10px;padding:16px 20px;font-size:13px;color:var(--mid);line-height:1.7;}
+  .note strong{color:var(--p);}
+  .action-items{background:rgba(220,38,38,.04);border:1px solid rgba(220,38,38,.18);border-radius:10px;padding:16px 20px;}
+  .action-items h3{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+  .action-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:12px;color:var(--wh);}
+  .action-item::before{content:'☐';color:var(--red);flex-shrink:0;margin-top:1px;}
 </style>
+<script>
+(function(){
+  function sync(){
+    try{var t=window.parent.document.documentElement.getAttribute('data-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');else document.documentElement.removeAttribute('data-theme');}
+    catch(e){var s=localStorage.getItem('luum-theme');if(s==='dark')document.documentElement.setAttribute('data-theme','dark');else document.documentElement.removeAttribute('data-theme');}
+  }
+  sync();
+  try{new MutationObserver(sync).observe(window.parent.document.documentElement,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+})();
+</script>
 
-<nav class="topnav">
-  <span class="topnav-label">사이트맵 →</span>
-  <a href="project-dashboard.html" class="topnav tn-dash">← 대시보드</a>
-  <a href="sitemap-ecosystem.html" class="topnav tn-eco">Ecosystem</a>
-  <a href="sitemap-edencrew.html"  class="topnav tn-home">edencrew.com</a>
-  <a href="sitemap-teamcloud.html" class="topnav tn-tc">TeamCloud</a>
-  <span class="topnav tn-cur">● Admin</span>
+<nav>
+  <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-right:4px">사이트맵 →</span>
+  <a href="project-dashboard.html" style="border:1px solid var(--bdr2);background:var(--bg3);color:var(--mid);">← 대시보드</a>
+  <a href="sitemap-edencrew.html" style="border:1px solid rgba(131,97,255,.35);background:rgba(131,97,255,.08);color:var(--p);">edencrew.com</a>
+  <a href="sitemap-teamcloud.html" style="border:1px solid rgba(22,163,74,.3);background:rgba(22,163,74,.07);color:var(--green);">TeamCloud</a>
+  <a href="sitemap-ecosystem.html" style="border:1px solid var(--bdr2);background:var(--bg3);color:var(--mid);">Ecosystem</a>
+  <span style="margin-left:auto;font-size:11px;padding:5px 12px;border-radius:5px;background:rgba(217,119,6,.08);color:var(--yellow);border:1px solid rgba(217,119,6,.25)">● Admin 백오피스</span>
 </nav>
 
 <div class="page-header">
-  <div class="eyebrow">Edencrew · Internal Admin</div>
-  <h1>Admin 사이트맵</h1>
-  <p class="sub">admin.edencrew.com · 내부 운영 관리자 전용 · 2026-06-30</p>
+  <div class="eyebrow">admin.edencrew.com — 통합 백오피스</div>
+  <h1>슈퍼어드민 사이트맵</h1>
+  <p class="sub">사용자·조직·빌링·B2B·CMS·통계 통합 관리 | 2026-07-02</p>
 </div>
 
 <div class="wrap">
 
-  <!-- ROOT -->
-  <div class="root-row">
-    <div class="root-node">
-      <div class="rn-eye">Internal Admin Console</div>
-      <div class="rn-name">Admin</div>
-      <div class="rn-domain">admin.edencrew.com</div>
-    </div>
-  </div>
-
-  <!-- LEGEND -->
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:rgba(252,211,77,.6)"></div>주요 모듈</div>
-    <div class="legend-item"><div class="legend-dot" style="background:rgba(251,146,60,.6)"></div>개발 중</div>
-    <div class="legend-item"><div class="legend-dot" style="background:rgba(131,97,255,.6)"></div>신규 계획</div>
-    <div class="legend-item"><div class="legend-dot" style="background:rgba(248,113,113,.6)"></div>시스템 / 위험</div>
-  </div>
-
-  <div class="section-label">페이지 구조</div>
-
-  <div class="gnb-grid">
-
-    <!-- 1. Dashboard -->
-    <div class="gnb-col">
-      <div class="gnb-head">
-        <div class="gh-name">Dashboard</div>
-        <div class="gh-url">/dashboard</div>
+  <!-- Dashboard -->
+  <div>
+    <div class="sec-label">홈 대시보드</div>
+    <div class="module-grid">
+      <div class="module mod-system">
+        <div class="module-head">
+          <div class="module-icon">📊</div>
+          <div class="module-meta">
+            <div class="module-id">A-00</div>
+            <div class="module-name">Dashboard</div>
+            <div class="module-url">admin.edencrew.com/</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-00-01</span><span class="screen-name">전체 현황 요약 (사용자 · 빌링 · 서비스 상태)</span></div>
+          <div class="screen"><span class="screen-id">A-00-02</span><span class="screen-name">빌링 현황 — 신규·갱신·취소 현황</span><span class="screen-note badge badge-hot">핵심 KPI</span></div>
+          <div class="screen"><span class="screen-id">A-00-03</span><span class="screen-name">이용 현황 — MAU · YAU · 사용시간</span></div>
+          <div class="screen"><span class="screen-id">A-00-04</span><span class="screen-name">서비스 상태 (Health Check)</span></div>
+          <div class="screen"><span class="screen-id">A-00-05</span><span class="screen-name">최근 Action Items · 알림</span></div>
+        </div>
       </div>
-      <div class="sub-node">Overview KPI<span class="sn-url">/dashboard</span></div>
-      <div class="sub-node">신규 가입 현황<span class="sn-url">/dashboard#signup</span></div>
-      <div class="sub-node">실시간 활성 세션<span class="sn-url">/dashboard#sessions</span></div>
-      <div class="sub-node">오류·이상 알림<span class="sn-url">/dashboard#alerts</span></div>
-      <div class="sub-node">Revenue 요약 <span class="badge bd-wip">WIP</span><span class="sn-url">/dashboard#revenue</span></div>
     </div>
-
-    <!-- 2. Users -->
-    <div class="gnb-col">
-      <div class="gnb-head">
-        <div class="gh-name">Users</div>
-        <div class="gh-url">/users</div>
-      </div>
-      <div class="sub-node">사용자 목록 · 검색<span class="sn-url">/users</span></div>
-      <div class="sub-node">사용자 상세<span class="sn-url">/users/:id</span></div>
-      <div class="sub-node">역할 · 권한 변경<span class="sn-url">/users/:id/role</span></div>
-      <div class="sub-divider"></div>
-      <div class="sub-node">계정 정지 · 삭제 <span class="badge bd-sys">위험</span><span class="sn-url">/users/:id/suspend</span></div>
-      <div class="sub-node">로그인 이력<span class="sn-url">/users/:id/sessions</span></div>
-      <div class="sub-node">Impersonate <span class="badge bd-sys">위험</span><span class="sn-url">/users/:id/impersonate</span></div>
-    </div>
-
-    <!-- 3. Organizations -->
-    <div class="gnb-col">
-      <div class="gnb-head">
-        <div class="gh-name">Orgs</div>
-        <div class="gh-url">/orgs</div>
-      </div>
-      <div class="sub-node">조직 목록<span class="sn-url">/orgs</span></div>
-      <div class="sub-node">조직 상세<span class="sn-url">/orgs/:id</span></div>
-      <div class="sub-node">멤버 관리<span class="sn-url">/orgs/:id/members</span></div>
-      <div class="sub-node">플랜 · 한도 조정<span class="sn-url">/orgs/:id/plan</span></div>
-      <div class="sub-divider"></div>
-      <div class="sub-node">On-prem 설정 <span class="badge bd-new">NEW</span><span class="sn-url">/orgs/:id/onprem</span></div>
-      <div class="sub-node">조직 정지 · 삭제 <span class="badge bd-sys">위험</span><span class="sn-url">/orgs/:id/suspend</span></div>
-    </div>
-
-    <!-- 4. License -->
-    <div class="gnb-col">
-      <div class="gnb-head">
-        <div class="gh-name">License</div>
-        <div class="gh-url">/license</div>
-      </div>
-      <div class="sub-node">라이선스 목록<span class="sn-url">/license</span></div>
-      <div class="sub-node">신규 발급<span class="sn-url">/license/issue</span></div>
-      <div class="sub-node">라이선스 상세<span class="sn-url">/license/:key</span></div>
-      <div class="sub-node">만료 · 갱신 관리<span class="sn-url">/license/:key/renew</span></div>
-      <div class="sub-divider"></div>
-      <div class="sub-node">라이선스 취소 <span class="badge bd-sys">위험</span><span class="sn-url">/license/:key/revoke</span></div>
-      <div class="sub-node">발급 이력<span class="sn-url">/license/history</span></div>
-    </div>
-
-    <!-- 5. Analytics -->
-    <div class="gnb-col">
-      <div class="gnb-head">
-        <div class="gh-name">Analytics</div>
-        <div class="gh-url">/analytics</div>
-      </div>
-      <div class="sub-node">가입 · 전환 트렌드<span class="sn-url">/analytics/growth</span></div>
-      <div class="sub-node">기능 사용 현황<span class="sn-url">/analytics/features</span></div>
-      <div class="sub-node">리텐션 · Churn<span class="sn-url">/analytics/retention</span></div>
-      <div class="sub-node">API 호출 통계<span class="sn-url">/analytics/api</span></div>
-      <div class="sub-node">Revenue · MRR <span class="badge bd-wip">WIP</span><span class="sn-url">/analytics/revenue</span></div>
-      <div class="sub-node">리포트 내보내기<span class="sn-url">/analytics/export</span></div>
-    </div>
-
-    <!-- 6. System -->
-    <div class="gnb-col">
-      <div class="gnb-head">
-        <div class="gh-name">System</div>
-        <div class="gh-url">/system</div>
-      </div>
-      <div class="sub-node">서비스 상태<span class="sn-url">/system/status</span></div>
-      <div class="sub-node">배포 관리 <span class="badge bd-new">NEW</span><span class="sn-url">/system/deploy</span></div>
-      <div class="sub-node">Feature Flags <span class="badge bd-new">NEW</span><span class="sn-url">/system/flags</span></div>
-      <div class="sub-node">감사 로그 (Audit)<span class="sn-url">/system/audit</span></div>
-      <div class="sub-divider"></div>
-      <div class="sub-node">Admin 계정 관리 <span class="badge bd-sys">위험</span><span class="sn-url">/system/admins</span></div>
-      <div class="sub-node">공지 · 메시지 발송 <span class="badge bd-wip">WIP</span><span class="sn-url">/system/broadcast</span></div>
-    </div>
-
   </div>
 
   <hr class="divider">
 
-  <!-- ACCESS CONTROL -->
-  <div class="section-label">역할별 접근 권한</div>
+  <!-- 사용자 / 인증 -->
+  <div>
+    <div class="sec-label">사용자 &amp; 인증 관리</div>
+    <div class="module-grid">
+      <div class="module mod-users">
+        <div class="module-head">
+          <div class="module-icon">👤</div>
+          <div class="module-meta">
+            <div class="module-id">A-01</div>
+            <div class="module-name">사용자 목록</div>
+            <div class="module-url">/users</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-01-01</span><span class="screen-name">전체 사용자 검색 · 필터 · 리스트</span></div>
+          <div class="screen"><span class="screen-id">A-01-02</span><span class="screen-name">사용자 상세 — 프로필 · 인증 상태</span></div>
+          <div class="screen"><span class="screen-id">A-01-03</span><span class="screen-name">이메일 인증 상태 확인 · 수동 인증 처리</span></div>
+          <div class="screen"><span class="screen-id">A-01-04</span><span class="screen-name">비밀번호 재설정 링크 강제 발송</span></div>
+          <div class="screen"><span class="screen-id">A-01-05</span><span class="screen-name">CI 값 매핑 현황 (결제 연동 lazy 매핑)</span></div>
+          <div class="screen"><span class="screen-id">A-01-06</span><span class="screen-name">계정 정지 · 삭제 · 복구</span></div>
+        </div>
+      </div>
 
-  <div style="background:var(--bg2);border:1px solid var(--dim2);border-radius:10px;overflow:hidden;margin-bottom:44px;">
-    <table class="access-table">
-      <thead>
-        <tr>
-          <th>모듈</th>
-          <th>Super Admin</th>
-          <th>Ops</th>
-          <th>Finance</th>
-          <th>CS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Dashboard</td>
-          <td><span class="role-pill rp-super">전체</span></td>
-          <td><span class="role-pill rp-ops">전체</span></td>
-          <td><span class="role-pill rp-fin">Revenue만</span></td>
-          <td><span class="role-pill rp-cs">KPI만</span></td>
-        </tr>
-        <tr>
-          <td>Users</td>
-          <td><span class="role-pill rp-super">전체+위험</span></td>
-          <td><span class="role-pill rp-ops">조회·정지</span></td>
-          <td>—</td>
-          <td><span class="role-pill rp-cs">조회만</span></td>
-        </tr>
-        <tr>
-          <td>Orgs</td>
-          <td><span class="role-pill rp-super">전체+위험</span></td>
-          <td><span class="role-pill rp-ops">플랜 조정</span></td>
-          <td><span class="role-pill rp-fin">플랜 조회</span></td>
-          <td><span class="role-pill rp-cs">조회만</span></td>
-        </tr>
-        <tr>
-          <td>License</td>
-          <td><span class="role-pill rp-super">전체+취소</span></td>
-          <td><span class="role-pill rp-ops">발급·갱신</span></td>
-          <td><span class="role-pill rp-fin">전체</span></td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>Analytics</td>
-          <td><span class="role-pill rp-super">전체</span></td>
-          <td><span class="role-pill rp-ops">사용 통계</span></td>
-          <td><span class="role-pill rp-fin">Revenue만</span></td>
-          <td><span class="role-pill rp-cs">성장 지표</span></td>
-        </tr>
-        <tr>
-          <td>System</td>
-          <td><span class="role-pill rp-super">전체+위험</span></td>
-          <td><span class="role-pill rp-ops">배포·Flags</span></td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="module mod-users">
+        <div class="module-head">
+          <div class="module-icon">🔐</div>
+          <div class="module-meta">
+            <div class="module-id">A-02</div>
+            <div class="module-name">인증 &amp; Auth 관리</div>
+            <div class="module-url">/auth</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-02-01</span><span class="screen-name">이메일 중복 체크 로그 조회</span><span class="screen-note badge badge-wip">개선 예정</span></div>
+          <div class="screen"><span class="screen-id">A-02-02</span><span class="screen-name">OAuth2 연동 현황 (Google 등)</span></div>
+          <div class="screen"><span class="screen-id">A-02-03</span><span class="screen-name">세션 · 토큰 강제 만료</span></div>
+          <div class="screen"><span class="screen-id">A-02-04</span><span class="screen-name">이용약관 CMS 연동 설정 (서비스별 관리)</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- DATA FLOW -->
-  <div class="section-label">주요 운영 플로우</div>
+  <hr class="divider">
 
-  <div class="flow-list">
-    <div class="flow">
-      <div class="flow-label">신규 라이선스 발급<div class="fl-sub">온프레미스 고객</div></div>
-      <div class="flow-steps">
-        <div class="fs"><div class="fb y">계약 확인</div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb y">Org 생성<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/orgs/new</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb y">License 발급<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/license/issue</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb y">On-prem 설정<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/orgs/:id/onprem</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb g">활성화 완료</div></div>
+  <!-- 조직 & 프로젝트 -->
+  <div>
+    <div class="sec-label">조직 &amp; 프로젝트 관리</div>
+    <div class="module-grid">
+      <div class="module mod-org">
+        <div class="module-head">
+          <div class="module-icon">🏢</div>
+          <div class="module-meta">
+            <div class="module-id">A-03</div>
+            <div class="module-name">Organization 관리</div>
+            <div class="module-url">/organizations</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-03-01</span><span class="screen-name">전체 조직 리스트 · 검색</span></div>
+          <div class="screen"><span class="screen-id">A-03-02</span><span class="screen-name">조직 상세 — 멤버 · 프로젝트 · 플랜</span></div>
+          <div class="screen"><span class="screen-id">A-03-03</span><span class="screen-name">조직 어드민 계정 변경</span></div>
+          <div class="screen"><span class="screen-id">A-03-04</span><span class="screen-name">멤버 강제 추가 · 제거 · 권한 변경</span></div>
+          <div class="screen"><span class="screen-id">A-03-05</span><span class="screen-name">플랜 강제 변경 (Billing 연동)</span></div>
+          <div class="screen"><span class="screen-id">A-03-06</span><span class="screen-name">조직 정지 · 삭제</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-project">
+        <div class="module-head">
+          <div class="module-icon">📁</div>
+          <div class="module-meta">
+            <div class="module-id">A-04</div>
+            <div class="module-name">Project 관리</div>
+            <div class="module-url">/projects</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-04-01</span><span class="screen-name">전체 프로젝트 리스트 (공개/비공개)</span></div>
+          <div class="screen"><span class="screen-id">A-04-02</span><span class="screen-name">프로젝트 상세 — 소유자 · 콜라보레이터</span></div>
+          <div class="screen"><span class="screen-id">A-04-03</span><span class="screen-name">Read-Only 권한 부여 관리</span><span class="screen-note badge badge-wip">미구현</span></div>
+          <div class="screen"><span class="screen-id">A-04-04</span><span class="screen-name">Deploy 승인 플로우 설정 · 이력</span><span class="screen-note badge badge-later">설계 예정</span></div>
+          <div class="screen"><span class="screen-id">A-04-05</span><span class="screen-name">프로젝트 강제 비공개 · 삭제</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-org">
+        <div class="module-head">
+          <div class="module-icon">🛡️</div>
+          <div class="module-meta">
+            <div class="module-id">A-05</div>
+            <div class="module-name">Role &amp; Permission 관리</div>
+            <div class="module-url">/roles</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-05-01</span><span class="screen-name">역할 정의 조회 (Owner · Admin · Collaborator · Read-Only)</span></div>
+          <div class="screen"><span class="screen-id">A-05-02</span><span class="screen-name">권한 매핑 관리 (Role ↔ Permission)</span></div>
+          <div class="screen"><span class="screen-id">A-05-03</span><span class="screen-name">슈퍼어드민 계정 관리</span></div>
+        </div>
       </div>
     </div>
-    <div class="flow">
-      <div class="flow-label">계정 이상 대응<div class="fl-sub">CS 접수 → 처리</div></div>
-      <div class="flow-steps">
-        <div class="fs"><div class="fb b">CS 접수</div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb b">로그인 이력 확인<span style="display:block;font-size:9px;font-family:monospace;color:rgba(96,165,250,.4)">/users/:id/sessions</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb b">Audit 로그 조회<span style="display:block;font-size:9px;font-family:monospace;color:rgba(96,165,250,.4)">/system/audit</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb y">계정 정지 or 복구<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/users/:id/suspend</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb g">처리 완료</div></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 빌링 & 결제 -->
+  <div>
+    <div class="sec-label">빌링 &amp; 결제 관리</div>
+    <div class="module-grid">
+      <div class="module mod-billing">
+        <div class="module-head">
+          <div class="module-icon">💳</div>
+          <div class="module-meta">
+            <div class="module-id">A-06</div>
+            <div class="module-name">구독 플랜 관리</div>
+            <div class="module-url">/billing/subscriptions</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-06-01</span><span class="screen-name">전체 구독 현황 리스트 (Paddle 연동)</span></div>
+          <div class="screen"><span class="screen-id">A-06-02</span><span class="screen-name">신규 결제 · 갱신 · 취소 이력</span><span class="screen-note badge badge-hot">핵심 KPI</span></div>
+          <div class="screen"><span class="screen-id">A-06-03</span><span class="screen-name">플랜 강제 변경 · 환불 처리</span></div>
+          <div class="screen"><span class="screen-id">A-06-04</span><span class="screen-name">결제 담당자 계정 변경 (PG사 수동 연동)</span></div>
+          <div class="screen"><span class="screen-id">A-06-05</span><span class="screen-name">PG사 장애 시 CS 수동 처리</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-billing">
+        <div class="module-head">
+          <div class="module-icon">🔌</div>
+          <div class="module-meta">
+            <div class="module-id">A-07</div>
+            <div class="module-name">Add-on &amp; 플러그인 결제</div>
+            <div class="module-url">/billing/addons</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-07-01</span><span class="screen-name">스토리지 초과분 결제 현황</span><span class="screen-note badge badge-later">예정</span></div>
+          <div class="screen"><span class="screen-id">A-07-02</span><span class="screen-name">토큰 Add-on 현황</span><span class="screen-note badge badge-later">예정</span></div>
+          <div class="screen"><span class="screen-id">A-07-03</span><span class="screen-name">Deploy 기능 결제 / 월 배포 횟수 관리</span><span class="screen-note badge badge-later">검토 중</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-billing">
+        <div class="module-head">
+          <div class="module-icon">💾</div>
+          <div class="module-meta">
+            <div class="module-id">A-08</div>
+            <div class="module-name">온프레미스 라이선스</div>
+            <div class="module-url">/billing/licenses</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-08-01</span><span class="screen-name">라이선스 발급 · 목록</span></div>
+          <div class="screen"><span class="screen-id">A-08-02</span><span class="screen-name">라이선스 파일 교체 (연장 시)</span></div>
+          <div class="screen"><span class="screen-id">A-08-03</span><span class="screen-name">만료 예정 라이선스 알림 · 관리</span></div>
+          <div class="screen"><span class="screen-id">A-08-04</span><span class="screen-name">고객사 배포 패키지 관리</span></div>
+        </div>
       </div>
     </div>
-    <div class="flow">
-      <div class="flow-label">Feature Flag 배포<div class="fl-sub">단계적 롤아웃</div></div>
-      <div class="flow-steps">
-        <div class="fs"><div class="fb y">Flag 생성<span style="display:block;font-size:9px;font-family:monospace;color:rgba(252,211,77,.4)">/system/flags</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb y">대상 Org 선택</div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb y">비율 설정 (%)  </div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb b">모니터링<span style="display:block;font-size:9px;font-family:monospace;color:rgba(96,165,250,.4)">/analytics/features</span></div><div class="fa">→</div></div>
-        <div class="fs"><div class="fb g">전체 활성화</div></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- B2B 콘솔 -->
+  <div>
+    <div class="sec-label">B2B 콘솔 &amp; 파트너사</div>
+    <div class="module-grid">
+      <div class="module mod-b2b">
+        <div class="module-head">
+          <div class="module-icon">🤝</div>
+          <div class="module-meta">
+            <div class="module-id">A-09</div>
+            <div class="module-name">엔터프라이즈 플랜 관리</div>
+            <div class="module-url">/b2b/enterprise</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-09-01</span><span class="screen-name">엔터프라이즈 고객사 리스트</span></div>
+          <div class="screen"><span class="screen-id">A-09-02</span><span class="screen-name">커스텀 플랜 설정 · 계약 조건</span></div>
+          <div class="screen"><span class="screen-id">A-09-03</span><span class="screen-name">전담 계정 담당자 관리</span></div>
+          <div class="screen"><span class="screen-id">A-09-04</span><span class="screen-name">SLA · 계약 만료 관리</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-b2b">
+        <div class="module-head">
+          <div class="module-icon">🏭</div>
+          <div class="module-meta">
+            <div class="module-id">A-10</div>
+            <div class="module-name">파트너사 관리</div>
+            <div class="module-url">/b2b/partners</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-10-01</span><span class="screen-name">파트너사 등록 · 리스트</span></div>
+          <div class="screen"><span class="screen-id">A-10-02</span><span class="screen-name">파트너 권한 · 접근 범위 설정</span></div>
+          <div class="screen"><span class="screen-id">A-10-03</span><span class="screen-name">파트너 수익 분배 현황</span><span class="screen-note badge badge-later">예정</span></div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 통계 / 분석 -->
+  <div>
+    <div class="sec-label">통계 &amp; 분석</div>
+    <div class="module-grid">
+      <div class="module mod-analytics">
+        <div class="module-head">
+          <div class="module-icon">📈</div>
+          <div class="module-meta">
+            <div class="module-id">A-11</div>
+            <div class="module-name">이용 현황 분석</div>
+            <div class="module-url">/analytics/usage</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-11-01</span><span class="screen-name">전체 사용자 수 추이</span></div>
+          <div class="screen"><span class="screen-id">A-11-02</span><span class="screen-name">MAU · YAU</span></div>
+          <div class="screen"><span class="screen-id">A-11-03</span><span class="screen-name">인당 평균 사용 시간</span></div>
+          <div class="screen"><span class="screen-id">A-11-04</span><span class="screen-name">인당 평균 프로젝트 수</span></div>
+          <div class="screen"><span class="screen-id">A-11-05</span><span class="screen-name">Google Analytics 연동 현황</span><span class="screen-note badge badge-wip">재확인 필요</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-analytics">
+        <div class="module-head">
+          <div class="module-icon">💰</div>
+          <div class="module-meta">
+            <div class="module-id">A-12</div>
+            <div class="module-name">빌링 현황 분석</div>
+            <div class="module-url">/analytics/billing</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-12-01</span><span class="screen-name">신규 결제 현황 (기간별)</span><span class="screen-note badge badge-hot">핵심 KPI</span></div>
+          <div class="screen"><span class="screen-id">A-12-02</span><span class="screen-name">갱신률 · 이탈(취소) 현황</span><span class="screen-note badge badge-hot">핵심 KPI</span></div>
+          <div class="screen"><span class="screen-id">A-12-03</span><span class="screen-name">MRR · ARR 추이</span></div>
+          <div class="screen"><span class="screen-id">A-12-04</span><span class="screen-name">플랜별 분포 현황</span></div>
+          <div class="screen"><span class="screen-id">A-12-05</span><span class="screen-name">데이터 레이크 연동 (장기 전환 예정)</span><span class="screen-note badge badge-later">장기</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CMS -->
+  <div>
+    <div class="sec-label">콘텐츠 관리 (CMS)</div>
+    <div class="module-grid">
+      <div class="module mod-cms">
+        <div class="module-head">
+          <div class="module-icon">🎓</div>
+          <div class="module-meta">
+            <div class="module-id">A-13</div>
+            <div class="module-name">Academy (구 Docs)</div>
+            <div class="module-url">/cms/academy</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-13-01</span><span class="screen-name">도메인 단위 학습 콘텐츠 목록</span></div>
+          <div class="screen"><span class="screen-id">A-13-02</span><span class="screen-name">콘텐츠 작성 · 편집 · 발행</span></div>
+          <div class="screen"><span class="screen-id">A-13-03</span><span class="screen-name">카테고리 · 태그 관리</span></div>
+          <div class="screen"><span class="screen-id">A-13-04</span><span class="screen-name">콘텐츠 접근 권한 설정 (플랜별)</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-cms">
+        <div class="module-head">
+          <div class="module-icon">📢</div>
+          <div class="module-meta">
+            <div class="module-id">A-14</div>
+            <div class="module-name">Changelog 관리</div>
+            <div class="module-url">/cms/changelog</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-14-01</span><span class="screen-name">체인지로그 목록 · 발행</span></div>
+          <div class="screen"><span class="screen-id">A-14-02</span><span class="screen-name">영상 콘텐츠 등록 · 관리</span></div>
+          <div class="screen"><span class="screen-id">A-14-03</span><span class="screen-name">버전 태깅 · 서비스별 분류</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-cms">
+        <div class="module-head">
+          <div class="module-icon">📜</div>
+          <div class="module-meta">
+            <div class="module-id">A-15</div>
+            <div class="module-name">이용약관 &amp; 법적 문서</div>
+            <div class="module-url">/cms/legal</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-15-01</span><span class="screen-name">서비스별 이용약관 관리 (통합 CMS)</span></div>
+          <div class="screen"><span class="screen-id">A-15-02</span><span class="screen-name">주소 · 담당자 정보 일괄 변경</span></div>
+          <div class="screen"><span class="screen-id">A-15-03</span><span class="screen-name">버전 이력 · 개정 관리</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 시스템 -->
+  <div>
+    <div class="sec-label">시스템 설정</div>
+    <div class="module-grid">
+      <div class="module mod-system">
+        <div class="module-head">
+          <div class="module-icon">⚙️</div>
+          <div class="module-meta">
+            <div class="module-id">A-16</div>
+            <div class="module-name">서비스 상태 관리</div>
+            <div class="module-url">/system/status</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-16-01</span><span class="screen-name">서비스별 Health Check 현황</span></div>
+          <div class="screen"><span class="screen-id">A-16-02</span><span class="screen-name">장애 공지 발송 · 이력</span></div>
+          <div class="screen"><span class="screen-id">A-16-03</span><span class="screen-name">점검 모드 설정</span></div>
+        </div>
+      </div>
+
+      <div class="module mod-system">
+        <div class="module-head">
+          <div class="module-icon">🔑</div>
+          <div class="module-meta">
+            <div class="module-id">A-17</div>
+            <div class="module-name">슈퍼어드민 계정 관리</div>
+            <div class="module-url">/system/admins</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="screen"><span class="screen-id">A-17-01</span><span class="screen-name">슈퍼어드민 목록 · 초대</span></div>
+          <div class="screen"><span class="screen-id">A-17-02</span><span class="screen-name">접근 권한 범위 설정</span></div>
+          <div class="screen"><span class="screen-id">A-17-03</span><span class="screen-name">감사 로그 (Audit Log)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Role 권한 구조 요약 -->
+  <div>
+    <div class="sec-label">역할(Role) 권한 구조</div>
+    <div class="role-table-wrap">
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>권한 범위</th>
+            <th>슈퍼어드민</th>
+            <th>조직 어드민</th>
+            <th>Collaborator</th>
+            <th>Read-Only</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>전체 사용자 통계 열람</td>
+            <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td>
+            <td style="font-size:11px;color:var(--mid)">슈퍼어드민 전용</td>
+          </tr>
+          <tr>
+            <td>조직 멤버 추가·삭제·권한 변경</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td>
+            <td style="font-size:11px;color:var(--mid)">조직 어드민은 자기 조직만</td>
+          </tr>
+          <tr>
+            <td>빌링 관리</td>
+            <td class="check">✓</td><td class="partial">△</td><td class="cross">✗</td><td class="cross">✗</td>
+            <td style="font-size:11px;color:var(--mid)">조직 어드민은 자기 조직 결제만</td>
+          </tr>
+          <tr>
+            <td>프로젝트 쓰기</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✗</td>
+            <td style="font-size:11px;color:var(--mid)">Read-Only 현재 미구현</td>
+          </tr>
+          <tr>
+            <td>프로젝트 읽기</td>
+            <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="partial">△ 미구현</td>
+            <td style="font-size:11px;color:var(--mid)">과금 수단으로 검토 중</td>
+          </tr>
+          <tr>
+            <td>Deploy 승인</td>
+            <td class="check">✓</td><td class="partial">△</td><td class="cross">✗</td><td class="cross">✗</td>
+            <td style="font-size:11px;color:var(--mid)">상세 설계 예정 (다음 주)</td>
+          </tr>
+          <tr>
+            <td>온프레미스 라이선스 발급</td>
+            <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td>
+            <td style="font-size:11px;color:var(--mid)">수동 발급, Admin 전용</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Action Items -->
+  <div class="action-items">
+    <h3>📋 미결 Action Items (2026-07-02 회의)</h3>
+    <div class="action-item">이메일 실시간 중복 체크 기능 개선 (현재 가입 제출 시점에만 체크)</div>
+    <div class="action-item">콜라보레이터 Read-Only 권한 추가 구현 (현재 미지원 — 과금 수단으로도 검토)</div>
+    <div class="action-item">"팀 클라우드" 띄어쓰기 표기 통일 결정 후 코드 및 에셋 전체 반영</div>
+    <div class="action-item">Deploy 승인 플로우 상세 설계 별도 논의 (다음 주)</div>
+    <div class="action-item">프라이싱 플랜 정의 문서 재확인</div>
+    <div class="action-item">Google Analytics TeamCloud 데이터 수신 여부 재확인</div>
+  </div>
+
+  <div class="note">
+    <strong>결제 수단:</strong> Paddle (SaaS 구독) · 온프레미스는 라이선스 파일 수동 발급<br>
+    <strong>통계 방식:</strong> 단기 → 서비스별 API 방식 · 장기 → 데이터 레이크/레플리카 전환 예정<br>
+    <strong>Academy:</strong> 구 "Docs" 명칭 변경 — 기기별 메뉴얼 아닌 도메인 단위 학습 콘텐츠<br>
+    <strong>B2B 콘솔:</strong> 엔터프라이즈 커스텀 플랜 + 파트너사 관리 통합 예정
   </div>
 
 </div>
